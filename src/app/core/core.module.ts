@@ -2,13 +2,11 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { RequestModifiedInterceptor } from './interceptors/request-modified.interceptor';
 import { TranslocoCoreModule } from './transloco/transloco.module';
-import { IconsModule } from './icons/icons.module';
 import { AuthModule } from './auth/auth.module';
 
 @NgModule({
     imports: [
         AuthModule,
-        IconsModule,
         TranslocoCoreModule
     ],
     providers: [

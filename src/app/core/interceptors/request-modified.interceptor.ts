@@ -6,7 +6,7 @@ import {
     HttpRequest,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TimezoneService } from 'app/shared/services/timeZone.service';
+import { TimezoneService } from 'src/app/shared/services/timeZone.service';
 
 @Injectable()
 export class RequestModifiedInterceptor implements HttpInterceptor {

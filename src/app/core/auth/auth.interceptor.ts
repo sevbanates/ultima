@@ -1,10 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
-import { AuthService } from 'app/core/auth/auth.service';
-import { AuthUtils } from 'app/core/auth/auth.utils';
-import { AlertService } from 'app/shared/services/alert.service';
 import { ResponseModel } from '../models/response-model';
+import { AlertService } from 'src/app/shared/services/alert.service';
+import { AuthUtils } from './auth.utils';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor

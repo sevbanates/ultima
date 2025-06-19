@@ -1,16 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
-import { AuthUtils } from 'app/core/auth/auth.utils';
-import { UserService } from 'app/core/user/user.service';
-import { environment } from 'app/environments/environment';
 import { ResponseModel } from '../models/response-model';
 import { LocalStorageType } from '../enums/local-storage-type.enum';
-import { LocalStorageService } from 'app/shared/services/local-storage.service';
 import { NavigationService } from '../navigation/navigation.service';
 import { Role } from '../enums/role.enum';
-import { ForgotPasswordModel, LoginModel, LoginModelCode, LoginUserInfo, ResetPasswordModel, User } from 'app/modules/system-management/user/models/user-list-model';
-import { Inquiry } from 'app/modules/inquiry/models/inquiry.types';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { UserService } from '../user/user.service';
+import { AuthUtils } from './auth.utils';
+import { environment } from 'src/app/environments/environment.dev';
+import { ForgotPasswordModel, LoginModel, LoginUserInfo, ResetPasswordModel, User } from 'src/app/modules/system-management/user/models/user-list-model';
 
 @Injectable()
 export class AuthService {
@@ -62,7 +61,7 @@ export class AuthService {
             return throwError(() => new Error('User is already logged in.'));
         }
 
-        return this._httpClient.post(`${this.apiUrl}auth/login`, model).pipe(
+        return this._httpClient.post<ResponseModel<User>>(`${this.apiUrl}auth/login`, model).pipe(
             switchMap((response: ResponseModel<User>) => {
 
                 // TODO:SORULACAK USERMODEL
