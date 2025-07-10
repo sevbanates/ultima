@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
 import { ResponseModel } from '../models/response-model';
 import { LocalStorageType } from '../enums/local-storage-type.enum';
-import { NavigationService } from '../navigation/navigation.service';
 import { Role } from '../enums/role.enum';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { UserService } from '../user/user.service';
@@ -15,7 +14,8 @@ import { ForgotPasswordModel, LoginModel, LoginUserInfo, ResetPasswordModel, Use
 export class AuthService {
     private _authenticated: boolean = false;
     private readonly apiUrl = environment.restApiUrl;
-    protected readonly _navigationService: NavigationService = inject(NavigationService);
+     //TODO
+    // protected readonly _navigationService: NavigationService = inject(NavigationService);
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         private readonly _httpClient: HttpClient,
@@ -85,10 +85,13 @@ export class AuthService {
                 }
 
                 // Store the user on the user service
-                this._userService.user = response.Entity;
+
+                //TODO
+                // this._userService.user = response.Entity;
                 this.userData = response.Entity;
-                this._navigationService.user = this.userData;
-                this._navigationService.get();
+                 //TODO
+                // this._navigationService.user = this.userData;
+                // this._navigationService.get();
 
                 // Return a new observable with the response
                 return of(response);
@@ -133,7 +136,8 @@ export class AuthService {
             return of(false);
         }
 
-        this._userService._user.next(this.userData);
+    //TODO
+        // this._userService._user.next(this.userData);
         this._authenticated = true;
         return of(true);
         // If the access token exists and it didn't expire, sign in using it

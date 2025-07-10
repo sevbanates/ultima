@@ -1,6 +1,5 @@
 import { Injectable, EventEmitter, inject } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { TranslocoService } from '@ngneat/transloco';
+import { MatSnackBarVerticalPosition, MatSnackBarHorizontalPosition, MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 
 @Injectable({
@@ -12,7 +11,6 @@ export class AlertService {
   private horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   private duration = 5000;
   private action = '';
-  private _translateService: TranslocoService = inject(TranslocoService)
   public progressBarUIEvent: EventEmitter<any>;
 
   constructor(public snackBar: MatSnackBar) {
@@ -35,7 +33,7 @@ export class AlertService {
     config.duration = this.duration;
     config.panelClass = ['successMessage'];
 
-    this.snackBar.open(this._translateService.translate(message), this.action, config);
+    this.snackBar.open(message, this.action, config);
 
     this.stopProgressBar();
 
@@ -49,7 +47,7 @@ export class AlertService {
     config.duration = this.duration;
     config.panelClass = ['errorMessage'];
 
-    this.snackBar.open(this._translateService.translate(message), this.action, config);
+    this.snackBar.open(message, this.action, config);
 
     this.stopProgressBar();
 
@@ -63,7 +61,7 @@ export class AlertService {
     config.duration = this.duration;
     config.panelClass = ['warningMessage'];
 
-    this.snackBar.open(this._translateService.translate(message), this.action, config);
+    this.snackBar.open(message, this.action, config);
 
     this.stopProgressBar();
 

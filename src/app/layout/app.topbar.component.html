@@ -140,27 +140,27 @@
                     <div class="ng-hidden">
                         <ul class="list-none p-0 m-0">
                             <li>
-                                <a class="cursor-pointer flex align-items-center py-2 hover:surface-hover transition-duration-150 transition-all px-3 py-2" pRipple>
-                                    <i class="pi pi-cog mr-2"></i>
-                                    <span>Settings</span>
+                                <a class="cursor-pointer flex align-items-center py-2 hover:surface-hover transition-duration-150 transition-all px-3 py-2" pRipple (click)="navigateToProfile()">
+                                    <i class="pi pi-cog mr-2" ></i>
+                                    <span>Profil</span>
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a class="cursor-pointer flex align-items-center py-2 hover:surface-hover transition-duration-150 transition-all px-3 py-2" pRipple>
                                     <i class="pi pi-file-o mr-2"></i>
                                     <span>Terms of Usage</span>
                                 </a>
-                            </li>
-                            <li>
+                            </li> -->
+                            <!-- <li>
                                 <a class="cursor-pointer flex align-items-center py-2 hover:surface-hover transition-duration-150 transition-all px-3 py-2" pRipple>
                                     <i class="pi pi-compass mr-2"></i>
                                     <span>Support</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <li>
-                                <a class="cursor-pointer flex align-items-center py-2 hover:surface-hover transition-duration-150 transition-all px-3 py-2" pRipple>
+                                <a class="cursor-pointer flex align-items-center py-2 hover:surface-hover transition-duration-150 transition-all px-3 py-2" pRipple (click)="signOut()">
                                     <i class="pi pi-power-off mr-2"></i>
-                                    <span>Logout</span>
+                                    <span>Çıkış Yap</span>
                                 </a>
                             </li>
                         </ul>

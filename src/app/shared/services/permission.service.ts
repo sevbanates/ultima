@@ -1,7 +1,8 @@
 import { Injectable, inject } from "@angular/core";
 import { LocalStorageService } from "./local-storage.service";
-import { LocalStorageType } from "app/core/enums/local-storage-type.enum";
-import { User } from "app/modules/system-management/user/models/user-list-model";
+import { LocalStorageType } from "src/app/core/enums/local-storage-type.enum";
+import { User } from "src/app/modules/system-management/user/models/user-list-model";
+
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService{

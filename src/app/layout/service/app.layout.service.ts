@@ -44,12 +44,12 @@ export class LayoutService {
     _config: AppConfig = {
         ripple: true,
         inputStyle: 'outlined',
-        menuMode: 'slim',
-        colorScheme: 'light',
+        menuMode: 'static',
+        colorScheme: 'dark',
         componentTheme: 'indigo',
         scale: 14,
-        menuTheme: 'light',
-        topbarTheme: 'indigo',
+        menuTheme: 'dark',
+        topbarTheme: 'dark',
         menuProfilePosition: 'end',
     };
 

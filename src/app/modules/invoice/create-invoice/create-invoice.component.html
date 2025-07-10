@@ -1,0 +1,45 @@
+<div class="grid p-4 md:p-6 gap-4">
+  <div class="col-12">
+    <div class="card shadow-2 border-round-xl p-4 bg-white">
+      
+      <h5 class="text-xl font-semibold text-gray-800 mb-4">Adımlar</h5>
+
+      <!-- Step Bar -->
+      <p-steps
+        [model]="routeItems"
+        [(activeIndex)]="currentStepIndex"
+        [readonly]="true"
+        styleClass="mb-4"
+      ></p-steps>
+
+      <!-- Butonlar -->
+      <div class="flex justify-between mt-4 flex-wrap gap-3">
+        <button
+          pButton
+          label="Geri"
+          icon="pi pi-arrow-left"
+          (click)="goBack()"
+          [disabled]="currentStepIndex === 0"
+          class="p-button-secondary w-full md:w-auto"
+        ></button>
+
+        <button
+          pButton
+          label="Devam Et"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+          (click)="goNext()"
+          [disabled]="currentStepIndex === routeItems.length - 1"
+          class="p-button-primary w-full md:w-auto"
+        ></button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card shadow-2 border-round-xl p-4 bg-gray-50 min-h-[200px]">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

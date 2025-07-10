@@ -1,6 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MegaMenuItem } from 'primeng/api';
 import { LayoutService } from './service/app.layout.service';
+import { AuthService } from '../core/auth/auth.service';
+import { timer, finalize, takeWhile, takeUntil, tap, Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-topbar',
@@ -14,7 +17,8 @@ export class AppTopbarComponent {
 
     @ViewChild('searchInput') searchInput!: ElementRef;
     
-    constructor(public layoutService: LayoutService, public el: ElementRef) {}
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+    constructor(public layoutService: LayoutService, public el: ElementRef, private _authService: AuthService, private _router: Router) {}
 
     activeItem!: number;
 
@@ -97,5 +101,13 @@ export class AppTopbarComponent {
        setTimeout(() => {
          this.searchInput.nativeElement.focus()
        }, 0);
+    }
+
+    signOut(){
+        this._authService.signOut();
+        this._router.navigate(['auth/login']);  
+    }
+    navigateToProfile(){
+         this._router.navigate(['/profile']);  
     }
 }

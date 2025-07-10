@@ -1,0 +1,64 @@
+<!-- <p-card class="shadow-3 border-round-xl surface-card p-4"> -->
+  <ng-template pTemplate="header">
+   
+  </ng-template>
+ <div class="flex align-items-center gap-2">
+      <i class="pi pi-id-card text-2xl"></i>
+      <span class="text-xl font-semibold">Alıcı Bilgileri</span>
+    </div>
+  <form [formGroup]="form" class="grid p-fluid formgrid mt-4">
+
+    <!-- VKN/TCKN -->
+    <div class="field col-12 md:col-6">
+      <span class="p-float-label">
+        <input id="vkn" pInputText formControlName="vkn" class="w-full" />
+        <label for="vkn">VKN/TCKN</label>
+      </span>
+    </div>
+
+    <!-- Ad -->
+    <div class="field col-12 md:col-6">
+      <span class="p-float-label">
+        <input id="firstName" pInputText formControlName="firstName" class="w-full" />
+        <label for="firstName">Ad</label>
+      </span>
+    </div>
+
+    <!-- Soyad -->
+    <div class="field col-12 md:col-6">
+      <span class="p-float-label">
+        <input id="lastName" pInputText formControlName="lastName" class="w-full" />
+        <label for="lastName">Soyad</label>
+      </span>
+    </div>
+
+    <!-- Ünvan -->
+    <div class="field col-12 md:col-6">
+      <span class="p-float-label">
+        <input id="title" pInputText formControlName="title" class="w-full" />
+        <label for="title">Ünvan</label>
+      </span>
+    </div>
+
+    <!-- Vergi Dairesi -->
+    <div class="field col-12 md:col-6">
+      <span class="p-float-label">
+        <input id="taxOffice" pInputText formControlName="taxOffice" class="w-full" />
+        <label for="taxOffice">Vergi Dairesi</label>
+      </span>
+    </div>
+
+    <!-- Adres -->
+    <div class="field col-12">
+      <label for="address" class="font-medium">Adres</label>
+      <textarea id="address" pInputTextarea rows="3" formControlName="address" class="w-full border-round"></textarea>
+    </div>
+
+    <!-- Teslimat Adresi -->
+    <div class="field col-12">
+      <label for="deliveryAddress" class="font-medium">Fatura Teslimat Adresi</label>
+      <textarea id="deliveryAddress" pInputTextarea rows="3" formControlName="deliveryAddress" class="w-full border-round"></textarea>
+    </div>
+
+  </form>
+<!-- </p-card> -->

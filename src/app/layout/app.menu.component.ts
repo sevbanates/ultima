@@ -16,93 +16,95 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi pi-home',
                 items: [
                     {
-                        label: 'Sales Dashboard',
+                        label: 'Anasayfa',
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/']
                     },
-                    {
-                        label: 'Analytics Dashboard',
-                        icon: 'pi pi-fw pi-chart-pie',
-                        routerLink: ['/dashboard-analytics']
-                    },
-                    {
-                        label: 'SaaS Dashboard',
-                        icon: 'pi pi-fw pi-bolt',
-                        routerLink: ['/dashboard-saas']
-                    },
+                    // {
+                    //     label: 'Analytics Dashboard',
+                    //     icon: 'pi pi-fw pi-chart-pie',
+                    //     routerLink: ['/dashboard-analytics']
+                    // },
+                    // {
+                    //     label: 'SaaS Dashboard',
+                    //     icon: 'pi pi-fw pi-bolt',
+                    //     routerLink: ['/dashboard-saas']
+                    // },
                 ]
             },
             {
-                label: 'Apps',
+                label: 'E-Fatura',
                 icon: 'pi pi-th-large',
                 items: [
+
                     {
-                        label: 'Blog',
-                        icon: 'pi pi-fw pi-comment',
+                        label: 'Yeni Oluştur',
+                        icon: 'pi pi-plus-circle',
+                        routerLink: ['/invoice/create']
+                    },
+                    {
+                        label: 'Faturalarım',
+                        icon: 'pi pi-file-o',
                         items: [
                             {
-                                label: 'List',
-                                icon: 'pi pi-fw pi-image',
+                                label: 'Taslak',
+                                icon: 'pi pi-bookmark',
                                 routerLink: ['/apps/blog/list']
                             },
                             {
-                                label: 'Detail',
-                                icon: 'pi pi-fw pi-list',
+                                label: 'Tamamlanmış',
+                                icon: 'pi pi-check',
                                 routerLink: ['/apps/blog/detail']
                             },
                             {
-                                label: 'Edit',
-                                icon: 'pi pi-fw pi-pencil',
+                                label: 'İptal Edilmiş',
+                                icon: 'pi pi-times-circle',
                                 routerLink: ['/apps/blog/edit']
                             }
                         ]
-                    },
-                    {
-                        label: 'Calendar',
-                        icon: 'pi pi-fw pi-calendar',
-                        routerLink: ['/apps/calendar']
-                    },
-                    {
-                        label: 'Chat',
-                        icon: 'pi pi-fw pi-comments',
-                        routerLink: ['/apps/chat']
-                    },
-                    {
-                        label: 'Files',
-                        icon: 'pi pi-fw pi-folder',
-                        routerLink: ['/apps/files']
-                    },
-                    {
-                        label: 'Kanban',
-                        icon: 'pi pi-fw pi-sliders-v',
-                        routerLink: ['/apps/kanban']
-                    },
-                    {
-                        label: 'Mail',
-                        icon: 'pi pi-fw pi-envelope',
-                        items: [
-                            {
-                                label: 'Inbox',
-                                icon: 'pi pi-fw pi-inbox',
-                                routerLink: ['/apps/mail/inbox']
-                            },
-                            {
-                                label: 'Compose',
-                                icon: 'pi pi-fw pi-pencil',
-                                routerLink: ['/apps/mail/compose']
-                            },
-                            {
-                                label: 'Detail',
-                                icon: 'pi pi-fw pi-comment',
-                                routerLink: ['/apps/mail/detail/1000']
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Task List',
-                        icon: 'pi pi-fw pi-check-square',
-                        routerLink: ['/apps/tasklist']
                     }
+                 
+                    // {
+                    //     label: 'Chat',
+                    //     icon: 'pi pi-fw pi-comments',
+                    //     routerLink: ['/apps/chat']
+                    // },
+                    // {
+                    //     label: 'Files',
+                    //     icon: 'pi pi-fw pi-folder',
+                    //     routerLink: ['/apps/files']
+                    // },
+                    // {
+                    //     label: 'Kanban',
+                    //     icon: 'pi pi-fw pi-sliders-v',
+                    //     routerLink: ['/apps/kanban']
+                    // },
+                    // {
+                    //     label: 'Mail',
+                    //     icon: 'pi pi-fw pi-envelope',
+                    //     items: [
+                    //         {
+                    //             label: 'Inbox',
+                    //             icon: 'pi pi-fw pi-inbox',
+                    //             routerLink: ['/apps/mail/inbox']
+                    //         },
+                    //         {
+                    //             label: 'Compose',
+                    //             icon: 'pi pi-fw pi-pencil',
+                    //             routerLink: ['/apps/mail/compose']
+                    //         },
+                    //         {
+                    //             label: 'Detail',
+                    //             icon: 'pi pi-fw pi-comment',
+                    //             routerLink: ['/apps/mail/detail/1000']
+                    //         }
+                    //     ]
+                    // },
+                    // {
+                    //     label: 'Task List',
+                    //     icon: 'pi pi-fw pi-check-square',
+                    //     routerLink: ['/apps/tasklist']
+                    // }
                 ]
             },
             {

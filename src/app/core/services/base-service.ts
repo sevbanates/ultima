@@ -1,11 +1,11 @@
 import { inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, map, tap,  } from 'rxjs';
-import { PagedAndSortedResponse, ResponseModel } from 'app/core/models/response-model';
-import { environment } from 'app/environments/environment';
 import { BaseModel } from '../models/base-model';
 import { PagedAndSortedSearchInput } from '../models/request-model';
-import { AppLayoutTitleService } from 'app/shared/services/app.layout-title.service';
+import { AppLayoutTitleService } from 'src/app/shared/services/app.layout-title.service';
+import { environment } from 'src/app/environments/environment';
+import { PagedAndSortedResponse, ResponseModel } from '../models/response-model';
  
 export abstract class BaseService<T extends BaseModel,E extends PagedAndSortedSearchInput=null>
 {
