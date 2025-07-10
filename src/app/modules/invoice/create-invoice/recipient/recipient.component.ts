@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormDataService } from '../../services/form-data.service';
 
 @Component({
@@ -9,12 +9,12 @@ import { FormDataService } from '../../services/form-data.service';
 })
 export class RecipientComponent implements OnInit {
   form!: FormGroup;
-
+@Output() formReady = new EventEmitter<FormGroup>();
   constructor(private fb: FormBuilder,  private formDataService: FormDataService) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      vkn: [''],
+      vkn: ['', Validators.required],
       firstName: [''],
       lastName: [''],
       title: [''],
@@ -22,6 +22,7 @@ export class RecipientComponent implements OnInit {
       address: [''],
       deliveryAddress: ['']
     });
+    this.formReady.emit(this.form);
 
     const savedData = this.formDataService.getStepData('recipient');
     if (savedData) {
@@ -32,5 +33,9 @@ export class RecipientComponent implements OnInit {
       this.formDataService.setStepData('recipient', value);
     });
   
+  }
+
+    getForm(): FormGroup {
+    return this.form;
   }
 }

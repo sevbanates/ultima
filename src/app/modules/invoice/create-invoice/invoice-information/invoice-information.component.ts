@@ -31,13 +31,13 @@ export class InvoiceInformationComponent {
       note: ['']
     });
 
-   const savedData = this.formData.getStepData('fatura');
+   const savedData = this.formData.getStepData('invoiceInfo');
     if (savedData) {
       this.form.patchValue(savedData);
     }
 
     this.form.valueChanges.subscribe(val => {
-      this.formData.setStepData('fatura', val);
+      this.formData.setStepData('invoiceInfo', val);
     });
   }
 }

@@ -29,6 +29,8 @@ import { InvoiceProductComponent } from "./invoice-product/invoice-product.compo
 import { DropdownModule } from "primeng/dropdown";
 import { CalendarModule } from "primeng/calendar";
 import { InputTextareaModule } from "primeng/inputtextarea";
+import { TableModule } from "primeng/table";
+import { DialogModule } from "primeng/dialog";
 
 
 @NgModule({
@@ -58,7 +60,9 @@ import { InputTextareaModule } from "primeng/inputtextarea";
     DividerModule,
     DropdownModule ,
     CalendarModule,
-    InputTextareaModule  
+    InputTextareaModule,
+    TableModule,
+    DialogModule
     ],
     declarations: [CreateInvoiceComponent, RecipientComponent, InvoiceInformationComponent, InvoiceProductComponent],
     providers:[MessageService]

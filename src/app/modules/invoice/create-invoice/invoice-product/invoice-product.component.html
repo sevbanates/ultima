@@ -1,1 +1,90 @@
-<p>invoice-product works!</p>
+<h4 class="mb-3">Fatura Detayları</h4>
+
+<form [formGroup]="productForm" class="grid p-fluid p-3 border-round ">
+
+  <!-- Ürün Adı -->
+  <div class="col-12 md:col-4">
+    <label for="productName" class="block mb-2">Ürün veya Hizmet Adı</label>
+    <input id="productName" type="text" pInputText formControlName="productName" class="w-full" />
+  </div>
+
+  <!-- Kod -->
+  <div class="col-12 md:col-4">
+    <label for="productCode" class="block mb-2">Kod</label>
+    <input id="productCode" type="text" pInputText formControlName="productCode" class="w-full" />
+  </div>
+
+  <!-- Miktar -->
+  <div class="col-12 md:col-4">
+    <label for="quantity" class="block mb-2">Miktar</label>
+    <input id="quantity" type="number" pInputText formControlName="quantity" class="w-full" />
+  </div>
+
+  <!-- Birim -->
+  <div class="col-12 md:col-4">
+    <label for="unit" class="block mb-2">Birim</label>
+    <p-dropdown inputId="unit" formControlName="unit" [options]="units" optionLabel="label" placeholder="Birim Seçin" class="w-full" />
+  </div>
+
+  <!-- KDV Oranı -->
+  <div class="col-12 md:col-4">
+    <label for="vatRate" class="block mb-2">KDV Oranı (%)</label>
+    <p-dropdown inputId="vatRate" formControlName="vatRate" [options]="vatRates" optionLabel="label" placeholder="KDV Seçin" class="w-full" />
+  </div>
+
+  <!-- Birim Fiyat -->
+  <div class="col-12 md:col-4">
+    <label for="unitPrice" class="block mb-2">Birim Fiyat</label>
+    <input id="unitPrice" type="number" pInputText formControlName="unitPrice" class="w-full" />
+  </div>
+
+  <!-- Ekle Butonu -->
+  <div class="col-12 text-right">
+    <button pButton type="button" label="Ekle" icon="pi pi-plus" (click)="addProduct()" class="p-button-success p-button-sm p-button-rounded"></button>
+  </div>
+
+</form>
+
+
+
+<!-- Ürün Listesi Tablosu -->
+<p-table [value]="productList" responsiveLayout="scroll" class="p-datatable-sm">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Ad</th>
+      <th>Kod</th>
+      <th>Miktar</th>
+      <th>Birim</th>
+      <th>KDV</th>
+      <th>Birim Fiyat</th>
+      <th>İşlem</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-product let-i="rowIndex">
+    <tr>
+      <td>{{ product.productName }}</td>
+      <td>{{ product.productCode }}</td>
+      <td>{{ product.quantity }}</td>
+      <td>{{ product.unit }}</td>
+      <td>{{ product.vatRate }}%</td>
+      <td>{{ product.unitPrice | number:'1.2-2' }}</td>
+      <td class="text-right">
+        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editProduct(i)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" (click)="deleteProduct(i)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+  <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span >Are you sure you want to delete <b></b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>

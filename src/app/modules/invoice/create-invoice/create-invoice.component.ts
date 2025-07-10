@@ -1,8 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { InvoiceService } from '../services/invoice.service';
 import { InvoiceCreateDto } from '../models/create-invoice-dto.model';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormDataService } from '../services/form-data.service';
+import { FormGroup } from '@angular/forms';
+import { RecipientComponent } from './recipient/recipient.component';
 
 @Component({
   selector: 'app-create-invoice',
@@ -11,13 +14,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CreateInvoiceComponent implements OnInit{
 
-
   /**
    *
    */
   currentStepIndex = 0;
-
-  constructor(private router: Router, private route: ActivatedRoute) {
+currentStepForm: FormGroup | null = null;
+  constructor(private router: Router, private route: ActivatedRoute, private formData: FormDataService, private messageService: MessageService) {
     
   }
 
@@ -49,16 +51,38 @@ export class CreateInvoiceComponent implements OnInit{
   
 
   goNext() {
+    debugger
+ if (this.currentStepForm?.invalid) {
+    this.currentStepForm.markAllAsTouched();
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Eksik Bilgi',
+      detail: 'Lütfen gerekli alanları doldurun.',
+      life:3000
+    });
+    return;
+  }
+
   if (this.currentStepIndex < this.routeItems.length - 1) {
     this.currentStepIndex++;
         this.router.navigate([this.routeItems[this.currentStepIndex].routerLink], {relativeTo: this.route});
   }
+
 }
 
 goBack() {
   if (this.currentStepIndex > 0) {
     this.currentStepIndex--;
       this.router.navigate([this.routeItems[this.currentStepIndex].routerLink], {relativeTo: this.route});
+  }
+}
+
+
+onStepActivate(componentInstance: any) {
+  if (componentInstance.formReady) {
+    componentInstance.formReady.subscribe((form: FormGroup) => {
+      this.currentStepForm = form;
+    });
   }
 }
 
