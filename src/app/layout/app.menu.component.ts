@@ -12,6 +12,7 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
         this.model = [
             {
+                
                 label: 'Dashboards',
                 icon: 'pi pi-home',
                 items: [
@@ -62,13 +63,9 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/apps/blog/edit']
                             }
                         ]
-                    }
+                    },
                  
-                    // {
-                    //     label: 'Chat',
-                    //     icon: 'pi pi-fw pi-comments',
-                    //     routerLink: ['/apps/chat']
-                    // },
+              
                     // {
                     //     label: 'Files',
                     //     icon: 'pi pi-fw pi-folder',
@@ -105,6 +102,29 @@ export class AppMenuComponent implements OnInit {
                     //     icon: 'pi pi-fw pi-check-square',
                     //     routerLink: ['/apps/tasklist']
                     // }
+                ]
+            },
+
+             {
+                
+                label: 'Cari',
+                icon: 'pi pi-home',
+                items: [
+                   {
+                        label: 'Carilerim',
+                        icon: 'pi pi-users',
+                        routerLink: ['/customer']
+                    },
+                    // {
+                    //     label: 'Analytics Dashboard',
+                    //     icon: 'pi pi-fw pi-chart-pie',
+                    //     routerLink: ['/dashboard-analytics']
+                    // },
+                    // {
+                    //     label: 'SaaS Dashboard',
+                    //     icon: 'pi pi-fw pi-bolt',
+                    //     routerLink: ['/dashboard-saas']
+                    // },
                 ]
             },
             {

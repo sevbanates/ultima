@@ -1,0 +1,171 @@
+<div class="card">
+    <span class="text-900 text-xl font-bold mb-4 block">{{entity?.Id == null ? 'Cari Oluştur' : 'Cari Güncelle'}}</span>
+    <div class="grid">
+        {{entity | json}}
+        <div class="col-12 lg:col-12">
+            <form [formGroup]="form">
+                <div class="grid formgrid p-fluid">
+                    <div class="field mb-4 col-6">
+                        <label for="name" class="font-medium text-900"
+                            >Ad</label
+                        >
+                        <input
+                            formControlName="Name"
+                            id="name"
+                            type="text"
+                            pInputText
+                        />
+                    </div>
+                    <div class="field mb-4 col-6">
+                        <label for="surname" class="font-medium text-900"
+                            >Soyad</label
+                        >
+                        <input
+                            formControlName="Surname"
+                            id="surname"
+                            type="text"
+                            pInputText
+                        />
+                    </div>
+                    <div class="field mb-4 col-12">
+                        <label for="vkn" class="font-medium text-900"
+                            >Vkn / Tckn</label
+                        >
+                        <p-inputNumber
+                            id="vkn"
+                            formControlName="VknTckn"
+                            [useGrouping]="false"
+                            [showButtons]="false"
+                            [min]="0"
+                            [maxlength]="11"
+                        >
+                        </p-inputNumber>
+                        <!-- <input formControlName="VknTckn" id="vkn" type="number" [maxlength]="11" pInputText> -->
+                    </div>
+                    <div class="field mb-4 col-6">
+                        <label for="email" class="font-medium text-900"
+                            >Email</label
+                        >
+                        <input
+                            formControlName="Email"
+                            id="email"
+                            type="email"
+                            pInputText
+                        />
+                    </div>
+
+                    <div class="field mb-4 col-6">
+                        <label for="telefon" class="font-medium text-900"
+                            >Telefon</label
+                        >
+                        <p-inputMask
+                            id="telefon"
+                            formControlName="Phone"
+                            mask="999-999-99-99"
+                            placeholder="99-999-99-99"
+                        >
+                        </p-inputMask>
+                        <!-- <input formControlName="Phone" id="telefon" type="tel" pInputText> -->
+                    </div>
+                  
+                    <div class="field mb-4 col-12 md:col-6">
+                        <!-- {{countryCityModel.Countries | json}} -->
+                        <label for="country" class="font-medium text-900"
+                            >Ülke</label
+                        >
+                        <p-dropdown
+                        formControlName="Country"
+                            inputId="country"
+                            [options]="countryCityModel?.Countries"
+                            optionLabel="Text"
+                            [filter]="true"
+                            filterBy="Text"
+                            [showClear]="true"
+                            placeholder="Ülke Seçiniz"
+                            (onChange)="countryChange($event)"
+                        >
+                            <!-- <ng-template let-country pTemplate="item">
+                            <div class="flex align-items-center">
+                                <img src="assets/demo/images/flag/flag_placeholder.png" [class]="'mr-2 flag flag-' + country.code" style="width:18px"/>
+                                <div>{{country.name}}</div>
+                            </div>
+                        </ng-template> -->
+                        </p-dropdown>
+                        <!-- {{form.controls['Country'].value | json}} -->
+                    </div>
+                    <div class="field mb-4 col-12 md:col-6">
+                        <label for="city" class="font-medium text-900"
+                            >Şehir</label
+                        >
+                        <input formControlName="City" id="city" type="text" pInputText />
+                    </div>
+                    <div class="field mb-4 col-12 md:col-6">
+                        <label for="district" class="font-medium text-900"
+                            >İlçe</label
+                        >
+                        <input formControlName="District" id="district" type="text" pInputText />
+                    </div>
+                    <div class="field mb-4 col-12 md:col-6">
+                        <label for="buildingName" class="font-medium text-900"
+                            >Bina Adı</label
+                        >
+                        <input formControlName="BuildingName" id="buildingName" type="text" pInputText />
+                    </div>
+                    <div class="field mb-4 col-12 md:col-6">
+                        <label for="buildingNumber" class="font-medium text-900"
+                            >Bina Numarası</label
+                        >
+                        <input formControlName="BuildingNumber" id="buildingNumber" type="text" pInputText />
+                    </div>
+                    <div class="field mb-4 col-12 md:col-6">
+                        <label for="floorNumber" class="font-medium text-900"
+                            >Kat Numarası</label
+                        >
+                        <input formControlName="FloorNumber" id="floorNumber" type="text" pInputText />
+                    </div>
+                    <div class="field mb-4 col-12 md:col-6">
+                        <label for="doorNumber" class="font-medium text-900"
+                            >Kapı Numarası</label
+                        >
+                        <input formControlName="DoorNumber" id="doorNumber" type="text" pInputText />
+                    </div>
+                    <div class="field mb-4 col-12 md:col-6">
+                        <label for="postalCode" class="font-medium text-900"
+                            >Posta Kodu</label
+                        >
+                        <input formControlName="PostalCode" id="postalCode" type="text" pInputText />
+                    </div>
+                    <div class="field mb-4 col-12 md:col-6">
+                        <label for="fullAddress" class="font-medium text-900"
+                            >Açık Adres</label
+                        >
+                        <input formControlName="FullAddress" id="fullAddress" type="text" pInputText />
+                    </div>
+                    <div class="field mb-4 col-12 md:col-6">
+                        <label for="addressDescription" class="font-medium text-900"
+                            >Adres Açıklaması</label
+                        >
+                        <input formControlName="AddressDescription" id="addressDescription" type="text" pInputText />
+                    </div>
+                    <!-- <div class="field mb-4 col-12">
+                        <label for="website" class="font-medium text-900"
+                            >Website</label
+                        >
+                        <p-inputGroup>
+                            <p-inputGroupAddon>www</p-inputGroupAddon>
+                            <input id="website" type="text" pInputText />
+                        </p-inputGroup>
+                    </div> -->
+                    <div class="col-12 text-right">
+                        <button
+                            pButton
+                            pRipple
+                            label="Kaydet"
+                            class="w-auto mt-3"
+                        ></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

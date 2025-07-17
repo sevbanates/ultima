@@ -1,0 +1,51 @@
+<div class="card">
+    <p-table #dt [value]="customers" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Toplam {totalRecords} kayıttan {first} - {last} arası gösteriliyor" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['Name','Surname','Email', 'Phone']">
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Ara" class="w-full" />
+                </span>
+                <button (click)="navigateToCreateCustomer()" pButton class="p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1" icon="pi pi-user-plus" label="Yeni Cari Ekle"></button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="Name" class="white-space-nowrap" style="width:25%">Ad <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="Surname" class="white-space-nowrap" style="width:25%">Soyad <p-sortIcon field="country.name"></p-sortIcon></th>
+                <!-- <th pSortableColumn="CreDate" class="white-space-nowrap" style="width:25%">Olş. Tarihi <p-sortIcon field="date"></p-sortIcon></th> -->
+                <th pSortableColumn="Phone" class="white-space-nowrap" style="width:25%">Telefon Numarası <p-sortIcon field="representative.name"></p-sortIcon></th>
+                <th pSortableColumn="Email" class="white-space-nowrap" style="width:25%">Mail <p-sortIcon field="activity"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+            <tr>
+                <td>{{customer.Name}}</td>
+                <td>
+                    <!-- <img src="assets/demo/images/flag/flag_placeholder.png" [class]="'flag flag-' + customer.country.code" class="w-2rem mr-2"> -->
+                    <span class="image-text">{{customer.Surname}}</span>
+                </td>
+                  <!-- <td>{{customer.CreDate | date: 'dd/MM/yyyy'}}</td> -->
+                <td>
+                    <div class="inline-flex align-items-center">
+                        <!-- <img [alt]="customer.representative.name" src="assets/demo/images/avatar/{{customer.representative.image}}" class="w-2rem mr-2" /> -->
+                        <span>{{customer.Phone}}</span>
+                    </div>
+                </td>
+              
+                <td> <div class="inline-flex align-items-center">
+                        <!-- <img [alt]="customer.representative.name" src="assets/demo/images/avatar/{{customer.representative.image}}" class="w-2rem mr-2" /> -->
+                        <span>{{customer.Email}}</span>
+                    </div></td>
+
+                       <td class="flex">
+        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editCustomer(customer)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" ></button>
+      </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

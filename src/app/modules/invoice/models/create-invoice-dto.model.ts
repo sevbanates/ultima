@@ -1,6 +1,7 @@
 import { BaseModel } from "src/app/core/models/base-model";
+import { InvoiceStatus, InvoiceTypes, Scenario } from "./invoice.types";
 
-export interface InvoiceItemCreateDto {
+export class InvoiceItemCreateDto {
   invoiceId: number;          // Backend birebir uyum için
   description: string;
   quantity: number;
@@ -9,23 +10,35 @@ export interface InvoiceItemCreateDto {
 }
 
 export interface InvoiceCreateDto {
-  invoiceDate: string;        // ISO formatlı tarih (örn. "2025-07-09T00:00:00")
+  // RecipientInfo
+  Vkn: number;
+  FirstName: string;
+  LastName: string;
+  Title?: string;
+  TaxOffice: string;
+  Country: string;
+  City: string;
+  District: string;
+  Address: string;
+  Telephone: string;
+
+  // InvoiceHeader
+  InvoiceDate: string;
   InvoiceNumber: string;
-  customerId: number;
-  items: InvoiceItemCreateDto[];
-  totalAmount: number;
-  status: InvoiceStatus;
+  InvoiceType: InvoiceTypes;
+  Scenario: Scenario;
+  Currency: number;
+  Note: string;
+  DeliveryDate?: string;
+
+  DeliveryAddress: string;
+  TotalAmount: number;
+  Status: InvoiceStatus;
+
+  // Items
+  Items: InvoiceItemCreateDto[];
 }
 
-export enum InvoiceStatus {
-  Draft = 0,
-  Pending = 1,
-  Sent = 2,
-  Approved = 3,
-  Rejected = 4,
-  Cancelled = 5,
-  Archived = 6
-}
 
 
 export interface Invoice extends BaseModel {

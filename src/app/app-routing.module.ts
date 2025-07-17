@@ -28,7 +28,8 @@ const routes: Routes = [
             { path: 'ecommerce', data: { breadcrumb: 'E-Commerce' }, loadChildren: () => import('./demo/components/ecommerce/ecommerce.module').then(m => m.EcommerceModule) },
             { path: 'apps', data: { breadcrumb: 'Apps' }, loadChildren: () => import('./demo/components/apps/apps.module').then(m => m.AppsModule) },
             { path: 'profile', data: { breadcrumb: 'Profil' }, loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule) },
-            { path: 'invoice', data: { breadcrumb: 'Invoice' }, loadChildren: () => import('./modules/invoice/invoice.module').then(m => m.InvoiceModule) }
+            { path: 'invoice', data: { breadcrumb: 'Invoice' }, loadChildren: () => import('./modules/invoice/invoice.module').then(m => m.InvoiceModule) },
+            { path: 'customer', data: { breadcrumb: 'Customer' }, loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule) }
         ]
     },
     { path: 'auth', canMatch: [NoAuthGuard], data: { breadcrumb: 'Auth' }, loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule2) },

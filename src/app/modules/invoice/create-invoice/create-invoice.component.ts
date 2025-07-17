@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { InvoiceService } from '../services/invoice.service';
-import { InvoiceCreateDto } from '../models/create-invoice-dto.model';
+import { InvoiceCreateDto, InvoiceItemCreateDto } from '../models/create-invoice-dto.model';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormDataService } from '../services/form-data.service';
@@ -19,7 +19,7 @@ export class CreateInvoiceComponent implements OnInit{
    */
   currentStepIndex = 0;
 currentStepForm: FormGroup | null = null;
-  constructor(private router: Router, private route: ActivatedRoute, private formData: FormDataService, private messageService: MessageService) {
+  constructor(private router: Router, private route: ActivatedRoute, private formData: FormDataService, private messageService: MessageService, private invoiceService: InvoiceService) {
     
   }
 
@@ -28,14 +28,14 @@ currentStepForm: FormGroup | null = null;
   ngOnInit(): void {
 
     this.router.navigate(['recipient'], { relativeTo: this.route });
-    const invoice: InvoiceCreateDto = {
-  invoiceDate: new Date().toISOString(),
-  InvoiceNumber: 'arv',
-  customerId: 0,
-  items: [],
-  totalAmount: 0,
-  status: 1
-};
+//     const invoice: InvoiceCreateDto = {
+//   invoiceDate: new Date().toISOString(),
+//   invoiceNumber: 'arv',
+//   customerId: 0,
+//   items: [],
+//   totalAmount: 0,
+//   status: 1
+// };
     // this._invoiceService.createEntity(invoice).subscribe((res) => {
     //   alert(res.Entity)
     // })
@@ -51,11 +51,10 @@ currentStepForm: FormGroup | null = null;
   
 
   goNext() {
-    debugger
  if (this.currentStepForm?.invalid) {
     this.currentStepForm.markAllAsTouched();
     this.messageService.add({
-      severity: 'error',
+      severity: 'warn',
       summary: 'Eksik Bilgi',
       detail: 'Lütfen gerekli alanları doldurun.',
       life:3000
@@ -86,4 +85,17 @@ onStepActivate(componentInstance: any) {
   }
 }
 
+// completeTask(){
+//   let model: InvoiceCreateDto;
+//   model.invoiceNumber= "q";
+//   model.customerId= 1;
+//   model.invoiceDate = new Date().toISOString();
+//   model.status = 1;
+//   model.totalAmount = 10000;
+//   model.items.push(new InvoiceItemCreateDto());
+
+//   this.invoiceService.createEntity(model).subscribe((res) => {
+//     console.log(res);
+//   })
+// }
 }

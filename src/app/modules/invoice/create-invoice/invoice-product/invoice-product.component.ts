@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormDataService } from '../../services/form-data.service';
+import { InvoiceCreateDto, InvoiceItemCreateDto } from '../../models/create-invoice-dto.model';
+import { InvoiceService } from '../../services/invoice.service';
+import { InvoiceStatus, InvoiceTypes, Scenario } from '../../models/invoice.types';
 
 @Component({
   selector: 'app-invoice-product',
@@ -11,7 +14,7 @@ export class InvoiceProductComponent implements OnInit {
 productForm!: FormGroup;
 deleteProductDialog: boolean = false;
 index: number;
-  constructor(private fb: FormBuilder, private formData: FormDataService) {
+  constructor(private fb: FormBuilder, private formData: FormDataService, private invoiceService: InvoiceService) {
     
   }
   ngOnInit(): void {
@@ -73,6 +76,41 @@ deleteProduct(index: number) {
 confirmDelete(){
    this.deleteProductDialog = false;
    this.productList.splice(this.index, 1);
+}
+
+completeTask(){
+  let model: InvoiceCreateDto = {
+    InvoiceNumber: "q",
+InvoiceDate : new Date().toISOString(),
+Status : InvoiceStatus.Draft,
+TotalAmount : 10000,
+Items: [],
+Address:'',
+City:'',
+Country:'',
+Currency:1,
+DeliveryAddress:'sad',
+District:'sds',
+FirstName:'asdas',
+InvoiceType:InvoiceTypes.Sales,
+LastName:'asd',
+Note:'sad',
+Scenario:Scenario.Basic,
+TaxOffice:'asd',
+Telephone:'asd',
+Vkn:123,
+  };
+ 
+
+  this.invoiceService.createEntity(model).subscribe((res) => {
+    console.log(res);
+  })
+}
+
+beforeSave(){
+  const recipient = this.formData.getStepData('recipient');
+const invoiceInfo = this.formData.getStepData('invoiceInfo');
+const invoiceDetails = this.formData.getStepData('invoiceDetails');
 }
 
 }

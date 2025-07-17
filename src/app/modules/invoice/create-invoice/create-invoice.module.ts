@@ -31,6 +31,7 @@ import { CalendarModule } from "primeng/calendar";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { TableModule } from "primeng/table";
 import { DialogModule } from "primeng/dialog";
+import { ToastModule } from "primeng/toast";
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { DialogModule } from "primeng/dialog";
     CalendarModule,
     InputTextareaModule,
     TableModule,
-    DialogModule
+    DialogModule,
+    ToastModule
     ],
     declarations: [CreateInvoiceComponent, RecipientComponent, InvoiceInformationComponent, InvoiceProductComponent],
     providers:[MessageService]
