@@ -102,4 +102,8 @@ export class CustomerDetailComponent implements OnInit {
       });
     }
   }
+
+  goBack() {
+    this._router.navigate(['/customer']);
+  }
 }

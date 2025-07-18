@@ -1,0 +1,29 @@
+.steps-responsive-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.p-steps {
+  min-width: 400px;
+  width: max-content;
+  margin: 0;
+}
+.p-steps .p-steps-item {
+  min-width: 120px;
+}
+.p-steps .p-steps-title {
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+@media (max-width: 600px) {
+  .p-steps {
+    min-width: 350px;
+  }
+  .p-steps .p-steps-item {
+    min-width: 100px;
+  }
+  .p-steps .p-steps-title {
+    font-size: 0.85rem;
+  }
+}

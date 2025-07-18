@@ -5,12 +5,14 @@
       <h5 class="text-xl font-semibold text-gray-800 mb-4">Adımlar</h5>
 
       <!-- Step Bar -->
-      <p-steps
-        [model]="routeItems"
-        [(activeIndex)]="currentStepIndex"
-        [readonly]="true"
-        styleClass="mb-4"
-      ></p-steps>
+      <div class="steps-responsive-wrapper">
+        <p-steps
+          [model]="routeItems"
+          [(activeIndex)]="currentStepIndex"
+          [readonly]="true"
+          styleClass="mb-4"
+        ></p-steps>
+      </div>
 
       <!-- Butonlar -->
       <div class="flex justify-between mt-4 flex-wrap gap-3">
