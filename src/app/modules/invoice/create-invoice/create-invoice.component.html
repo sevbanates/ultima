@@ -23,6 +23,8 @@
           (click)="goBack()"
           [disabled]="currentStepIndex === 0"
           class="p-button-secondary w-full md:w-auto"
+          type="button"
+          title="Geri"
         ></button>
 
         <button
@@ -33,6 +35,8 @@
           (click)="goNext()"
           [disabled]="currentStepIndex === routeItems.length - 1"
           class="p-button-primary w-full md:w-auto"
+          type="button"
+          title="Devam Et"
         ></button>
       </div>
 

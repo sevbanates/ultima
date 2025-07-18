@@ -50,8 +50,8 @@
                     </div></td>
 
                        <td class="flex">
-        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editCustomer(customer)" title="Düzenle"></button>
-        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" title="Sil" (click)="openDeleteCustomerDialog(customer)"></button>
+        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editCustomer(customer)" title="Düzenle" type="button"></button>
+        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" title="Sil" (click)="openDeleteCustomerDialog(customer)" type="button"></button>
       </td>
             </tr>
         </ng-template>
@@ -63,7 +63,7 @@
     <span>Seçili müşteriyi silmek istediğinize emin misiniz?</span>
   </div>
   <ng-template pTemplate="footer">
-    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hayır" (click)="closeDeleteCustomerDialog()" title="Hayır"></button>
-    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Evet" (click)="confirmDeleteCustomer()" title="Evet"></button>
+    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hayır" (click)="closeDeleteCustomerDialog()" title="Hayır" type="button"></button>
+    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Evet" (click)="confirmDeleteCustomer()" title="Evet" type="button"></button>
   </ng-template>
 </p-dialog>

@@ -40,7 +40,7 @@
 
   <!-- Ekle Butonu -->
   <div class="col-12 text-right">
-    <button pButton type="button" label="Ekle" icon="pi pi-plus" (click)="addProduct()" class="p-button-success p-button-sm p-button-rounded"></button>
+    <button pButton type="button" label="Ekle" icon="pi pi-plus" (click)="addProduct()" class="p-button-success p-button-sm p-button-rounded" title="Ekle"></button>
   </div>
 
 </form>
@@ -70,8 +70,8 @@
       <td>{{ product.vatRate }}%</td>
       <td>{{ product.unitPrice | number:'1.2-2' }}</td>
       <td class="text-right">
-        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editProduct(i)"></button>
-        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" (click)="deleteProduct(i)"></button>
+        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editProduct(i)" title="Düzenle" type="button"></button>
+        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" (click)="deleteProduct(i)" title="Sil" type="button"></button>
       </td>
     </tr>
   </ng-template>
@@ -84,13 +84,13 @@
                 <span >Are you sure you want to delete <b></b>?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false" title="Hayır" type="button"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()" title="Evet" type="button"></button>
             </ng-template>
         </p-dialog>
 
 
 
          <div class="col-12 text-right">
-    <button pButton type="button" label="Tamamla" icon="pi pi-check" (click)="completeTask()" class="cyan-500 p-button-sm p-button-rounded"></button>
+    <button pButton type="button" label="Tamamla" icon="pi pi-check" (click)="completeTask()" class="cyan-500 p-button-sm p-button-rounded" title="Tamamla"></button>
   </div>
