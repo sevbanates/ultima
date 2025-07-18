@@ -38,10 +38,12 @@ export class CustomerService extends BaseService<Customer, CustomerListRequestMo
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-createEntity(input:CustomerDto): Observable<ResponseModel<boolean>>
-        {
-            return  this._httpClient.post<ResponseModel<boolean>>(`${this.apiUrl}${this.controllerName}/create-invoice`,input);
-        }
+    createEntity(input: CustomerDto): Observable<ResponseModel<boolean>> {
+        return this._httpClient.post<ResponseModel<boolean>>(
+            `${this.apiUrl}${this.controllerName}/create`,
+            input
+        );
+    }
 
 getCountryAndCities(): Observable<ResponseModel<CustomerAndCityModel>>
         {
@@ -75,9 +77,9 @@ getCountryAndCities(): Observable<ResponseModel<CustomerAndCityModel>>
 //         );
 //     }
 
-    updateEntity(input: CustomerDto): Observable<ResponseModel<boolean>> {
+    updateEntity(id: number, input: CustomerDto): Observable<ResponseModel<boolean>> {
         return this._httpClient.put<ResponseModel<boolean>>(
-            `${this.apiUrl}${this.controllerName}/update`,
+            `${this.apiUrl}${this.controllerName}/update/${id}`,
             input
         );
     }

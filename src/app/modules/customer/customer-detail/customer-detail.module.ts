@@ -18,7 +18,7 @@ import { ProfileCreateRoutingModule } from "src/app/demo/components/profile/crea
 import { CustomerDetailRoutingModule } from "./customer-detail-routing.module";
 import { InputNumberModule } from "primeng/inputnumber";
 import { InputMaskModule } from "primeng/inputmask";
-
+import { DirectivesModule } from 'src/app/shared/directives/directives.module';
 
 
 @NgModule({
@@ -40,7 +40,8 @@ import { InputMaskModule } from "primeng/inputmask";
         InputGroupAddonModule,
         ReactiveFormsModule,
         InputNumberModule,
-        InputMaskModule 
+        InputMaskModule,
+        DirectivesModule
     ]
 })
 export class CustomerDetailModule { }

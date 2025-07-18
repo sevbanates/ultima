@@ -20,6 +20,7 @@ export class CustomerDetailComponent implements OnInit {
   private readonly _route = inject(ActivatedRoute);
   private readonly _router = inject(Router);
   private _entityData: any = null;
+  submitted = false;
 
   ngOnInit(): void {
     this.initForm();
@@ -50,7 +51,7 @@ export class CustomerDetailComponent implements OnInit {
     );
     this.form.patchValue({
       ...this._entityData,
-      Country: countryObj || null
+      Country: countryObj ? countryObj.Value : null
     });
   }
 
@@ -60,7 +61,7 @@ export class CustomerDetailComponent implements OnInit {
       GuidId: [],
       Name: [, Validators.required],
       Surname: [, Validators.required],
-      VknTckn: [, [Validators.required, Validators.maxLength(11), Validators.minLength(10)]],
+      VknTckn: [, [Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
       Email: [, [Validators.required, Validators.email]],
       Phone: [, Validators.required],
       Country: [, Validators.required],
@@ -78,21 +79,26 @@ export class CustomerDetailComponent implements OnInit {
   }
 
   countryChange(event: any) {
-    this.form.controls['Country'].setValue(event.value.Value);
+    this.form.controls['Country'].setValue(event.value);
   }
 
   save() {
+    this.submitted = true;
     if (this.form.invalid) return;
-    const formValue = this.form.value;
+    const formValue = { ...this.form.value };
+    // Country nesne ise sadece Value'sunu gönder
+    if (formValue.Country && typeof formValue.Country === 'object' && 'Value' in formValue.Country) {
+      formValue.Country = formValue.Country.Value;
+    }
     if (formValue.Id && formValue.Id > 0) {
       // Update
-      this._customerService.updateEntity(formValue).subscribe(() => {
-        this._router.navigate(['/customer-list']);
+      this._customerService.updateEntity(formValue.Id, formValue).subscribe(() => {
+        this._router.navigate(['/customer']);
       });
     } else {
       // Create
       this._customerService.createEntity(formValue).subscribe(() => {
-        this._router.navigate(['/customer-list']);
+        this._router.navigate(['/customer']);
       });
     }
   }

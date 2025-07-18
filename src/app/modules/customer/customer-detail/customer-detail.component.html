@@ -5,104 +5,66 @@
             <form [formGroup]="form" (ngSubmit)="save()">
                 <div class="grid formgrid p-fluid">
                     <div class="field mb-4 col-6">
-                        <label for="name" class="font-medium text-900"
-                            >Ad</label
-                        >
-                        <input
-                            formControlName="Name"
-                            id="name"
-                            type="text"
-                            pInputText
-                        />
+                        <label for="name" class="font-medium text-900">Ad <span class="text-danger">*</span></label>
+                        <input formControlName="Name" id="name" type="text" pInputText />
+                        <div *ngIf="(submitted || form.get('Name')?.touched) && form.get('Name')?.invalid" class="text-danger text-sm mt-1 font-bold">
+                            Ad zorunludur.
+                        </div>
                     </div>
                     <div class="field mb-4 col-6">
-                        <label for="surname" class="font-medium text-900"
-                            >Soyad</label
-                        >
-                        <input
-                            formControlName="Surname"
-                            id="surname"
-                            type="text"
-                            pInputText
-                        />
+                        <label for="surname" class="font-medium text-900">Soyad <span class="text-danger">*</span></label>
+                        <input formControlName="Surname" id="surname" type="text" pInputText />
+                        <div *ngIf="(submitted || form.get('Surname')?.touched) && form.get('Surname')?.invalid" class="text-danger text-sm mt-1 font-bold">
+                            Soyad zorunludur.
+                        </div>
                     </div>
                     <div class="field mb-4 col-12">
-                        <label for="vkn" class="font-medium text-900"
-                            >Vkn / Tckn</label
-                        >
-                        <p-inputNumber
-                            id="vkn"
-                            formControlName="VknTckn"
-                            [useGrouping]="false"
-                            [showButtons]="false"
-                            [min]="0"
-                            [maxlength]="11"
-                        >
-                        </p-inputNumber>
-                        <!-- <input formControlName="VknTckn" id="vkn" type="number" [maxlength]="11" pInputText> -->
+                        <label for="vkn" class="font-medium text-900">Vkn / Tckn <span class="text-danger">*</span></label>
+                        <input formControlName="VknTckn" id="vkn" type="text" maxlength="11" pInputText pattern="^[0-9]*$" inputmode="numeric" numbersOnly />
+                        <div *ngIf="(submitted || form.get('VknTckn')?.touched) && form.get('VknTckn')?.invalid" class="text-danger text-sm mt-1 font-bold">
+                            <span *ngIf="form.get('VknTckn')?.errors?.['required']">VKN/TCKN zorunludur.</span>
+                            <span *ngIf="form.get('VknTckn')?.errors?.['minlength']">En az 10 karakter olmalı.</span>
+                            <span *ngIf="form.get('VknTckn')?.errors?.['maxlength']">En fazla 11 karakter olmalı.</span>
+                        </div>
                     </div>
                     <div class="field mb-4 col-6">
-                        <label for="email" class="font-medium text-900"
-                            >Email</label
-                        >
-                        <input
-                            formControlName="Email"
-                            id="email"
-                            type="email"
-                            pInputText
-                        />
+                        <label for="email" class="font-medium text-900">Email <span class="text-danger">*</span></label>
+                        <input formControlName="Email" id="email" type="email" pInputText />
+                        <div *ngIf="(submitted || form.get('Email')?.touched) && form.get('Email')?.invalid" class="text-danger text-sm mt-1 font-bold">
+                            <span *ngIf="form.get('Email')?.errors?.['required']">Email zorunludur.</span>
+                            <span *ngIf="form.get('Email')?.errors?.['email']">Geçerli bir email giriniz.</span>
+                        </div>
                     </div>
 
                     <div class="field mb-4 col-6">
-                        <label for="telefon" class="font-medium text-900"
-                            >Telefon</label
-                        >
-                        <p-inputMask
-                            id="telefon"
-                            formControlName="Phone"
-                            mask="999-999-99-99"
-                            placeholder="99-999-99-99"
-                        >
-                        </p-inputMask>
-                        <!-- <input formControlName="Phone" id="telefon" type="tel" pInputText> -->
+                        <label for="telefon" class="font-medium text-900">Telefon <span class="text-danger">*</span></label>
+                        <p-inputMask id="telefon" formControlName="Phone" mask="999-999-99-99" placeholder="999-999-99-99"></p-inputMask>
+                        <div *ngIf="(submitted || form.get('Phone')?.touched) && form.get('Phone')?.invalid" class="text-danger text-sm mt-1 font-bold">
+                            Telefon zorunludur.
+                        </div>
                     </div>
                   
                     <div class="field mb-4 col-12 md:col-6">
                         <!-- {{countryCityModel.Countries | json}} -->
-                        <label for="country" class="font-medium text-900"
-                            >Ülke</label
-                        >
-                        <p-dropdown
-                        formControlName="Country"
-                            inputId="country"
-                            [options]="countryCityModel?.Countries"
-                            optionLabel="Text"
-                            [filter]="true"
-                            filterBy="Text"
-                            [showClear]="true"
-                            placeholder="Ülke Seçiniz"
-                            (onChange)="countryChange($event)"
-                        >
-                            <!-- <ng-template let-country pTemplate="item">
-                            <div class="flex align-items-center">
-                                <img src="assets/demo/images/flag/flag_placeholder.png" [class]="'mr-2 flag flag-' + country.code" style="width:18px"/>
-                                <div>{{country.name}}</div>
-                            </div>
-                        </ng-template> -->
-                        </p-dropdown>
-                        <!-- {{form.controls['Country'].value | json}} -->
+                        <label for="country" class="font-medium text-900">Ülke <span class="text-danger">*</span></label>
+                        <p-dropdown formControlName="Country" inputId="country" [options]="countryCityModel?.Countries" optionLabel="Text" optionValue="Value" [filter]="true" filterBy="Text" [showClear]="true" placeholder="Ülke Seçiniz" (onChange)="countryChange($event)"></p-dropdown>
+                        <div *ngIf="(submitted || form.get('Country')?.touched) && form.get('Country')?.invalid" class="text-danger text-sm mt-1 font-bold">
+                            Ülke zorunludur.
+                        </div>
                     </div>
                     <div class="field mb-4 col-12 md:col-6">
-                        <label for="city" class="font-medium text-900"
-                            >Şehir</label
-                        >
+                        <label for="city" class="font-medium text-900">Şehir <span class="text-danger">*</span></label>
                         <input formControlName="City" id="city" type="text" pInputText />
+                        <div *ngIf="(submitted || form.get('City')?.touched) && form.get('City')?.invalid" class="text-danger text-sm mt-1 font-bold">
+                            Şehir zorunludur.
+                        </div>
                     </div>
                     <div class="field mb-4 col-12 md:col-6">
-                        <label for="district" class="font-medium text-900"
-                            >İlçe</label
-                        >
+                        <label for="district" class="font-medium text-900">İlçe <span class="text-danger">*</span></label>
                         <input formControlName="District" id="district" type="text" pInputText />
+                        <div *ngIf="(submitted || form.get('District')?.touched) && form.get('District')?.invalid" class="text-danger text-sm mt-1 font-bold">
+                            İlçe zorunludur.
+                        </div>
                     </div>
                     <div class="field mb-4 col-12 md:col-6">
                         <label for="buildingName" class="font-medium text-900"
