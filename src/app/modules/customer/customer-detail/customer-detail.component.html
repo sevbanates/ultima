@@ -1,9 +1,8 @@
 <div class="card">
-    <span class="text-900 text-xl font-bold mb-4 block">{{entity?.Id == null ? 'Cari Oluştur' : 'Cari Güncelle'}}</span>
+    <span class="text-900 text-xl font-bold mb-4 block">{{ form.get('Id')?.value == 0 ? 'Cari Oluştur' : 'Cari Güncelle' }}</span>
     <div class="grid">
-        {{entity | json}}
         <div class="col-12 lg:col-12">
-            <form [formGroup]="form">
+            <form [formGroup]="form" (ngSubmit)="save()">
                 <div class="grid formgrid p-fluid">
                     <div class="field mb-4 col-6">
                         <label for="name" class="font-medium text-900"
@@ -162,6 +161,8 @@
                             pRipple
                             label="Kaydet"
                             class="w-auto mt-3"
+                            type="submit"
+                            title="Kaydet"
                         ></button>
                     </div>
                 </div>

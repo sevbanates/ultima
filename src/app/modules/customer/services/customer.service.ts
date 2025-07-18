@@ -75,19 +75,12 @@ getCountryAndCities(): Observable<ResponseModel<CustomerAndCityModel>>
 //         );
 //     }
 
-//      updateEntity(id, input:UpdateWebSiteDto): Observable<ResponseModel<WebSiteDto>>
-//         {
-//             return  this._httpClient.put<ResponseModel<WebSiteDto>>(`${this.apiUrl}${this.controllerName}/${id}`,input)
-//                 .pipe(
-//                     tap((response) => {
-//                         if(response.IsSuccess){
-//                             this._entity.next(response.Entity);
-//                         }
-//                         return response;
-//                     }),
-
-//                 )
-//         }
+    updateEntity(input: CustomerDto): Observable<ResponseModel<boolean>> {
+        return this._httpClient.put<ResponseModel<boolean>>(
+            `${this.apiUrl}${this.controllerName}/update`,
+            input
+        );
+    }
 
 
 //      createEntity(input:CreateWebSiteDto): Observable<ResponseModel<boolean>>
@@ -97,4 +90,12 @@ getCountryAndCities(): Observable<ResponseModel<CustomerAndCityModel>>
 //   createParentOrTeacher(data:CreateParentOrTeacherDto,clientId:number):Observable<ResponseModel<UserBasicDto>>{
 //         return this._httpClient.post<ResponseModel<UserBasicDto>>(`${this.apiUrl}${this.controllerName}/${clientId}/create-website-user`,data);
 //     }
+
+    override getEntityById(id: number, guidId?: string): Observable<ResponseModel<CustomerDto>> {
+        let url = `${this.apiUrl}${this.controllerName}/${id}`;
+        if (guidId) {
+            url += `/${guidId}`;
+        }
+        return this._httpClient.get<ResponseModel<CustomerDto>>(url);
+    }
 }

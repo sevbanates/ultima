@@ -20,5 +20,5 @@ export const customerDetailResolver: ResolveFn<any> =
         let id=route.paramMap.get('id');
         let guidid=route.paramMap.get('guidid');
 
-      return inject(CustomerService).getEntityById(id,guidid);
+      return inject(CustomerService).getEntityById(Number(id),guidid);
     }

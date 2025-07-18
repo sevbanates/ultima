@@ -8,7 +8,15 @@
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Ara" class="w-full" />
                 </span>
-                <button (click)="navigateToCreateCustomer()" pButton class="p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1" icon="pi pi-user-plus" label="Yeni Cari Ekle"></button>
+                <button
+  type="button"
+  (click)="navigateToCreateCustomer()"
+  pButton
+  class="p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1"
+  icon="pi pi-user-plus"
+  label="Yeni Cari Ekle"
+  title="Yeni Cari Ekle">
+</button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -42,10 +50,20 @@
                     </div></td>
 
                        <td class="flex">
-        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editCustomer(customer)"></button>
-        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" ></button>
+        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editCustomer(customer)" title="Düzenle"></button>
+        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" title="Sil" (click)="openDeleteCustomerDialog(customer)"></button>
       </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
+<p-dialog [(visible)]="deleteCustomerDialog" header="Onayla" [modal]="true" [style]="{width:'350px'}">
+  <div class="flex align-items-center justify-content-center">
+    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+    <span>Seçili müşteriyi silmek istediğinize emin misiniz?</span>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hayır" (click)="closeDeleteCustomerDialog()" title="Hayır"></button>
+    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Evet" (click)="confirmDeleteCustomer()" title="Evet"></button>
+  </ng-template>
+</p-dialog>

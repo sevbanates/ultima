@@ -11,6 +11,7 @@ import { ClientActions } from "src/app/core/enums/actions-enum/actions.enum";
 import { Route, RouterModule } from "@angular/router";
 import { customerResolver } from "../services/customer.resolver";
 import { CustomerDetailComponent } from "../customer-detail/customer-detail.component";
+import { DialogModule } from 'primeng/dialog';
 
 
 const clientRoutes: Route[] = [
@@ -37,7 +38,8 @@ const clientRoutes: Route[] = [
         ButtonModule,
         InputTextModule,
         TableModule,
-        ProgressBarModule
+        ProgressBarModule,
+        DialogModule
     ]
 })
 export class CustomerListModule { }
