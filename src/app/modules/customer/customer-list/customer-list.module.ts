@@ -12,6 +12,7 @@ import { Route, RouterModule } from "@angular/router";
 import { customerResolver } from "../services/customer.resolver";
 import { CustomerDetailComponent } from "../customer-detail/customer-detail.component";
 import { DialogModule } from 'primeng/dialog';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 const clientRoutes: Route[] = [
@@ -39,7 +40,8 @@ const clientRoutes: Route[] = [
         InputTextModule,
         TableModule,
         ProgressBarModule,
-        DialogModule
+        DialogModule,
+        PaginatorModule
     ]
 })
 export class CustomerListModule { }

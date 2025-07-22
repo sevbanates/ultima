@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 import { BaseService } from 'src/app/core/services/base-service';
 import { ResponseModel } from 'src/app/core/models/response-model';
 import { Customer, CustomerDto } from '../models/customer.models';
-import { CustomerAndCityModel, CustomerListRequestModel } from '../models/customer.types';
+import { CustomerAndCityModel, DefaultCustomerListRequestModel } from '../models/customer.types';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CustomerService extends BaseService<Customer, CustomerListRequestModel>
+export class CustomerService extends BaseService<Customer, DefaultCustomerListRequestModel>
 {
     public readonly _customerBasic: BehaviorSubject<CustomerDto | null> = new BehaviorSubject(null);
     public readonly _myPage: BehaviorSubject<any | null> = new BehaviorSubject(null);

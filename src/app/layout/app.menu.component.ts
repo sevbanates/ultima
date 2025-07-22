@@ -41,7 +41,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Yeni Oluştur',
                         icon: 'pi pi-plus-circle',
-                        routerLink: ['/invoice/create']
+                        routerLink: ['/invoice/create/recipient']
                     },
                     {
                         label: 'Faturalarım',

@@ -1,6 +1,5 @@
 <div class="card">
-    <p-table #dt [value]="customers" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
-        currentPageReportTemplate="Toplam {totalRecords} kayıttan {first} - {last} arası gösteriliyor" [rowsPerPageOptions]="[10,25,50]"
+    <p-table #dt [value]="customers" responsiveLayout="scroll"
         [globalFilterFields]="['Name','Surname','Email', 'Phone']">
         <ng-template pTemplate="caption">
             <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
@@ -36,7 +35,7 @@
                     <!-- <img src="assets/demo/images/flag/flag_placeholder.png" [class]="'flag flag-' + customer.country.code" class="w-2rem mr-2"> -->
                     <span class="image-text">{{customer.Surname}}</span>
                 </td>
-                  <!-- <td>{{customer.CreDate | date: 'dd/MM/yyyy'}}</td> -->
+                  <!-- <td>{{customer.CreDate | date: 'dd/MM/yyyy'}}...</td> -->
                 <td>
                     <div class="inline-flex align-items-center">
                         <!-- <img [alt]="customer.representative.name" src="assets/demo/images/avatar/{{customer.representative.image}}" class="w-2rem mr-2" /> -->
@@ -56,6 +55,16 @@
             </tr>
         </ng-template>
     </p-table>
+<p-paginator
+    [rows]="requestModel.Limit"
+    [totalRecords]="pagination.TotalCount"
+    [first]="(requestModel.Page - 1) * requestModel.Limit"
+    [rowsPerPageOptions]="[5, 10, 25, 100]"
+    [showFirstLastIcon]="true"
+    [showCurrentPageReport]="true"
+    (onPageChange)="onPageChange($event)" 
+    currentPageReportTemplate="Toplam {totalRecords} kayıttan {first} - {last} arası gösteriliyor">
+</p-paginator>
 </div>
 <p-dialog [(visible)]="deleteCustomerDialog" header="Onayla" [modal]="true" [style]="{width:'350px'}">
   <div class="flex align-items-center justify-content-center">
