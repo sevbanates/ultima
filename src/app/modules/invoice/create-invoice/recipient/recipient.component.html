@@ -8,6 +8,20 @@
     </div>
   <form [formGroup]="form" class="grid p-fluid formgrid mt-4">
 
+    <div class="field col-12">
+      <label for="customerSelect">Müşteri Seç</label>
+      <p-dropdown
+        id="customerSelect"
+        [options]="customers"
+        optionLabel="Name"
+        placeholder="Müşteri Seçin"
+        (onChange)="onCustomerSelect($event.value)"
+        [showClear]="true"
+        [filter]="true"
+        class="w-full mb-3"
+      ></p-dropdown>
+    </div>
+
     <!-- VKN/TCKN -->
     <div class="field col-12 md:col-6">
       <span class="p-float-label">

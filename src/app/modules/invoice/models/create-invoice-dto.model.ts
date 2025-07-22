@@ -1,5 +1,5 @@
 import { BaseModel } from "src/app/core/models/base-model";
-import { InvoiceStatus, InvoiceTypes, Scenario } from "./invoice.types";
+import { InvoiceStatus, InvoiceTypes, InvoiceTypesEnum, Scenario } from "./invoice.types";
 
 export class InvoiceItemCreateDto {
   invoiceId: number;          // Backend birebir uyum için
@@ -25,7 +25,7 @@ export interface InvoiceCreateDto {
   // InvoiceHeader
   InvoiceDate: string;
   InvoiceNumber: string;
-  InvoiceType: InvoiceTypes;
+  InvoiceType: InvoiceTypesEnum;
   Scenario: Scenario;
   Currency: number;
   Note: string;

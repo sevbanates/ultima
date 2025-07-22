@@ -18,16 +18,37 @@ export class DefaultInvoiceListRequestModel extends InvoiceListRequestModel{
 }
 
 
-export enum InvoiceTypes {
-  Sales = 0,
-  // Diğer türler...
+
+
+export enum InvoiceTypesEnum {
+  Satis = 0,
+  Iade = 1,
+  Tevkifat = 2,
+  Istisna = 3,
+  OzelMatrah = 4,
+  Ihracat = 5
 }
+export const InvoiceTypes = [
+  { label: 'Satış', value: InvoiceTypesEnum.Satis },
+  { label: 'İade', value: InvoiceTypesEnum.Iade },
+  { label: 'Tevkifat', value: InvoiceTypesEnum.Tevkifat },
+  { label: 'İstisna', value: InvoiceTypesEnum.Istisna },
+  { label: 'Özel Matrah', value: InvoiceTypesEnum.OzelMatrah },
+  { label: 'İhracat', value: InvoiceTypesEnum.Ihracat }
+];
 
 export enum Scenario {
-  Basic = 0,
-  Commercial = 1,
+  EArsiv = 0,
+  TemelFatura = 1,
+  TicariFatura = 2,
   // Diğer senaryolar...
 }
+
+export const Scenarios = [
+  { label: 'E-Arşiv Fatura', value: Scenario.EArsiv },
+  { label: 'Temel Fatura', value: Scenario.TemelFatura },
+  { label: 'Ticari Fatura', value: Scenario.TicariFatura }
+];
 
 export enum InvoiceStatus {
   Draft = 0,

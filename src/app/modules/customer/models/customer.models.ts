@@ -37,6 +37,7 @@ export interface CustomerDto extends BaseModel {
   Surname: string;
   VknTckn: string;
   IsCompany: boolean;
+  Title?: string;
 
   // İletişim Bilgileri
   Email?: string;

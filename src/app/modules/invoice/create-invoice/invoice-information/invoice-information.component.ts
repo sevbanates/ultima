@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FormDataService } from '../../services/form-data.service';
+import { InvoiceTypes, Scenarios } from '../../models/invoice.types';
 
 @Component({
   selector: 'app-invoice-information',
@@ -12,7 +13,8 @@ export class InvoiceInformationComponent {
 
   warehouses = [{ label: 'Merkez Depo', value: 'merkez' }];
   currencies = [{ label: 'TRY - Türk Lirası', value: 'TRY' }];
-  invoiceTypes = [{ label: 'Satış', value: 'satis' }];
+  invoiceTypes = InvoiceTypes;
+  scnenarioTypes = Scenarios;
   scenarios = [{ label: 'E-Arşiv Fatura', value: 'earsiv' }];
   archiveTypes = [{ label: 'Elektronik', value: 'elektronik' }];
   serials = [{ label: 'E-Arşiv Fatura - EAR', value: 'EAR' }];
