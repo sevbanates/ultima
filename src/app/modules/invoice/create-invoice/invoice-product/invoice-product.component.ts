@@ -84,6 +84,44 @@ resetForm() {
   this.isEditMode = false;
   this.editingIndex = -1;
 }
+resetFormByEditingIndex() {
+  this.productForm.reset({ quantity: 0, unitPrice: 0 });
+  this.isEditMode = false;
+  // this.editingIndex = -1;
+}
+
+onUnitPriceInput(event: any) {
+  let value = event.target.value;
+  
+  // Noktalama işaretlerini kaldır
+  value = value.replace(/[^\d]/g, '');
+  
+  // Eğer boşsa 0 yap
+  if (!value) {
+    value = '0';
+  }
+  
+  // Form control'e set et
+  this.productForm.get('unitPrice')?.setValue(parseInt(value), { emitEvent: false });
+  
+  // Input'u formatla
+  event.target.value = this.formatNumber(parseInt(value));
+}
+
+formatNumber(value: number | null | undefined): string {
+  if (!value) return '';
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+onKeyPress(event: KeyboardEvent) {
+  // Sadece sayı tuşlarına izin ver (0-9)
+  const pattern = /[0-9]/;
+  const inputChar = String.fromCharCode(event.charCode);
+  
+  if (!pattern.test(inputChar)) {
+    event.preventDefault();
+  }
+}
 
 deleteProduct(index: number) {
   this.deleteProductDialog = true;
@@ -93,8 +131,8 @@ deleteProduct(index: number) {
 confirmDelete(){
    this.deleteProductDialog = false;
    this.productList.splice(this.index, 1);
-   if (this.isEditMode) {
-    this.resetForm();
+   if (this.isEditMode && this.editingIndex === this.index) {
+    this.resetFormByEditingIndex();
    }
 }
 

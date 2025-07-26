@@ -35,7 +35,7 @@
   <!-- Birim Fiyat -->
   <div class="col-12 md:col-4">
     <label for="unitPrice" class="block mb-2">Birim Fiyat</label>
-    <input id="unitPrice" type="number" pInputText formControlName="unitPrice" class="w-full" />
+    <input id="unitPrice" type="text" pInputText [value]="formatNumber(productForm.get('unitPrice')?.value)" (input)="onUnitPriceInput($event)" (keypress)="onKeyPress($event)" class="w-full" />
   </div>
 
   <!-- Ekle Butonu -->
@@ -69,7 +69,7 @@
       <td>{{ product.quantity }}</td>
       <td>{{ product.unit }}</td>
       <td>{{ product.vatRate }}%</td>
-      <td>{{ product.unitPrice | number:'1.2-2' }}</td>
+      <td>{{ product.unitPrice | number:'1.0-0':'tr' }}</td>
       <td class="text-right">
         <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editProduct(i)" title="Düzenle" type="button"></button>
         <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" (click)="deleteProduct(i)" title="Sil" type="button"></button>
