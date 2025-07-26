@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { FormDataService } from '../../services/form-data.service';
 import { InvoiceCreateDto, InvoiceItemCreateDto } from '../../models/create-invoice-dto.model';
 import { InvoiceService } from '../../services/invoice.service';
@@ -8,7 +9,25 @@ import { InvoiceStatus, InvoiceTypes, Scenario } from '../../models/invoice.type
 @Component({
   selector: 'app-invoice-product',
   templateUrl: './invoice-product.component.html',
-  styleUrl: './invoice-product.component.scss'
+  styleUrl: './invoice-product.component.scss',
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({
+        opacity: 0,
+        transform: 'scale(0.8)'
+      })),
+      state('*', style({
+        opacity: 1,
+        transform: 'scale(1)'
+      })),
+      transition('void => *', [
+        animate('400ms cubic-bezier(0.4, 0, 0.2, 1)')
+      ]),
+      transition('* => void', [
+        animate('300ms cubic-bezier(0.4, 0, 0.2, 1)')
+      ])
+    ])
+  ]
 })
 export class InvoiceProductComponent implements OnInit {
 productForm!: FormGroup;
@@ -121,6 +140,45 @@ onKeyPress(event: KeyboardEvent) {
   if (!pattern.test(inputChar)) {
     event.preventDefault();
   }
+}
+
+// Fiyat hesaplama methodları
+getTotalAmount(): number {
+  return this.productList.reduce((total, product) => {
+    const quantity = product.quantity || 0;
+    const unitPrice = product.unitPrice || 0;
+    return total + (quantity * unitPrice);
+  }, 0);
+}
+
+getTotalVAT(): number {
+  return this.productList.reduce((total, product) => {
+    const quantity = product.quantity || 0;
+    const unitPrice = product.unitPrice || 0;
+    
+    // vatRate bir obje olarak saklanıyor, value'sunu al
+    const vatRate = product.vatRate?.value || 0;
+    
+    const subtotal = quantity * unitPrice;
+    const vatAmount = subtotal * vatRate / 100;
+    
+    return total + vatAmount;
+  }, 0);
+}
+
+getTotalWithVAT(): number {
+  return this.getTotalAmount() + this.getTotalVAT();
+}
+
+// Tablo gösterimi için label methodları
+getUnitLabel(unit: any): string {
+  if (typeof unit === 'string') return unit;
+  return unit?.label || '';
+}
+
+getVatRateLabel(vatRate: any): string {
+  if (typeof vatRate === 'string') return vatRate;
+  return vatRate?.label || '';
 }
 
 deleteProduct(index: number) {

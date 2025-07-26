@@ -40,13 +40,33 @@
 
   <!-- Ekle Butonu -->
   <div class="col-12 text-right">
-    <button pButton type="button" [label]="isEditMode ? 'Güncelle' : 'Ekle'" [icon]="isEditMode ? 'pi pi-check' : 'pi pi-plus'" (click)="addProduct()" class="p-button-success p-button-sm p-button-rounded mr-2" [title]="isEditMode ? 'Güncelle' : 'Ekle'"></button>
-    <button *ngIf="isEditMode" pButton type="button" label="İptal" icon="pi pi-times" (click)="resetForm()" class="p-button-secondary p-button-sm p-button-rounded" title="İptal"></button>
+    <button pButton type="button" [label]="isEditMode ? 'Güncelle' : 'Ekle'" [icon]="isEditMode ? 'pi pi-check' : 'pi pi-plus'" (click)="addProduct()" class="p-button-success p-button-sm p-button-rounded mr-4" [title]="isEditMode ? 'Güncelle' : 'Ekle'"></button>
+    <button *ngIf="isEditMode" pButton type="button" label="İptal" icon="pi pi-times" (click)="resetForm()" class="p-button-danger p-button-sm p-button-rounded" title="İptal" [@fadeInOut]></button>
   </div>
 
 </form>
 
-
+<!-- Fiyat Hesaplama Alanı -->
+<div class="grid p-fluid p-3 border-round bg-gray-50 mb-3">
+  <div class="col-12 md:col-4">
+    <div class="p-3 border-round bg-white">
+      <h5 class="text-primary mb-2">Mal Hizmet Tutarı</h5>
+      <div class="text-2xl font-bold text-green-600">{{ getTotalAmount() | number:'1.0-0':'tr' }} ₺</div>
+    </div>
+  </div>
+  <div class="col-12 md:col-4">
+    <div class="p-3 border-round bg-white">
+      <h5 class="text-primary mb-2">Hesaplanan KDV</h5>
+      <div class="text-2xl font-bold text-orange-600">{{ getTotalVAT() | number:'1.0-0':'tr' }} ₺</div>
+    </div>
+  </div>
+  <div class="col-12 md:col-4">
+    <div class="p-3 border-round bg-white">
+      <h5 class="text-primary mb-2">Vergiler Dahil Toplam Tutar</h5>
+      <div class="text-2xl font-bold text-blue-600">{{ getTotalWithVAT() | number:'1.0-0':'tr' }} ₺</div>
+    </div>
+  </div>
+</div>
 
 <!-- Ürün Listesi Tablosu -->
 <p-table [value]="productList" responsiveLayout="scroll" class="p-datatable-sm">
@@ -65,10 +85,10 @@
   <ng-template pTemplate="body" let-product let-i="rowIndex">
     <tr [class.p-highlight]="isEditMode && editingIndex === i">
       <td>{{ product.productName }}</td>
-      <td>{{ product.productCode }}</td>
+      <!-- <td>{{ product.productCode }}</td> -->
       <td>{{ product.quantity }}</td>
-      <td>{{ product.unit }}</td>
-      <td>{{ product.vatRate }}%</td>
+      <td>{{ getUnitLabel(product.unit) }}</td>
+      <td>{{ getVatRateLabel(product.vatRate) }}%</td>
       <td>{{ product.unitPrice | number:'1.0-0':'tr' }}</td>
       <td class="text-right">
         <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editProduct(i)" title="Düzenle" type="button"></button>
