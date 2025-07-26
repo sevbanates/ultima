@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormDataService } from '../../services/form-data.service';
 import { CustomerService } from '../../../customer/services/customer.service';
 import { CustomerDto } from '../../../customer/models/customer.models';
+import { SelectNumberModel } from 'src/app/core/models/utility-model';
+import { InvoiceService } from '../../services/invoice.service';
+import { CustomerSelectModel } from 'src/app/modules/customer/models/customer.types';
 
 @Component({
   selector: 'app-recipient',
@@ -13,13 +16,14 @@ export class RecipientComponent implements OnInit {
   form!: FormGroup;
   @Output() formReady = new EventEmitter<FormGroup>();
 
-  customers: CustomerDto[] = [];
-  selectedCustomer: CustomerDto | null = null;
+  customers: CustomerSelectModel[] = [];
+  selectedCustomer: CustomerSelectModel | null = null;
 
   constructor(
     private fb: FormBuilder,
     private formDataService: FormDataService,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private invoiceService: InvoiceService
   ) {}
 
   ngOnInit(): void {
@@ -35,8 +39,8 @@ export class RecipientComponent implements OnInit {
     this.formReady.emit(this.form);
 
     // Müşteri listesini çek
-    this.customerService.getEntityPage({ Page: 1, Limit: 100 }).subscribe(res => {
-      this.customers = res.EntityList || [];
+    this.invoiceService.getCustomers().subscribe(res => {
+      this.customers = res.Entity || [];
     });
 
     const savedData = this.formDataService.getStepData('recipient');
@@ -49,7 +53,7 @@ export class RecipientComponent implements OnInit {
     });
   }
 
-  onCustomerSelect(customer: CustomerDto) {
+  onCustomerSelect(customer: CustomerSelectModel) {
     this.selectedCustomer = customer;
     this.form.patchValue({
       vkn: customer.VknTckn,

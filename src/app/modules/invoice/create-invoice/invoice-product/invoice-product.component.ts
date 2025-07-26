@@ -14,6 +14,9 @@ export class InvoiceProductComponent implements OnInit {
 productForm!: FormGroup;
 deleteProductDialog: boolean = false;
 index: number;
+isEditMode: boolean = false;
+editingIndex: number = -1;
+
   constructor(private fb: FormBuilder, private formData: FormDataService, private invoiceService: InvoiceService) {
     
   }
@@ -21,8 +24,8 @@ index: number;
 
     this.productForm = this.fb.group({
   productName: ['', Validators.required],
-  productCode: [''],
-  quantity: [1, Validators.required],
+  // productCode: [''],
+  quantity: [0, Validators.required],
   unit: ['', Validators.required],
   vatRate: ['', Validators.required],
   unitPrice: [0, Validators.required],
@@ -46,9 +49,9 @@ units = [
 ];
 
 vatRates = [
+  { label: '%0', value: 0 },
   { label: '%1', value: 1 },
-  { label: '%8', value: 8 },
-  { label: '%18', value: 18 },
+  { label: '%10', value: 10 },
   { label: '%20', value: 20 },
 ];
 
@@ -57,15 +60,29 @@ productList: any[] = [];
 
 addProduct() {
   if (this.productForm.valid) {
-    this.productList.push(this.productForm.value);
-    this.productForm.reset({ quantity: 1, unitPrice: 0 });
+    if (this.isEditMode) {
+      // Update existing product
+      this.productList[this.editingIndex] = this.productForm.value;
+      this.resetForm();
+    } else {
+      // Add new product
+      this.productList.push(this.productForm.value);
+      this.productForm.reset({ quantity: 0, unitPrice: 0 });
+    }
   }
 }
 
 editProduct(index: number) {
   const selected = this.productList[index];
   this.productForm.patchValue(selected);
-  this.productList.splice(index, 1);
+  this.isEditMode = true;
+  this.editingIndex = index;
+}
+
+resetForm() {
+  this.productForm.reset({ quantity: 0, unitPrice: 0 });
+  this.isEditMode = false;
+  this.editingIndex = -1;
 }
 
 deleteProduct(index: number) {
@@ -76,6 +93,9 @@ deleteProduct(index: number) {
 confirmDelete(){
    this.deleteProductDialog = false;
    this.productList.splice(this.index, 1);
+   if (this.isEditMode) {
+    this.resetForm();
+   }
 }
 
 completeTask(){

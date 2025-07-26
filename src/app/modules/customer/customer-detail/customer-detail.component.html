@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="field mb-4 col-12 md:col-6">
-                        <label for="city" class="font-medium text-900">Şehir <span class="text-danger">*</span></label>
+                        <label for="city" class="font-medium text-900">İl <span class="text-danger">*</span></label>
                         <input formControlName="City" id="city" type="text" pInputText />
                         <div *ngIf="(submitted || form.get('City')?.touched) && form.get('City')?.invalid" class="text-danger text-sm mt-1 font-bold">
                             Şehir zorunludur.
@@ -75,7 +75,7 @@
                     </div>
                     <div class="field mb-4 col-12 md:col-6">
                         <label for="buildingNumber" class="font-medium text-900"
-                            >Bina Numarası</label
+                            >Dış Kapı</label
                         >
                         <input formControlName="BuildingNumber" id="buildingNumber" type="text" pInputText />
                     </div>
@@ -87,28 +87,28 @@
                     </div>
                     <div class="field mb-4 col-12 md:col-6">
                         <label for="doorNumber" class="font-medium text-900"
-                            >Kapı Numarası</label
+                            >İç Kapı</label
                         >
                         <input formControlName="DoorNumber" id="doorNumber" type="text" pInputText />
                     </div>
-                    <div class="field mb-4 col-12 md:col-6">
+                    <!-- <div class="field mb-4 col-12 md:col-6">
                         <label for="postalCode" class="font-medium text-900"
                             >Posta Kodu</label
                         >
                         <input formControlName="PostalCode" id="postalCode" type="text" pInputText />
-                    </div>
+                    </div> -->
                     <div class="field mb-4 col-12 md:col-6">
                         <label for="fullAddress" class="font-medium text-900"
                             >Açık Adres</label
                         >
                         <input formControlName="FullAddress" id="fullAddress" type="text" pInputText />
                     </div>
-                    <div class="field mb-4 col-12 md:col-6">
+                    <!-- <div class="field mb-4 col-12 md:col-6">
                         <label for="addressDescription" class="font-medium text-900"
                             >Adres Açıklaması</label
                         >
                         <input formControlName="AddressDescription" id="addressDescription" type="text" pInputText />
-                    </div>
+                    </div> -->
                     <!-- <div class="field mb-4 col-12">
                         <label for="website" class="font-medium text-900"
                             >Website</label

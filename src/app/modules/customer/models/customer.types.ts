@@ -19,3 +19,13 @@ export class CustomerAndCityModel {
     Cities: SelectNumberModel[] = [];
 }
 
+export class CustomerSelectModel {
+    Id: number;
+    FullName: string;
+    Name: string;
+    Surname: string;
+    Title?: string;
+    VknTckn: string;
+    IsCompany: boolean;
+  }
+

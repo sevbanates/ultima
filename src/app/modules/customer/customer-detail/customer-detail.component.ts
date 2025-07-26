@@ -72,8 +72,8 @@ export class CustomerDetailComponent implements OnInit {
       BuildingNumber: [],
       FloorNumber: [],
       DoorNumber: [],
-      PostalCode: [],
-      AddressDescription: [],
+      // PostalCode: [],
+      // AddressDescription: [],
       CreDate: [],
     });
   }

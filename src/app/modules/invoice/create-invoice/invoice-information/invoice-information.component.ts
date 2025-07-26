@@ -24,7 +24,7 @@ export class InvoiceInformationComponent {
   ngOnInit(): void {
     this.form = this.fb.group({
       invoiceDate: [new Date()],
-      warehouse: [null],
+      // warehouse: [null],
       currency: [null],
       invoiceType: [null],
       scenario: [null],

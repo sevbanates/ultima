@@ -5,6 +5,8 @@ import { Invoice, InvoiceDto, InvoiceCreateDto } from '../models/create-invoice-
 import { InvoiceListRequestModel } from '../models/invoice.types';
 import { BaseService } from 'src/app/core/services/base-service';
 import { ResponseModel } from 'src/app/core/models/response-model';
+import { SelectNumberModel } from 'src/app/core/models/utility-model';
+import { CustomerSelectModel } from '../../customer/models/customer.types';
 
 @Injectable({
     providedIn: 'root'
@@ -41,6 +43,11 @@ export class InvoiceService extends BaseService<Invoice, InvoiceListRequestModel
 createEntity(input:InvoiceCreateDto): Observable<ResponseModel<boolean>>
         {
             return  this._httpClient.post<ResponseModel<boolean>>(`${this.apiUrl}${this.controllerName}/create-invoice`,input);
+        }
+
+        getCustomers(): Observable<ResponseModel<CustomerSelectModel[]>> {
+            return this._httpClient.get<ResponseModel<CustomerSelectModel[]>>(
+                `${this.apiUrl}${this.controllerName}/get-customers`);
         }
     // create(ss: InvoiceCreateDto): Observable<ResponseModel<boolean>>{
     //      return this._httpClient.post<ResponseModel<boolean>>(`${this.apiUrl}${this.controllerName}/basic/${guidId}`).pipe(

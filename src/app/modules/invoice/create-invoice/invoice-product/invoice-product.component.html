@@ -4,15 +4,15 @@
 
   <!-- Ürün Adı -->
   <div class="col-12 md:col-4">
-    <label for="productName" class="block mb-2">Ürün veya Hizmet Adı</label>
+    <label for="productName" class="block mb-2">Mal veya Hizmet Adı</label>
     <input id="productName" type="text" pInputText formControlName="productName" class="w-full" />
   </div>
 
   <!-- Kod -->
-  <div class="col-12 md:col-4">
+  <!-- <div class="col-12 md:col-4">
     <label for="productCode" class="block mb-2">Kod</label>
     <input id="productCode" type="text" pInputText formControlName="productCode" class="w-full" />
-  </div>
+  </div> -->
 
   <!-- Miktar -->
   <div class="col-12 md:col-4">
@@ -40,7 +40,8 @@
 
   <!-- Ekle Butonu -->
   <div class="col-12 text-right">
-    <button pButton type="button" label="Ekle" icon="pi pi-plus" (click)="addProduct()" class="p-button-success p-button-sm p-button-rounded" title="Ekle"></button>
+    <button pButton type="button" [label]="isEditMode ? 'Güncelle' : 'Ekle'" [icon]="isEditMode ? 'pi pi-check' : 'pi pi-plus'" (click)="addProduct()" class="p-button-success p-button-sm p-button-rounded mr-2" [title]="isEditMode ? 'Güncelle' : 'Ekle'"></button>
+    <button *ngIf="isEditMode" pButton type="button" label="İptal" icon="pi pi-times" (click)="resetForm()" class="p-button-secondary p-button-sm p-button-rounded" title="İptal"></button>
   </div>
 
 </form>
@@ -52,7 +53,7 @@
   <ng-template pTemplate="header">
     <tr>
       <th>Ad</th>
-      <th>Kod</th>
+      <!-- <th>Kod</th> -->
       <th>Miktar</th>
       <th>Birim</th>
       <th>KDV</th>
@@ -62,7 +63,7 @@
   </ng-template>
 
   <ng-template pTemplate="body" let-product let-i="rowIndex">
-    <tr>
+    <tr [class.p-highlight]="isEditMode && editingIndex === i">
       <td>{{ product.productName }}</td>
       <td>{{ product.productCode }}</td>
       <td>{{ product.quantity }}</td>

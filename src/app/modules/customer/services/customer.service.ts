@@ -5,6 +5,7 @@ import { BaseService } from 'src/app/core/services/base-service';
 import { ResponseModel } from 'src/app/core/models/response-model';
 import { Customer, CustomerDto } from '../models/customer.models';
 import { CustomerAndCityModel, DefaultCustomerListRequestModel } from '../models/customer.types';
+import { SelectNumberModel } from 'src/app/core/models/utility-model';
 
 @Injectable({
     providedIn: 'root'
@@ -44,6 +45,8 @@ export class CustomerService extends BaseService<Customer, DefaultCustomerListRe
             input
         );
     }
+
+
 
 getCountryAndCities(): Observable<ResponseModel<CustomerAndCityModel>>
         {
