@@ -74,10 +74,13 @@
     <tr>
       <th>Ad</th>
       <!-- <th>Kod</th> -->
-      <th>Miktar</th>
+     
       <th>Birim</th>
       <th>KDV</th>
+      <th>Miktar</th>
       <th>Birim Fiyat</th>
+      <th>KDV Tutarı</th>
+      <th>Toplam Tutar</th>
       <th>İşlem</th>
     </tr>
   </ng-template>
@@ -86,10 +89,13 @@
     <tr [class.p-highlight]="isEditMode && editingIndex === i">
       <td>{{ product.productName }}</td>
       <!-- <td>{{ product.productCode }}</td> -->
-      <td>{{ product.quantity }}</td>
+     
       <td>{{ getUnitLabel(product.unit) }}</td>
       <td>{{ getVatRateLabel(product.vatRate) }}%</td>
+      <td>{{ product.quantity }}</td>
       <td>{{ product.unitPrice | number:'1.0-0':'tr' }}</td>
+      <td>{{ getProductVATAmount(product) | number:'1.0-0':'tr' }}</td>
+      <td>{{ getProductTotalAmount(product) | number:'1.0-0':'tr' }}</td>
       <td class="text-right">
         <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editProduct(i)" title="Düzenle" type="button"></button>
         <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" (click)="deleteProduct(i)" title="Sil" type="button"></button>
@@ -99,14 +105,14 @@
 </p-table>
 
 
-  <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+  <p-dialog [(visible)]="deleteProductDialog" header="Silme İşlemi" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span >Silmek istediğinize emin misiniz? <b></b>?</span>
+                <span >Silmek istediğinize emin misiniz? <b></b></span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false" title="Hayır" type="button"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()" title="Evet" type="button"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Vazgeç" (click)="deleteProductDialog = false" title="Hayır" type="button"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Evet" (click)="confirmDelete()" title="Evet" type="button"></button>
             </ng-template>
         </p-dialog>
 

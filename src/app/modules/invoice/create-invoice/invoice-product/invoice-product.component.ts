@@ -49,9 +49,17 @@ editingIndex: number = -1;
   vatRate: ['', Validators.required],
   unitPrice: [0, Validators.required],
 });
+    
+    // Kaydedilmiş form verilerini yükle
     const savedData = this.formData.getStepData('invoiceProduct');
     if (savedData) {
       this.productForm.patchValue(savedData);
+    }
+
+    // Kaydedilmiş ürün listesini yükle
+    const savedProductList = this.formData.getStepData('productList');
+    if (savedProductList && Array.isArray(savedProductList)) {
+      this.productList = savedProductList;
     }
 
       this.productForm.valueChanges.subscribe(value => {
@@ -88,6 +96,9 @@ addProduct() {
       this.productList.push(this.productForm.value);
       this.productForm.reset({ quantity: 0, unitPrice: 0 });
     }
+    
+    // Ürün listesini kaydet
+    this.formData.setStepData('productList', this.productList);
   }
 }
 
@@ -144,6 +155,10 @@ onKeyPress(event: KeyboardEvent) {
 
 // Fiyat hesaplama methodları
 getTotalAmount(): number {
+  if (!Array.isArray(this.productList)) {
+    return 0;
+  }
+  
   return this.productList.reduce((total, product) => {
     const quantity = product.quantity || 0;
     const unitPrice = product.unitPrice || 0;
@@ -152,6 +167,10 @@ getTotalAmount(): number {
 }
 
 getTotalVAT(): number {
+  if (!Array.isArray(this.productList)) {
+    return 0;
+  }
+  
   return this.productList.reduce((total, product) => {
     const quantity = product.quantity || 0;
     const unitPrice = product.unitPrice || 0;
@@ -181,6 +200,25 @@ getVatRateLabel(vatRate: any): string {
   return vatRate?.label || '';
 }
 
+// Tekil ürün hesaplama methodları
+getProductVATAmount(product: any): number {
+  const quantity = product.quantity || 0;
+  const unitPrice = product.unitPrice || 0;
+  const vatRate = product.vatRate?.value || 0;
+  
+  const subtotal = quantity * unitPrice;
+  return subtotal * vatRate / 100;
+}
+
+getProductTotalAmount(product: any): number {
+  const quantity = product.quantity || 0;
+  const unitPrice = product.unitPrice || 0;
+  const vatAmount = this.getProductVATAmount(product);
+  
+  const subtotal = quantity * unitPrice;
+  return subtotal + vatAmount;
+}
+
 deleteProduct(index: number) {
   this.deleteProductDialog = true;
   this.index = index;
@@ -189,9 +227,13 @@ deleteProduct(index: number) {
 confirmDelete(){
    this.deleteProductDialog = false;
    this.productList.splice(this.index, 1);
-   if (this.isEditMode && this.editingIndex === this.index) {
-    this.resetFormByEditingIndex();
-   }
+   
+   // Ürün listesini kaydet
+   this.formData.setStepData('productList', this.productList);
+   
+    if (this.isEditMode && this.editingIndex === this.index) {
+     this.resetFormByEditingIndex();
+    }
 }
 
 completeTask(){
