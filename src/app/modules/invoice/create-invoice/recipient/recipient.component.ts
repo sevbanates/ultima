@@ -34,7 +34,7 @@ export class RecipientComponent implements OnInit {
       title: [''],
       taxOffice: [''],
       address: [''],
-      deliveryAddress: ['']
+      // deliveryAddress: ['']
     });
     this.formReady.emit(this.form);
 
