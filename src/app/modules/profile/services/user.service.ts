@@ -8,7 +8,7 @@ import { SelectNumberModel } from 'src/app/core/models/utility-model';
   providedIn: 'root'
 })
 export class UserService extends BaseService<User,UserListRequestModel> {
-  override controllerName: "users";
+  override controllerName: string = "users";
 
   // private _roles: BehaviorSubject<Array<SelectNumberModel> | null> = new BehaviorSubject(null);
   private _roles: BehaviorSubject<SelectNumberModel[] | null> = new BehaviorSubject<SelectNumberModel[] | null>(null);

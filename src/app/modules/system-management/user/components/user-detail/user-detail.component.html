@@ -1,0 +1,91 @@
+<button pButton type="button" icon="pi pi-arrow-left" label="Geri Dön" class="p-button-text mb-3" (click)="goBack()" title="Geri Dön" style="margin-left:0;"></button>
+<div class="card surface-card p-4 max-w-2xl mx-auto mt-5">
+  <div class="flex justify-content-between align-items-center mb-4">
+    <h2 class="text-xl font-semibold">{{ isEditMode ? 'Kullanıcı Detayı' : 'Yeni Kullanıcı Ekle' }}</h2>
+    <button pButton type="button" icon="pi pi-key" label="Şifre Değiştir" 
+            class="p-button-outlined p-button-secondary" 
+            (click)="changePassword()" title="Şifre Değiştir"
+            *ngIf="isEditMode"></button>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="grid formgrid p-fluid">
+      <!-- 1. Satır -->
+      <div class="field mb-4 col-12 md:col-6">
+        <label for="UserName">Kullanıcı Adı <span class="text-red-500 font-bold">*</span></label>
+        <input id="UserName" type="text" formControlName="UserName" pInputText class="w-full" />
+        <div *ngIf="f['UserName'].touched && f['UserName'].invalid" class="text-red-500 text-xs mt-1 font-bold">
+          <div *ngIf="f['UserName'].errors?.['required']">Kullanıcı adı zorunlu.</div>
+          <div *ngIf="f['UserName'].errors?.['minlength']">En az 3 karakter olmalı.</div>
+        </div>
+      </div>
+      <div class="field mb-4 col-12 md:col-6">
+        <label for="FirstName">Ad <span class="text-red-500 font-bold">*</span></label>
+        <input id="FirstName" type="text" formControlName="FirstName" pInputText class="w-full" />
+        <div *ngIf="f['FirstName'].touched && f['FirstName'].invalid" class="text-red-500 text-xs mt-1 font-bold">
+          <div *ngIf="f['FirstName'].errors?.['required']">Ad zorunlu.</div>
+        </div>
+      </div>
+      <!-- 2. Satır -->
+      <div class="field mb-4 col-12 md:col-6">
+        <label for="LastName">Soyad <span class="text-red-500 font-bold">*</span></label>
+        <input id="LastName" type="text" formControlName="LastName" pInputText class="w-full" />
+        <div *ngIf="f['LastName'].touched && f['LastName'].invalid" class="text-red-500 text-xs mt-1 font-bold">
+          <div *ngIf="f['LastName'].errors?.['required']">Soyad zorunlu.</div>
+        </div>
+      </div>
+      <div class="field mb-4 col-12 md:col-6">
+        <label for="Email">Email <span class="text-red-500 font-bold">*</span></label>
+        <input id="Email" type="email" formControlName="Email" pInputText class="w-full" />
+        <div *ngIf="f['Email'].touched && f['Email'].invalid" class="text-red-500 text-xs mt-1 font-bold">
+          <div *ngIf="f['Email'].errors?.['required']">Email zorunlu.</div>
+          <div *ngIf="f['Email'].errors?.['email']">Geçerli bir email girin.</div>
+        </div>
+      </div>
+      <!-- 3. Satır -->
+      <div class="field mb-4 col-12 md:col-6">
+        <label for="PhoneNumber">Telefon <span class="text-red-500 font-bold">*</span></label>
+        <input id="PhoneNumber" type="text" formControlName="PhoneNumber" pInputText class="w-full" />
+        <div *ngIf="f['PhoneNumber'].touched && f['PhoneNumber'].invalid" class="text-red-500 text-xs mt-1 font-bold">
+          <div *ngIf="f['PhoneNumber'].errors?.['required']">Telefon zorunlu.</div>
+          <div *ngIf="f['PhoneNumber'].errors?.['minlength']">En az 10 karakter olmalı.</div>
+        </div>
+      </div>
+      <div class="field mb-4 col-12 md:col-6" *ngIf="!isEditMode">
+        <label for="Password">Şifre <span class="text-red-500 font-bold">*</span></label>
+        <input id="Password" type="password" formControlName="Password" pInputText class="w-full" />
+        <div *ngIf="f['Password'].touched && f['Password'].invalid" class="text-red-500 text-xs mt-1 font-bold">
+          <div *ngIf="f['Password'].errors?.['required']">Şifre zorunlu.</div>
+          <div *ngIf="f['Password'].errors?.['minlength']">En az 6 karakter olmalı.</div>
+        </div>
+      </div>
+      <!-- 4. Satır -->
+      <div class="field mb-4 col-12 md:col-6" *ngIf="!isEditMode">
+        <label for="PasswordConfirmation">Şifre Tekrar <span class="text-red-500 font-bold">*</span></label>
+        <input id="PasswordConfirmation" type="password" formControlName="PasswordConfirmation" pInputText class="w-full" />
+        <div *ngIf="f['PasswordConfirmation'].touched && f['PasswordConfirmation'].invalid" class="text-red-500 text-xs mt-1 font-bold">
+          <div *ngIf="f['PasswordConfirmation'].errors?.['required']">Şifre tekrarı zorunlu.</div>
+          <div *ngIf="f['PasswordConfirmation'].errors?.['notMatch']">Şifreler eşleşmiyor.</div>
+        </div>
+      </div>
+      <div class="field mb-4 col-12 md:col-6">
+        <label for="RoleId">Rol <span class="text-red-500 font-bold">*</span></label>
+        <input id="RoleId" type="number" formControlName="RoleId" pInputText class="w-full" />
+        <div *ngIf="f['RoleId'].touched && f['RoleId'].invalid" class="text-red-500 text-xs mt-1 font-bold">
+          <div *ngIf="f['RoleId'].errors?.['required']">Rol seçimi zorunlu.</div>
+        </div>
+      </div>
+      <!-- 5. Satır -->
+      <div class="field mb-4 col-12 md:col-6 flex align-items-center gap-2">
+        <label for="IsActive">Aktif mi?</label>
+        <p-checkbox id="IsActive" formControlName="IsActive" [binary]="true"></p-checkbox>
+      </div>
+      <!-- <div class="field mb-4 col-12 md:col-6">
+        <label for="ClientId">Client Id</label>
+        <input id="ClientId" type="number" formControlName="ClientId" pInputText class="w-full" />
+      </div> -->
+      <div class="col-12 text-right">
+        <button pButton type="submit" label="Kaydet" class="p-button-primary"></button>
+      </div>
+    </div>
+  </form>
+</div>

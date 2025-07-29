@@ -29,7 +29,9 @@ const routes: Routes = [
             { path: 'apps', data: { breadcrumb: 'Apps' }, loadChildren: () => import('./demo/components/apps/apps.module').then(m => m.AppsModule) },
             { path: 'profile', data: { breadcrumb: 'Profil' }, loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule) },
             { path: 'invoice', data: { breadcrumb: 'Invoice' }, loadChildren: () => import('./modules/invoice/invoice.module').then(m => m.InvoiceModule) },
-            { path: 'customer', data: { breadcrumb: 'Customer' }, loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule) }
+            { path: 'customer', data: { breadcrumb: 'Customer' }, loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule) },
+            { path: 'controllers', data: { breadcrumb: 'Controllers' }, loadChildren: () => import('./modules/system-management/system-management.module').then(m => m.SystemManagementModule) },
+            { path: 'users', data: { breadcrumb: 'Users' }, loadChildren: () => import('./modules/system-management/user/user.module').then(m => m.UserModule) }
         ]
     },
     { path: 'auth', canMatch: [NoAuthGuard], data: { breadcrumb: 'Auth' }, loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule2) },

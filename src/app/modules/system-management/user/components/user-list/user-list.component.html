@@ -1,0 +1,78 @@
+<div class="card">
+    <p-table #dt [value]="users" responsiveLayout="scroll"
+        [globalFilterFields]="['Name','Surname','Email', 'Phone']">
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Ara" class="w-full" />
+                </span>
+                <button
+  type="button"
+  (click)="navigateToCreateUser()"
+  pButton
+  class="p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1"
+  icon="pi pi-user-plus"
+  label="Yeni Kullanıcı Ekle"
+  title="Yeni Kullanıcı Ekle">
+</button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="Name" class="white-space-nowrap" style="width:25%">Ad <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="Surname" class="white-space-nowrap" style="width:25%">Soyad <p-sortIcon field="country.name"></p-sortIcon></th>
+                <!-- <th pSortableColumn="CreDate" class="white-space-nowrap" style="width:25%">Olş. Tarihi <p-sortIcon field="date"></p-sortIcon></th> -->
+                <th pSortableColumn="Phone" class="white-space-nowrap" style="width:25%">Telefon Numarası <p-sortIcon field="representative.name"></p-sortIcon></th>
+                <th pSortableColumn="Email" class="white-space-nowrap" style="width:25%">Mail <p-sortIcon field="activity"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{user.FirstName}}</td>
+                <td>
+                    <!-- <img src="assets/demo/images/flag/flag_placeholder.png" [class]="'flag flag-' + customer.country.code" class="w-2rem mr-2"> -->
+                    <span class="image-text">{{user.LastName}}</span>
+                </td>
+                  <!-- <td>{{customer.CreDate | date: 'dd/MM/yyyy'}}...</td> -->
+                <td>
+                    <div class="inline-flex align-items-center">
+                        <!-- <img [alt]="customer.representative.name" src="assets/demo/images/avatar/{{customer.representative.image}}" class="w-2rem mr-2" /> -->
+                        <span>{{user.PhoneNumber}}</span>
+                    </div>
+                </td>
+              
+                <td> <div class="inline-flex align-items-center">
+                        <!-- <img [alt]="customer.representative.name" src="assets/demo/images/avatar/{{customer.representative.image}}" class="w-2rem mr-2" /> -->
+                        <span>{{user.Email}}</span>
+                    </div></td>
+
+                       <td class="flex">
+        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editUser(user)" title="Düzenle" type="button"></button>
+        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" title="Sil" (click)="openDeleteUserDialog(user)" type="button"></button>
+      </td>
+            </tr>
+        </ng-template>
+    </p-table>
+<p-paginator
+    [rows]="requestModel.Limit"
+    [totalRecords]="pagination.TotalCount"
+    [first]="(requestModel.Page - 1) * requestModel.Limit"
+    [rowsPerPageOptions]="[5, 10, 25, 100]"
+    [showFirstLastIcon]="true"
+    [showCurrentPageReport]="true"
+    (onPageChange)="onPageChange($event)" 
+    currentPageReportTemplate="Toplam {totalRecords} kayıttan {first} - {last} arası gösteriliyor">
+</p-paginator>
+</div>
+<p-dialog [(visible)]="deleteUserDialog" header="Onayla" [modal]="true" [style]="{width:'350px'}">
+  <div class="flex align-items-center justify-content-center">
+    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+    <span>Seçili kullanıcıyı silmek istediğinize emin misiniz?</span>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hayır" (click)="closeDeleteUserDialog()" title="Hayır" type="button"></button>
+    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Evet" (click)="confirmDeleteUser()" title="Evet" type="button"></button>
+  </ng-template>
+</p-dialog>

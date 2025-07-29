@@ -1,0 +1,75 @@
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.card {
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 1.5px 4px rgba(0,0,0,0.03);
+    padding: 2.5rem 2rem 2rem 2rem;
+    background: #fff;
+}
+
+.card .text-xl {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+/* .formgrid ve .field ile ilgili tüm özel stiller kaldırıldı */
+
+label {
+    font-size: 1.05rem;
+    margin-bottom: 0.35rem;
+    color: #495057;
+    letter-spacing: 0.01em;
+}
+
+input[pInputText],
+.p-inputtext {
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    padding: 0.7rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #f9fafb;
+}
+
+input[pInputText]:focus,
+.p-inputtext:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px #6366f133;
+    background: #fff;
+}
+
+.p-dropdown {
+    border-radius: 8px;
+    background: #f9fafb;
+}
+
+.p-dropdown:focus-within {
+    box-shadow: 0 0 0 2px #6366f133;
+    border-color: #6366f1;
+}
+
+button[pButton] {
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    padding: 0.7rem 2.2rem;
+    font-size: 1.08rem;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.07);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+button[pButton]:hover {
+    background: #6366f1;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.13);
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 1.2rem 0.5rem;
+    }
+}

@@ -103,7 +103,7 @@ export class CreateUserDto  {
     PasswordConfirmation:string;
     RoleId: number;
     IsActive: boolean;
-    ClientId: number|null;
+    // ClientId: number|null;
 
 }
 
