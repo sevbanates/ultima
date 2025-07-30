@@ -1,12 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { SystemManagementRoutingModule } from "./system-management-routing.module";
+import { ControllerRoutingModule } from "./controller-routing.module";
 
 @NgModule({
     declarations: [],
     imports: [
         CommonModule,
-        SystemManagementRoutingModule
+        ControllerRoutingModule
     ]
 })
-export class SystemManagementModule { }
+export class ControllerModule { }

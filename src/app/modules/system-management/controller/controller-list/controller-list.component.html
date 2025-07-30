@@ -1,31 +1,84 @@
+<ng-container *ngIf="(roles$ | async) as roles">
+  <div class="mb-4">
+    <h3 class="text-lg font-semibold mb-3">Rol Seçin</h3>
+    <div class="flex flex-wrap gap-2">
+      <ng-container *ngFor="let role of roles; trackBy: trackByFn">
+          <div
+              class="relative flex items-center py-2 px-4 font-medium rounded-full cursor-pointer transition-all duration-200 hover:bg-blue-50"
+              [class.selected]="selectedRole?.Value === role.Value"
+              [class.bg-blue-100]="selectedRole?.Value === role.Value"
+              [class.text-blue-700]="selectedRole?.Value === role.Value"
+              (click)="filterByRole(role)"
+              matRipple>
+            <i class="pi pi-tag"></i>
+              <div class="ml-3 leading-5 select-none text-default">{{role.Text}}</div>
+          </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+
 <div class="card surface-card p-4">
-  <table class="w-full">
-    <thead>
-      <tr>
-        <th class="text-left p-3">Controller Name</th>
-        <th class="text-left p-3">Active Actions</th>
-        <th class="text-left p-3">Edit</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let controller of controllers">
-        <td class="p-3 font-semibold">{{ controller.ControllerName }}</td>
-        <td class="p-3">
-          <ng-container *ngIf="hasActiveActions(controller); else noAuth">
-            <ng-container *ngFor="let action of controller.Actions">
-              <ng-container *ngIf="action.Active">
-                <span class="px-3 py-1 mr-2 border-round-xl text-sm font-medium surface-section" style="display:inline-block; min-width:60px; text-align:center;">{{ action.ActionName }}</span>
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="flex justify-center items-center py-8">
+    <div class="flex flex-col items-center">
+      <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="4" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+      <p class="mt-3 text-gray-600">İzinler yükleniyor...</p>
+    </div>
+  </div>
+
+  <!-- Content when not loading -->
+  <div *ngIf="!isLoading">
+    <!-- No role selected -->
+    <div *ngIf="!selectedRole" class="text-center py-8">
+      <i class="pi pi-info-circle text-4xl text-blue-500 mb-3"></i>
+      <p class="text-gray-600">Lütfen yukarıdan bir rol seçin</p>
+    </div>
+
+    <!-- No controllers found -->
+    <div *ngIf="selectedRole && (!controllers || controllers.length === 0)" class="text-center py-8">
+      <i class="pi pi-exclamation-triangle text-4xl text-orange-500 mb-3"></i>
+      <p class="text-gray-600">Seçili rol için herhangi bir controller bulunamadı</p>
+    </div>
+
+    <!-- Controllers table -->
+    <div *ngIf="selectedRole && controllers && controllers.length > 0">
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold">{{ selectedRole.Text }} - İzinler</h3>
+        <p class="text-sm text-gray-600">Toplam {{ controllers.length }} controller bulundu</p>
+      </div>
+      
+      <table class="w-full">
+        <thead>
+          <tr class="border-b-2 border-gray-300 bg-gray-100">
+            <th class="text-left p-4 font-bold text-gray-800 text-sm uppercase tracking-wide">Controller Name</th>
+            <th class="text-left p-4 font-bold text-gray-800 text-sm uppercase tracking-wide">Active Actions</th>
+            <th class="text-left p-4 font-bold text-gray-800 text-sm uppercase tracking-wide">Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let controller of controllers; trackBy: trackByFn" class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+            <td class="p-3 font-semibold">{{ controller.ControllerName }}</td>
+            <td class="p-3">
+              <ng-container *ngIf="hasActiveActions(controller); else noAuth">
+                <div class="flex flex-wrap gap-1">
+                  <ng-container *ngFor="let action of controller.Actions">
+                    <ng-container *ngIf="action.Active">
+                      <span class="px-3 py-1 border-round-xl text-sm font-medium bg-green-100 text-green-800" style="display:inline-block; min-width:60px; text-align:center;">{{ action.ActionName }}</span>
+                    </ng-container>
+                  </ng-container>
+                </div>
               </ng-container>
-            </ng-container>
-          </ng-container>
-          <ng-template #noAuth>
-            <span class="text-sm italic opacity-70">Does not have any authority</span>
-          </ng-template>
-        </td>
-        <td class="p-3">
-          <button pButton type="button" icon="pi pi-pencil" label="Edit" class="p-button-sm p-button-rounded p-button-outlined" (click)="editController(controller)" title="Edit"></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+              <ng-template #noAuth>
+                <span class="text-sm italic opacity-70 text-red-600">Yetki bulunmuyor</span>
+              </ng-template>
+            </td>
+            <td class="p-3">
+              <button pButton type="button" icon="pi pi-pencil" label="Edit" class="p-button-sm p-button-rounded p-button-outlined" (click)="editController(controller)" title="Edit"></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

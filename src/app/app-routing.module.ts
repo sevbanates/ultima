@@ -30,7 +30,7 @@ const routes: Routes = [
             { path: 'profile', data: { breadcrumb: 'Profil' }, loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule) },
             { path: 'invoice', data: { breadcrumb: 'Invoice' }, loadChildren: () => import('./modules/invoice/invoice.module').then(m => m.InvoiceModule) },
             { path: 'customer', data: { breadcrumb: 'Customer' }, loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule) },
-            { path: 'controllers', data: { breadcrumb: 'Controllers' }, loadChildren: () => import('./modules/system-management/system-management.module').then(m => m.SystemManagementModule) },
+            { path: 'controllers', data: { breadcrumb: 'Controllers' }, loadChildren: () => import('./modules/system-management/controller/controller.module').then(m => m.ControllerModule) },
             { path: 'users', data: { breadcrumb: 'Users' }, loadChildren: () => import('./modules/system-management/user/user.module').then(m => m.UserModule) }
         ]
     },

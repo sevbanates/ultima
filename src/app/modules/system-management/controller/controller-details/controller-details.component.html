@@ -1,0 +1,30 @@
+<div class="controller-details-dialog">
+  <!-- Dialog Header -->
+  <div class="dialog-header">
+    <h2 class="dialog-title">{{ controller?.ControllerName }} Actions</h2>
+  </div>
+
+  <!-- Dialog Content -->
+  <div class="dialog-content">
+    <div class="action-list">
+      <ng-container *ngFor="let action of controller?.Actions">
+        <div class="action-item">
+          <span class="action-name">{{ action.ActionName }}</span>
+          <label class="toggle-switch">
+            <input type="checkbox" 
+                   [(ngModel)]="action.Active" 
+                   (change)="onToggleChange(controller,action)"
+                   [title]="action.ActionName + ' toggle'">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Dialog Footer -->
+  <div class="dialog-footer">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+  </div>
+</div>

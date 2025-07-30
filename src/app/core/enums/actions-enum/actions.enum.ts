@@ -10,6 +10,9 @@ export const UserActions = {
     ...ActionsType,
 }
 
+export const CustomerActions = {
+    ...ActionsType,
+}
 export const ClientActions = {
     ...ActionsType,
     Manage:16

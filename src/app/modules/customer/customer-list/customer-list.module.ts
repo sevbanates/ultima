@@ -7,23 +7,24 @@ import { ProgressBarModule } from "primeng/progressbar";
 import { RippleModule } from "primeng/ripple";
 import { TableModule } from "primeng/table";
 import { Controllers } from "src/app/core/enums/actions-enum/controllers.enum";
-import { ClientActions } from "src/app/core/enums/actions-enum/actions.enum";
+import { ClientActions, CustomerActions } from "src/app/core/enums/actions-enum/actions.enum";
 import { Route, RouterModule } from "@angular/router";
 import { customerResolver } from "../services/customer.resolver";
 import { CustomerDetailComponent } from "../customer-detail/customer-detail.component";
 import { DialogModule } from 'primeng/dialog';
 import { PaginatorModule } from 'primeng/paginator';
+import { AuthGuard } from "src/app/core/auth/guards/auth.guard";
 
 
 const clientRoutes: Route[] = [
     {
         path: '',
         component: CustomerListComponent,
-        data: {
-            // controllerName: Controllers.WebSite,
-            // action: ClientActions.List
+        // data: {
+        //     controllerName: Controllers.Customer,
+        //     action: CustomerActions.List
 
-        },
+        // },
         // canActivate: [AuthGuard],
         resolve: { customerResolver },
 

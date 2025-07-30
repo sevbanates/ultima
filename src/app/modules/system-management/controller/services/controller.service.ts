@@ -4,16 +4,21 @@ import { Router } from '@angular/router';
 import { BaseService } from 'src/app/core/services/base-service';
 import { ResponseModel } from 'src/app/core/models/response-model';
 import { SelectNumberModel } from 'src/app/core/models/utility-model';
-import { CreateUserDto, UpdateUserDto, User, UserBasicDto, UserChangePasswordDto, UserListRequestModel } from '../models/user-list-model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/app/environments/environment.dev';
+import { ControllerModel } from '../models/controller.model';
 
 @Injectable({
     providedIn: 'root'
 })
-export class UserService extends BaseService<User, UserListRequestModel>
+export class ControllerService 
 {
-    override controllerName: string = "users";
-    public readonly _userBasic: BehaviorSubject<UserBasicDto | null> = new BehaviorSubject(null);
-    public readonly _myPage: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    controllerName: string = "SysControllerActionRole";
+    protected readonly _httpClient: HttpClient = inject(HttpClient)
+    apiUrl: string = environment.restApiUrl;
+    protected readonly _controller: BehaviorSubject<ControllerModel | null> = new BehaviorSubject(null);
+    protected readonly _controllers: BehaviorSubject<Array<ControllerModel> | null> = new BehaviorSubject(null);
+    private _roles: BehaviorSubject<Array<SelectNumberModel> | null> = new BehaviorSubject(null);
 
 
 
@@ -21,16 +26,23 @@ export class UserService extends BaseService<User, UserListRequestModel>
     private readonly _router: Router = inject(Router);
 
 
-    constructor() {
-        super();
+    constructor() { }
+
+
+    set controller(controller: ControllerModel) {
+        this._controller.next(controller)
     }
-    get userBasic$(): Observable<UserBasicDto>
-    {
-        return this._userBasic.asObservable();
+
+    get controller$(): Observable<ControllerModel> {
+        return this._controller.asObservable();
     }
-    get myPage$(): Observable<UserBasicDto>
-    {
-        return this._myPage.asObservable();
+
+    get controllers$(): Observable<Array<ControllerModel>> {
+        return this._controllers.asObservable();
+    }
+
+    get roles$(): Observable<Array<SelectNumberModel>> {
+        return this._roles.asObservable();
     }
 
 
@@ -39,18 +51,26 @@ export class UserService extends BaseService<User, UserListRequestModel>
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-createEntity(input:CreateUserDto): Observable<ResponseModel<UserBasicDto>>
-        {
-            return  this._httpClient.post<ResponseModel<UserBasicDto>>(`${this.apiUrl}${this.controllerName}`,input);
-        }
-updateEntity(input:UpdateUserDto): Observable<ResponseModel<UserBasicDto>>
-        {
-            return  this._httpClient.put<ResponseModel<UserBasicDto>>(`${this.apiUrl}${this.controllerName}/${input.Id}`,input);
-        }
-updateOthersPassword(input:UserChangePasswordDto, userId:number): Observable<ResponseModel<UserBasicDto>>
-        {
-            return  this._httpClient.put<ResponseModel<UserBasicDto>>(`${this.apiUrl}${this.controllerName}/${userId}/password`,input);
-        }
+ getControllersByRoleId(roleId: number): Observable<ResponseModel<ControllerModel>> {
+        return this._httpClient.get<ResponseModel<ControllerModel>>(`${this.apiUrl}${this.controllerName}/role/${roleId}/controllers`).pipe(
+            tap((response) => {
+                this._controllers.next(response.EntityList);
+                return response;
+            })
+        );
+    }
+
+    saveControllerActions(actionList: ControllerModel): Observable<ResponseModel<boolean>> {
+        return this._httpClient.put<ResponseModel<boolean>>(`${this.apiUrl}${this.controllerName}/controller-actions`, actionList);
+    }
+
+    getRoles(): Observable<ResponseModel<SelectNumberModel>> {
+        return this._httpClient.get<ResponseModel<SelectNumberModel>>(`${this.apiUrl}common/roles`).pipe(
+            tap((response) => {
+                this._roles.next(response.EntityList);
+            })
+        );
+    }
 
         // getCustomers(): Observable<ResponseModel<CustomerSelectModel[]>> {
         //     return this._httpClient.get<ResponseModel<CustomerSelectModel[]>>(

@@ -31,22 +31,22 @@ export class UserDetailComponent implements OnInit {
 
   ngOnInit() {
     // Route'dan id parametresini al ve isEditMode'u belirle
-    this.initForm();
     const id = this._route.snapshot.params['id'];
     if (id) {
       this.isEditMode = true;
+    }
+    
+    // Form oluştur (isEditMode'a göre validasyonlar ayarlanacak)
+    this.initForm();
+    
+    // Eğer edit moddaysa user verisini al ve formu doldur
+    if (this.isEditMode) {
       this._userService.entity$.subscribe(user => {
         if (user) {
           this.patchForm(user);
         }
       });
     }
-    
-    // Form oluştur (isEditMode'a göre validasyonlar ayarlanacak)
-  
-
-    // UserService'den gelen veriyi dinle
-    
   }
 
   initForm() {
@@ -70,6 +70,14 @@ export class UserDetailComponent implements OnInit {
       this.form.get('Password')?.setValidators([Validators.required, Validators.minLength(6)]);
       this.form.get('PasswordConfirmation')?.setValidators([Validators.required]);
       this.form.setValidators(this.passwordsMatchValidator);
+    } else {
+      // Edit modda password validasyonlarını kaldır
+      this.form.get('Password')?.clearValidators();
+      this.form.get('PasswordConfirmation')?.clearValidators();
+      this.form.clearValidators();
+      this.form.get('Password')?.updateValueAndValidity();
+      this.form.get('PasswordConfirmation')?.updateValueAndValidity();
+      this.form.updateValueAndValidity();
     }
   }
 
@@ -89,6 +97,7 @@ export class UserDetailComponent implements OnInit {
   get f() { return this.form.controls; }
 
   onSubmit() {
+    debugger
     this.submitted = true;
     if (this.form.invalid) return;
     if (this.isEditMode) {

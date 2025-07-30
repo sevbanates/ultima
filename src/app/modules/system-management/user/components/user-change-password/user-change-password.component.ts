@@ -58,6 +58,14 @@ export class UserChangePasswordComponent {
       Password: this.form.value.Password,
       PasswordConfirmation: this.form.value.PasswordConfirmation
     };
+    let userId = this._config.data.userId;
+    this._userService.updateOthersPassword(changePasswordData, userId).subscribe({
+      next: (response) => {
+        if (response.IsSuccess) {
+          this._dialogRef.close({ success: true, message: 'Şifre başarıyla değiştirildi' });
+        }
+      }
+    });
 
     // TODO: UserService'e changePassword metodu ekle
     // this._userService.changePassword(changePasswordData).subscribe({

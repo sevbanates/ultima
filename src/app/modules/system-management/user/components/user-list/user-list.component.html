@@ -1,6 +1,6 @@
 <div class="card">
     <p-table #dt [value]="users" responsiveLayout="scroll"
-        [globalFilterFields]="['Name','Surname','Email', 'Phone']">
+        [globalFilterFields]="['FirstName','LastName']">
         <ng-template pTemplate="caption">
             <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
                 <span class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0">
@@ -20,10 +20,10 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="Name" class="white-space-nowrap" style="width:25%">Ad <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="Surname" class="white-space-nowrap" style="width:25%">Soyad <p-sortIcon field="country.name"></p-sortIcon></th>
+                <th pSortableColumn="FirstName" class="white-space-nowrap" style="width:25%">Ad <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="LastName" class="white-space-nowrap" style="width:25%">Soyad <p-sortIcon field="country.name"></p-sortIcon></th>
                 <!-- <th pSortableColumn="CreDate" class="white-space-nowrap" style="width:25%">Olş. Tarihi <p-sortIcon field="date"></p-sortIcon></th> -->
-                <th pSortableColumn="Phone" class="white-space-nowrap" style="width:25%">Telefon Numarası <p-sortIcon field="representative.name"></p-sortIcon></th>
+                <th class="white-space-nowrap" style="width:25%">Telefon Numarası <p-sortIcon field="representative.name"></p-sortIcon></th>
                 <th pSortableColumn="Email" class="white-space-nowrap" style="width:25%">Mail <p-sortIcon field="activity"></p-sortIcon></th>
                 <th></th>
             </tr>
