@@ -1,0 +1,181 @@
+<div class="create-request-container">
+  <p-toast></p-toast>
+
+  <!-- Header Section -->
+  <div class="request-header">
+    <div class="header-content">
+      <div class="header-title">
+        <h1>
+          <i class="pi pi-plus-circle"></i>
+          Yeni İstek Oluştur
+        </h1>
+        <p class="header-subtitle">
+          Sistem yöneticilerine istek gönderin ve hızlı yanıt alın
+        </p>
+      </div>
+      <div class="header-info">
+        <div class="info-card">
+          <i class="pi pi-clock info-icon"></i>
+          <div class="info-content">
+            <h4>Hızlı Yanıt</h4>
+            <p>İstekleriniz 24 saat içinde değerlendirilir</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Section -->
+  <div class="form-section">
+    <div class="form-container">
+      <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="request-form">
+        
+        <!-- Email Field -->
+        <div class="form-field">
+          <label for="email" class="field-label">
+            <i class="pi pi-envelope"></i>
+            E-posta Adresi
+            <span class="required">*</span>
+          </label>
+          <input 
+            id="email"
+            type="email" 
+            pInputText 
+            formControlName="email"
+            placeholder="ornek@firma.com"
+            [class.invalid]="isFieldInvalid('email')"
+            class="form-input"
+          />
+          <div *ngIf="getFieldError('email')" class="error-message">
+            <i class="pi pi-exclamation-triangle"></i>
+            {{ getFieldError('email') }}
+          </div>
+        </div>
+
+        <!-- Request Type Field -->
+        <div class="form-field">
+          <label for="requestType" class="field-label">
+            <i class="pi pi-tag"></i>
+            İstek Türü
+            <span class="required">*</span>
+          </label>
+          <p-dropdown
+            id="requestType"
+            formControlName="requestType"
+            [options]="requestTypes"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="İstek türünü seçin"
+            [class.invalid]="isFieldInvalid('requestType')"
+            class="form-dropdown"
+          ></p-dropdown>
+          <div *ngIf="getFieldError('requestType')" class="error-message">
+            <i class="pi pi-exclamation-triangle"></i>
+            {{ getFieldError('requestType') }}
+          </div>
+        </div>
+
+        <!-- Priority Field -->
+        <div class="form-field">
+          <label for="priority" class="field-label">
+            <i class="pi pi-flag"></i>
+            Öncelik
+            <span class="required">*</span>
+          </label>
+          <p-dropdown
+            id="priority"
+            formControlName="priority"
+            [options]="priorities"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Öncelik seviyesini seçin"
+            [class.invalid]="isFieldInvalid('priority')"
+            class="form-dropdown"
+          ></p-dropdown>
+          <div *ngIf="getFieldError('priority')" class="error-message">
+            <i class="pi pi-exclamation-triangle"></i>
+            {{ getFieldError('priority') }}
+          </div>
+        </div>
+
+        <!-- Title Field -->
+        <div class="form-field">
+          <label for="title" class="field-label">
+            <i class="pi pi-pencil"></i>
+            İstek Başlığı
+            <span class="required">*</span>
+          </label>
+          <input 
+            id="title"
+            type="text" 
+            pInputText 
+            formControlName="title"
+            placeholder="İsteğinizi kısaca özetleyen bir başlık"
+            [class.invalid]="isFieldInvalid('title')"
+            class="form-input"
+          />
+          <div *ngIf="getFieldError('title')" class="error-message">
+            <i class="pi pi-exclamation-triangle"></i>
+            {{ getFieldError('title') }}
+          </div>
+        </div>
+
+        <!-- Description Field -->
+        <div class="form-field">
+          <label for="description" class="field-label">
+            <i class="pi pi-file-text"></i>
+            İstek Açıklaması
+            <span class="required">*</span>
+          </label>
+          <textarea 
+            id="description"
+            pInputTextarea 
+            formControlName="description"
+            placeholder="İsteğinizi detaylı olarak açıklayın..."
+            [rows]="5"
+            [class.invalid]="isFieldInvalid('description')"
+            class="form-textarea"
+          ></textarea>
+          <div *ngIf="getFieldError('description')" class="error-message">
+            <i class="pi pi-exclamation-triangle"></i>
+            {{ getFieldError('description') }}
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <p-button 
+            type="submit"
+            label="İsteği Gönder"
+            icon="pi pi-send"
+            [loading]="isSubmitting"
+            [disabled]="isSubmitting"
+            size="large"
+            class="submit-button"
+          ></p-button>
+        </div>
+      </form>
+
+      <!-- Form Info -->
+      <div class="form-info">
+        <p-divider></p-divider>
+        <div class="info-content">
+          <div class="info-item">
+            <i class="pi pi-shield-check info-icon"></i>
+            <div class="info-text">
+              <h4>Güvenli İletişim</h4>
+              <p>Tüm istekleriniz güvenli şekilde şifrelenerek iletilir</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="pi pi-bell info-icon"></i>
+            <div class="info-text">
+              <h4>Anlık Bildirim</h4>
+              <p>İsteğinizin durumu hakkında e-posta ile bilgilendirilirsiniz</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

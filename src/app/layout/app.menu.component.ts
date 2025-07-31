@@ -166,6 +166,16 @@ export class AppMenuComponent implements OnInit {
                             icon: 'pi pi-user',
                             routerLink: ['/users']
                         },
+                       {
+                            label: 'Sistem Ayarları',
+                            icon: 'pi pi-cog',
+                            routerLink: ['/settings']
+                        },
+                       {
+                            label: 'Teknik Destek',
+                            icon: 'pi pi-headset',
+                            routerLink: ['/support']
+                        },
                         // {
                         //     label: 'Analytics Dashboard',
                         //     icon: 'pi pi-fw pi-chart-pie',

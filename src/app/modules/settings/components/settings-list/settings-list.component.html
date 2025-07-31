@@ -1,0 +1,79 @@
+<div class="settings-container">
+  <div class="settings-header">
+    <h1 class="settings-title">
+      <i class="pi pi-cog"></i>
+      Ayarlar
+    </h1>
+    <p class="settings-subtitle">
+      Sistem ayarlarınızı yönetin ve kişiselleştirin
+    </p>
+  </div>
+
+  <div class="settings-grid">
+    <div 
+      *ngFor="let category of settingsCategories" 
+      class="settings-card-wrapper"
+      [pTooltip]="category.description"
+      tooltipPosition="top"
+    >
+      <p-card 
+        [style]="{'cursor': 'pointer', 'transition': 'all 0.3s ease'}"
+    
+        class="settings-card"
+        [ngClass]="'card-' + category.color"
+      >
+        <ng-template pTemplate="header">
+          <div class="card-header">
+            <div class="icon-container" [ngClass]="'icon-' + category.color">
+              <i [class]="category.icon"></i>
+            </div>
+            <div class="badge-container" *ngIf="category.badge">
+              <p-badge [value]="category.badge" severity="danger"></p-badge>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="content">
+          <div class="card-content">
+            <h3 class="card-title">{{ category.title }}</h3>
+            <p class="card-description">{{ category.description }}</p>
+            
+            <!-- <div class="features-list">
+              <div 
+                *ngFor="let feature of category.features" 
+                class="feature-item"
+              >
+                <i class="pi pi-check-circle feature-icon"></i>
+                <span class="feature-text">{{ feature }}</span>
+              </div>
+            </div> -->
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+          <div class="card-footer">
+            <p-button 
+              label="Ayarları Aç" 
+              (click)="navigateToSettings(category)"
+              icon="pi pi-arrow-right" 
+              iconPos="right"
+              [outlined]="true"
+              [ngClass]="'btn-' + category.color"
+            ></p-button>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+
+  <div class="settings-info">
+    <p-divider></p-divider>
+    <div class="info-content">
+      <i class="pi pi-info-circle info-icon"></i>
+      <p class="info-text">
+        Ayarlarınızı değiştirdikten sonra değişiklikler otomatik olarak kaydedilir. 
+        Herhangi bir sorun yaşarsanız sistem yöneticinizle iletişime geçin.
+      </p>
+    </div>
+  </div>
+</div>

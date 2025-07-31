@@ -1,0 +1,174 @@
+<div class="support-container">
+  <!-- Header Section -->
+  <div class="support-header">
+    <div class="header-content">
+      <div class="header-title">
+        <h1>
+          <i class="pi pi-headset"></i>
+          Teknik Destek
+        </h1>
+        <p class="header-subtitle">
+          Destek taleplerinizi yönetin ve takip edin
+        </p>
+      </div>
+      <div class="header-actions">
+        <p-button 
+          label="Yeni Talep Oluştur" 
+          icon="pi pi-plus" 
+          severity="primary"
+          (click)="createNewTicket()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon total">
+          <i class="pi pi-ticket"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-number">{{ totalTicketsCount }}</span>
+          <span class="stat-label">Toplam Talep</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon open">
+          <i class="pi pi-clock"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-number">{{ openTicketsCount }}</span>
+          <span class="stat-label">Açık</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon progress">
+          <i class="pi pi-spinner"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-number">{{ inProgressTicketsCount }}</span>
+          <span class="stat-label">İşlemde</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon resolved">
+          <i class="pi pi-check-circle"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-number">{{ resolvedTicketsCount }}</span>
+          <span class="stat-label">Çözüldü</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="filters-container">
+      <div class="search-filter">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input 
+            pInputText 
+            type="text" 
+            placeholder="Talep ara..."
+            [(ngModel)]="searchTerm"
+            (input)="onSearchChange()"
+          />
+        </span>
+      </div>
+      
+      <div class="filter-group">
+        <label class="filter-label">Durum:</label>
+        <p-dropdown
+          [options]="statusOptions"
+          [(ngModel)]="selectedStatus"
+          (onChange)="onStatusChange()"
+          placeholder="Durum seçin"
+          class="filter-dropdown"
+        ></p-dropdown>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Öncelik:</label>
+        <p-dropdown
+          [options]="priorityOptions"
+          [(ngModel)]="selectedPriority"
+          (onChange)="onPriorityChange()"
+          placeholder="Öncelik seçin"
+          class="filter-dropdown"
+        ></p-dropdown>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Kategori:</label>
+        <p-dropdown
+          [options]="categoryOptions"
+          [(ngModel)]="selectedCategory"
+          (onChange)="onCategoryChange()"
+          placeholder="Kategori seçin"
+          class="filter-dropdown"
+        ></p-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tickets List -->
+  <div class="tickets-list">
+    <div *ngIf="filteredTickets.length === 0" class="empty-state">
+      <i class="pi pi-inbox empty-icon"></i>
+      <h3>Henüz Talep Yok</h3>
+      <p>Filtreleme kriterlerinize uygun talep bulunamadı.</p>
+      <p-button 
+        label="Yeni Talep Oluştur" 
+        icon="pi pi-plus" 
+        (click)="createNewTicket()"
+      ></p-button>
+    </div>
+
+    <div *ngFor="let ticket of filteredTickets" class="ticket-card" (click)="openTicket(ticket)">
+      <div class="ticket-header">
+        <div class="ticket-info">
+          <h3 class="ticket-title">{{ ticket.title }}</h3>
+          <p class="ticket-description">{{ ticket.description }}</p>
+        </div>
+        
+        <div class="ticket-meta">
+          <div class="ticket-category">
+            <i [class]="getCategoryIcon(ticket.category)"></i>
+            <span>{{ getCategoryLabel(ticket.category) }}</span>
+          </div>
+          <div class="ticket-date">
+            {{ ticket.createdAt | date:'dd MMM yyyy' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="ticket-footer">
+        <div class="ticket-tags">
+          <p-tag 
+            [value]="getStatusLabel(ticket.status)" 
+            [severity]="getStatusColor(ticket.status)"
+          ></p-tag>
+          <p-tag 
+            [value]="getPriorityLabel(ticket.priority)" 
+            [severity]="getPriorityColor(ticket.priority)"
+          ></p-tag>
+        </div>
+
+        <div class="ticket-details">
+          <div class="ticket-author">
+            <i class="pi pi-user"></i>
+            <span>{{ ticket.createdBy }}</span>
+          </div>
+          <div class="ticket-messages">
+            <i class="pi pi-comments"></i>
+            <span>{{ ticket.messages.length }} mesaj</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

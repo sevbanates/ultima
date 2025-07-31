@@ -1,0 +1,216 @@
+<div class="create-ticket-container">
+  <p-toast></p-toast>
+
+  <!-- Header Section -->
+  <div class="create-header">
+    <div class="header-content">
+      <div class="header-left">
+        <button pButton icon="pi pi-arrow-left" 
+                class="p-button-text back-button" 
+                (click)="goBack()"
+                pTooltip="Geri Dön">
+        </button>
+        <div class="header-info">
+          <h1>Yeni Destek Talebi</h1>
+          <p>Teknik destek ekibimiz size yardımcı olmak için hazır</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Section -->
+  <div class="form-section">
+    <div class="form-container">
+      <p-card class="ticket-form-card">
+        <ng-template pTemplate="header">
+          <div class="card-header">
+            <h2>
+              <i class="pi pi-plus-circle"></i>
+              Talep Bilgileri
+            </h2>
+            <p>Lütfen aşağıdaki bilgileri eksiksiz doldurun</p>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="content">
+          <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()" class="ticket-form">
+            
+            <!-- Email Field -->
+            <div class="form-field">
+              <label for="email" class="field-label">
+                <i class="pi pi-envelope"></i>
+                E-posta Adresiniz
+                <span class="required">*</span>
+              </label>
+              <input
+                id="email"
+                pInputText
+                type="email"
+                formControlName="email"
+                placeholder="ornek@email.com"
+                [class.invalid]="isFieldInvalid('email')"
+                class="form-input"
+              />
+              <div *ngIf="getFieldError('email')" class="error-message">
+                <i class="pi pi-exclamation-triangle"></i>
+                {{ getFieldError('email') }}
+              </div>
+            </div>
+
+            <!-- Title Field -->
+            <div class="form-field">
+              <label for="title" class="field-label">
+                <i class="pi pi-tag"></i>
+                Talep Başlığı
+                <span class="required">*</span>
+              </label>
+              <input
+                id="title"
+                pInputText
+                type="text"
+                formControlName="title"
+                placeholder="Sorununuzu kısaca özetleyin"
+                [class.invalid]="isFieldInvalid('title')"
+                class="form-input"
+              />
+              <div *ngIf="getFieldError('title')" class="error-message">
+                <i class="pi pi-exclamation-triangle"></i>
+                {{ getFieldError('title') }}
+              </div>
+            </div>
+
+            <!-- Category Field -->
+            <div class="form-field">
+              <label for="category" class="field-label">
+                <i class="pi pi-folder"></i>
+                Kategori
+                <span class="required">*</span>
+              </label>
+              <p-dropdown
+                id="category"
+                formControlName="category"
+                [options]="categoryOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Kategori seçin"
+                [class.invalid]="isFieldInvalid('category')"
+                class="form-dropdown"
+              ></p-dropdown>
+              <div *ngIf="getFieldError('category')" class="error-message">
+                <i class="pi pi-exclamation-triangle"></i>
+                {{ getFieldError('category') }}
+              </div>
+            </div>
+
+            <!-- Priority Field -->
+            <div class="form-field">
+              <label for="priority" class="field-label">
+                <i class="pi pi-flag"></i>
+                Öncelik
+                <span class="required">*</span>
+              </label>
+              <p-dropdown
+                id="priority"
+                formControlName="priority"
+                [options]="priorityOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Öncelik seviyesini seçin"
+                [class.invalid]="isFieldInvalid('priority')"
+                class="form-dropdown"
+              ></p-dropdown>
+              <div *ngIf="getFieldError('priority')" class="error-message">
+                <i class="pi pi-exclamation-triangle"></i>
+                {{ getFieldError('priority') }}
+              </div>
+            </div>
+
+            <!-- Description Field -->
+            <div class="form-field">
+              <label for="description" class="field-label">
+                <i class="pi pi-file-text"></i>
+                Detaylı Açıklama
+                <span class="required">*</span>
+              </label>
+              <textarea
+                id="description"
+                pInputTextarea
+                formControlName="description"
+                [rows]="6"
+                placeholder="Sorununuzu detaylı bir şekilde açıklayın. Hata mesajları, ekran görüntüleri veya adımları belirtin."
+                [class.invalid]="isFieldInvalid('description')"
+                class="form-textarea"
+              ></textarea>
+              <div *ngIf="getFieldError('description')" class="error-message">
+                <i class="pi pi-exclamation-triangle"></i>
+                {{ getFieldError('description') }}
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+              <p-button
+                type="submit"
+                label="Destek Talebi Oluştur"
+                icon="pi pi-send"
+                [loading]="isSubmitting"
+                [disabled]="ticketForm.invalid || isSubmitting"
+                severity="primary"
+                class="submit-button"
+              ></p-button>
+            </div>
+          </form>
+        </ng-template>
+      </p-card>
+
+      <!-- Info Section -->
+      <div class="info-section">
+        <p-card class="info-card">
+          <ng-template pTemplate="header">
+            <div class="info-header">
+              <h3>
+                <i class="pi pi-info-circle"></i>
+                Yardım
+              </h3>
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate="content">
+            <div class="info-content">
+              <div class="info-item">
+                <h4>Kategoriler</h4>
+                <ul>
+                  <li><strong>Teknik:</strong> Sistem erişim, hata, performans sorunları</li>
+                  <li><strong>Faturalama:</strong> Ödeme, fatura, abonelik sorunları</li>
+                  <li><strong>Özellik Talebi:</strong> Yeni özellik önerileri</li>
+                  <li><strong>Hata Raporu:</strong> Sistem hataları ve bug'lar</li>
+                  <li><strong>Genel:</strong> Diğer sorular ve talepler</li>
+                </ul>
+              </div>
+
+              <div class="info-item">
+                <h4>Öncelik Seviyeleri</h4>
+                <ul>
+                  <li><strong>Düşük:</strong> Genel sorular, öneriler</li>
+                  <li><strong>Orta:</strong> Standart sorunlar</li>
+                  <li><strong>Yüksek:</strong> Acil iş durdurucu sorunlar</li>
+                  <li><strong>Acil:</strong> Sistem çökmesi, veri kaybı</li>
+                </ul>
+              </div>
+
+              <div class="info-item">
+                <h4>İpuçları</h4>
+                <ul>
+                  <li>Mümkün olduğunca detaylı açıklama yapın</li>
+                  <li>Hata mesajlarını kopyalayıp yapıştırın</li>
+                  <li>Adım adım nasıl oluştuğunu belirtin</li>
+                  <li>Tarayıcı ve işletim sistemi bilgilerini ekleyin</li>
+                </ul>
+              </div>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div> 

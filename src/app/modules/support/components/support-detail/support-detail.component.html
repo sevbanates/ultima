@@ -1,0 +1,235 @@
+<div class="support-detail-container" *ngIf="ticket">
+  <p-toast></p-toast>
+
+  <!-- Header Section -->
+  <div class="detail-header">
+    <div class="header-content">
+      <div class="header-left">
+        <button pButton icon="pi pi-arrow-left" 
+                class="p-button-text back-button" 
+                (click)="goBack()"
+                pTooltip="Geri Dön">
+        </button>
+        <div class="ticket-info">
+          <h1 class="ticket-title">{{ ticket.title }}</h1>
+          <div class="ticket-meta">
+            <span class="ticket-id">#{{ ticket.id }}</span>
+            <span class="ticket-date">{{ ticket.createdAt | date:'dd MMM yyyy HH:mm' }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="header-right">
+        <div class="ticket-status">
+          <!-- <p-dropdown
+            [options]="statusOptions"
+            [value]="ticket.status"
+            (onChange)="updateStatus($event.value)"
+            placeholder="Durum seçin"
+            class="status-dropdown"
+          ></p-dropdown> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticket Details -->
+  <div class="ticket-details">
+    <div class="details-grid">
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Ticket Info Card -->
+        <p-card class="ticket-card">
+          <ng-template pTemplate="header">
+            <div class="card-header">
+              <div class="ticket-tags">
+                <p-tag 
+                  [value]="getStatusLabel(ticket.status)" 
+                  [severity]="getStatusColor(ticket.status)"
+                ></p-tag>
+                <p-tag 
+                  [value]="getPriorityLabel(ticket.priority)" 
+                  [severity]="getPriorityColor(ticket.priority)"
+                ></p-tag>
+                <p-tag 
+                  [value]="getCategoryLabel(ticket.category)" 
+                  severity="info"
+                ></p-tag>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate="content">
+            <div class="ticket-description">
+              <h3>Talep Açıklaması</h3>
+              <p>{{ ticket.description }}</p>
+            </div>
+
+            <div class="ticket-author">
+              <div class="author-info">
+                <i class="pi pi-user"></i>
+                <div class="author-details">
+                  <span class="author-name">{{ ticket.createdBy }}</span>
+                  <span class="author-email">{{ ticket.createdByEmail }}</span>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </p-card>
+
+        <!-- Messages Section -->
+        <div class="messages-section">
+          <h3 class="section-title">
+            <i class="pi pi-comments"></i>
+            Mesajlar ({{ ticket.messages.length }})
+          </h3>
+
+          <div class="messages-list">
+            <div *ngFor="let message of ticket.messages" 
+                 class="message-item"
+                 [ngClass]="{'admin-message': message.senderType === 'admin', 'user-message': message.senderType === 'user'}">
+              
+              <div class="message-header">
+                <div class="message-author">
+                  <div class="author-avatar" [ngClass]="message.senderType">
+                    <i class="pi" [ngClass]="message.senderType === 'admin' ? 'pi-user' : 'pi-user'"></i>
+                  </div>
+                  <div class="author-info">
+                    <span class="author-name">{{ message.senderName }}</span>
+                    <span class="message-time">{{ message.createdAt | date:'dd MMM yyyy HH:mm' }}</span>
+                  </div>
+                </div>
+                <div class="message-badge" *ngIf="message.isInternal">
+                  <p-tag value="İç Not" severity="warning" size="small"></p-tag>
+                </div>
+              </div>
+
+              <div class="message-content">
+                <p>{{ message.message }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Response Form -->
+        <div class="response-section">
+          <h3 class="section-title">
+            <i class="pi pi-reply"></i>
+            Yanıt Yaz
+          </h3>
+
+          <form [formGroup]="responseForm" (ngSubmit)="onSubmit()" class="response-form">
+            <div class="form-field">
+              <label for="message" class="field-label">
+                Mesajınız
+                <span class="required">*</span>
+              </label>
+              <textarea
+                id="message"
+                pInputTextarea
+                formControlName="message"
+                [rows]="4"
+                placeholder="Yanıtınızı buraya yazın..."
+                [class.invalid]="isFieldInvalid('message')"
+                class="form-textarea"
+              ></textarea>
+              <div *ngIf="getFieldError('message')" class="error-message">
+                <i class="pi pi-exclamation-triangle"></i>
+                {{ getFieldError('message') }}
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <div class="form-options">
+                <div class="checkbox-field">
+                  <input type="checkbox" 
+                         id="isInternal" 
+                         formControlName="isInternal"
+                         class="form-checkbox">
+                  <label for="isInternal" class="checkbox-label">
+                    İç not (sadece admin'ler görür)
+                  </label>
+                </div>
+              </div>
+
+              <div class="submit-actions">
+                <p-button
+                  type="submit"
+                  label="Yanıt Gönder"
+                  icon="pi pi-send"
+                  [loading]="isSubmitting"
+                  [disabled]="responseForm.invalid || isSubmitting"
+                  severity="primary"
+                ></p-button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Ticket Info -->
+        <p-card class="info-card">
+          <ng-template pTemplate="header">
+            <div class="card-header">
+              <h4>Ticket Bilgileri</h4>
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate="content">
+            <div class="info-list">
+              <div class="info-item">
+                <span class="info-label">Durum:</span>
+                <p-tag 
+                  [value]="getStatusLabel(ticket.status)" 
+                  [severity]="getStatusColor(ticket.status)"
+                ></p-tag>
+              </div>
+              
+              <div class="info-item">
+                <span class="info-label">Öncelik:</span>
+                <p-tag 
+                  [value]="getPriorityLabel(ticket.priority)" 
+                  [severity]="getPriorityColor(ticket.priority)"
+                ></p-tag>
+              </div>
+              
+              <div class="info-item">
+                <span class="info-label">Kategori:</span>
+                <span class="info-value">{{ getCategoryLabel(ticket.category) }}</span>
+              </div>
+              
+              <div class="info-item">
+                <span class="info-label">Oluşturan:</span>
+                <span class="info-value">{{ ticket.createdBy }}</span>
+              </div>
+              
+              <div class="info-item">
+                <span class="info-label">E-posta:</span>
+                <span class="info-value">{{ ticket.createdByEmail }}</span>
+              </div>
+              
+              <div class="info-item">
+                <span class="info-label">Oluşturma:</span>
+                <span class="info-value">{{ ticket.createdAt | date:'dd MMM yyyy HH:mm' }}</span>
+              </div>
+              
+              <div class="info-item">
+                <span class="info-label">Güncelleme:</span>
+                <span class="info-value">{{ ticket.updatedAt | date:'dd MMM yyyy HH:mm' }}</span>
+              </div>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!ticket" class="loading-container">
+  <div class="loading-content">
+    <i class="pi pi-spinner pi-spin loading-icon"></i>
+    <p>Ticket yükleniyor...</p>
+  </div>
+</div> 

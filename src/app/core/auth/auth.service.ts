@@ -83,6 +83,12 @@ export class AuthService {
                 else {
                     response.Entity.IsUser = false;
                 }
+                if (response.Entity.RoleId === Role.Accounter) {
+                    response.Entity.IsAccounter = true;
+                }
+                else {
+                    response.Entity.IsAccounter = false;
+                }
 
                 // Store the user on the user service
 

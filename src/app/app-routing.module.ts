@@ -28,10 +28,12 @@ const routes: Routes = [
             { path: 'ecommerce', data: { breadcrumb: 'E-Commerce' }, loadChildren: () => import('./demo/components/ecommerce/ecommerce.module').then(m => m.EcommerceModule) },
             { path: 'apps', data: { breadcrumb: 'Apps' }, loadChildren: () => import('./demo/components/apps/apps.module').then(m => m.AppsModule) },
             { path: 'profile', data: { breadcrumb: 'Profil' }, loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule) },
-            { path: 'invoice', data: { breadcrumb: 'Invoice' }, loadChildren: () => import('./modules/invoice/invoice.module').then(m => m.InvoiceModule) },
-            { path: 'customer', data: { breadcrumb: 'Customer' }, loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule) },
+            { path: 'invoice', data: { breadcrumb: 'Fatura' }, loadChildren: () => import('./modules/invoice/invoice.module').then(m => m.InvoiceModule) },
+            { path: 'customer', data: { breadcrumb: 'Cariler' }, loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule) },
             { path: 'controllers', data: { breadcrumb: 'Controllers' }, loadChildren: () => import('./modules/system-management/controller/controller.module').then(m => m.ControllerModule) },
-            { path: 'users', data: { breadcrumb: 'Users' }, loadChildren: () => import('./modules/system-management/user/user.module').then(m => m.UserModule) }
+            { path: 'users', data: { breadcrumb: 'Users' }, loadChildren: () => import('./modules/system-management/user/user.module').then(m => m.UserModule) },
+            { path: 'settings', data: { breadcrumb: 'Ayarlar' }, loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule) },
+            { path: 'support', data: { breadcrumb: 'Teknik Destek' }, loadChildren: () => import('./modules/support/support.module').then(m => m.SupportModule) }
         ]
     },
     { path: 'auth', canMatch: [NoAuthGuard], data: { breadcrumb: 'Auth' }, loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule2) },

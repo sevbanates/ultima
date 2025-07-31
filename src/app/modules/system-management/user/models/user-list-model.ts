@@ -58,6 +58,7 @@ export interface User extends BaseModel {
     Selcompanies: number[];
     IsAdmin:boolean;
     IsUser:boolean;
+    IsAccounter:boolean;
 
     CanClientEdit:boolean|null;
 }
