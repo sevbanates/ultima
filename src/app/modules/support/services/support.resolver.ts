@@ -13,7 +13,6 @@ export const supportDetailResolver: ResolveFn<any> =
 (route:ActivatedRouteSnapshot,state:RouterStateSnapshot) => {
 
     let id=route.paramMap.get('id');
-    let guidid=route.paramMap.get('guidid');
-
-  return inject(SupportService).getEntityById(Number(id),guidid);
+    let guidid=route.paramMap.get('guidId');
+  return inject(SupportService).getTicket(Number(id),guidid);
 }

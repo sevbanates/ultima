@@ -13,6 +13,7 @@ import { ToastModule } from 'primeng/toast';
 import { Ticket, TicketDto, TicketMessage, TicketMessageDto, TicketStatus } from '../../models/ticket.model';
 import { SupportService } from '../../services/support.service';
 import { ResponseModel } from 'src/app/core/models/response-model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-support-detail',
@@ -34,6 +35,7 @@ import { ResponseModel } from 'src/app/core/models/response-model';
 })
 export class SupportDetailComponent implements OnInit {
 
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
   ticket: TicketDto | undefined;
   responseForm: FormGroup;
   isSubmitting = false;
@@ -59,11 +61,31 @@ export class SupportDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    const ticketId = this.route.snapshot.paramMap.get('id');
-    const ticketguidId = this.route.snapshot.paramMap.get('guidId');
-    if (ticketId) {
-      this.loadTicket(Number(ticketId), ticketguidId);
-    }
+      this.supportService.entity$.pipe(takeUntil(this._unsubscribeAll)).subscribe((entity) => {
+        this.ticket = entity;
+        // Debug için console log ekle
+        if (this.ticket) {
+          console.log('Ticket data:', this.ticket);
+          console.log('Messages:', this.ticket.Messages);
+          if (this.ticket.Messages && this.ticket.Messages.length > 0) {
+            console.log('First message structure:', this.ticket.Messages[0]);
+            console.log('Available properties:', Object.keys(this.ticket.Messages[0]));
+            
+            // Check for common property naming issues
+            this.ticket.Messages.forEach((msg, index) => {
+              console.log(`Message ${index} properties:`, {
+                senderType: this.getMessageProperty(msg, 'senderType'),
+                senderName: this.getMessageProperty(msg, 'senderName'),
+                message: this.getMessageProperty(msg, 'message'),
+                createdAt: this.getMessageProperty(msg, 'createdAt'),
+                isInternal: this.getMessageProperty(msg, 'isInternal')
+              });
+            });
+          }
+        }
+      })
+      // this.loadTicket(Number(ticketId), ticketguidId);
+    
   }
 
   loadTicket(ticketId: number, guidId: string) {
@@ -238,5 +260,52 @@ export class SupportDetailComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['/support']);
+  }
+
+  // Debug method to check message structure
+  debugMessage(message: any, index: number) {
+    console.log(`Message ${index}:`, message);
+    console.log('Properties:', Object.keys(message));
+  }
+
+  // Helper method to safely get message property
+  getMessageProperty(message: any, propName: string): any {
+    if (!message) return null;
+    
+    // Try camelCase first
+    if (message[propName] !== undefined && message[propName] !== null) {
+      return message[propName];
+    }
+    
+    // Try PascalCase
+    const pascalCaseProp = propName.charAt(0).toUpperCase() + propName.slice(1);
+    if (message[pascalCaseProp] !== undefined && message[pascalCaseProp] !== null) {
+      return message[pascalCaseProp];
+    }
+    
+    // Try snake_case
+    const snakeCaseProp = propName.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+    if (message[snakeCaseProp] !== undefined && message[snakeCaseProp] !== null) {
+      return message[snakeCaseProp];
+    }
+    
+    return null;
+  }
+
+  // Helper method to format message date
+  formatMessageDate(message: any): string {
+    const dateValue = message.createdAt || message.CreatedAt || message.created_at || message.Created_At;
+    if (!dateValue) return 'Tarih bilinmiyor';
+    
+    try {
+      const date = new Date(dateValue);
+      return date.toLocaleDateString('tr-TR') + ' ' + date.toLocaleTimeString('tr-TR', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+    } catch (error) {
+      console.error('Date parsing error:', error);
+      return 'Geçersiz tarih';
+    }
   }
 } 

@@ -76,7 +76,7 @@ export class SupportListComponent implements OnInit {
 
   loadTickets() {
 
-    this.supportService._entityList.pipe(takeUntil(this._unsubscribeAll)).subscribe((entityList) => {
+    this.supportService.entityList$.pipe(takeUntil(this._unsubscribeAll)).subscribe((entityList) => {
       this.tickets = entityList;
       this.filterTickets();
     })

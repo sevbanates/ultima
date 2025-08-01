@@ -8,7 +8,8 @@
         <button pButton icon="pi pi-arrow-left" 
                 class="p-button-text back-button" 
                 (click)="goBack()"
-                pTooltip="Geri Dön">
+                pTooltip="Geri Dön"
+                title="Geri Dön">
         </button>
         <div class="ticket-info">
           <h1 class="ticket-title">{{ ticket.Title }}</h1>
@@ -79,36 +80,59 @@
 
         <!-- Messages Section -->
         <div class="messages-section">
-          <h3 class="section-title">
-            <i class="pi pi-comments"></i>
-            Mesajlar ({{ ticket.Messages.length }})
-          </h3>
+          <div class="section-header">
+            <h3 class="section-title">
+              <i class="pi pi-comments"></i>
+              Mesajlar ({{ ticket.Messages?.length || 0 }})
+            </h3>
+            <!-- Debug button - remove in production -->
+            <button *ngIf="ticket.Messages && ticket.Messages.length > 0" 
+                    pButton 
+                    icon="pi pi-info-circle" 
+                    class="p-button-text p-button-sm debug-button"
+                    (click)="debugMessage(ticket.Messages[0], 0)"
+                    pTooltip="Debug Message Structure"
+                    title="Debug Message Structure">
+            </button>
+          </div>
 
-          <div class="messages-list">
-            <div *ngFor="let message of ticket.Messages" 
+          <div class="messages-list" *ngIf="ticket.Messages && ticket.Messages.length > 0; else noMessages">
+            <div *ngFor="let message of ticket.Messages; let i = index" 
                  class="message-item"
-                 [ngClass]="{'admin-message': message.senderType === 'admin', 'user-message': message.senderType === 'user'}">
+                 [ngClass]="{
+                   'admin-message': getMessageProperty(message, 'senderType') === 'admin', 
+                   'user-message': getMessageProperty(message, 'senderType') === 'user'
+                 }">
               
               <div class="message-header">
                 <div class="message-author">
-                  <div class="author-avatar" [ngClass]="message.senderType">
-                    <i class="pi" [ngClass]="message.senderType === 'admin' ? 'pi-user' : 'pi-user'"></i>
+                  <div class="author-avatar" [ngClass]="getMessageProperty(message, 'senderType') || 'user'">
+                    <i class="pi" [ngClass]="getMessageProperty(message, 'senderType') === 'admin' ? 'pi-shield' : 'pi-user'"></i>
                   </div>
                   <div class="author-info">
-                    <span class="author-name">{{ message.senderName }}</span>
-                    <span class="message-time">{{ message.createdAt | date:'dd MMM yyyy HH:mm' }}</span>
+                    <span class="author-name">{{ getMessageProperty(message, 'senderName') || 'Bilinmeyen Kullanıcı' }}</span>
+                    <span class="message-time">{{ formatMessageDate(message) }}</span>
                   </div>
                 </div>
-                <div class="message-badge" *ngIf="message.isInternal">
+                <div class="message-badge" *ngIf="getMessageProperty(message, 'isInternal')">
                   <p-tag value="İç Not" severity="warning" size="small"></p-tag>
                 </div>
               </div>
 
               <div class="message-content">
-                <p>{{ message.message }}</p>
+                <p>{{ getMessageProperty(message, 'message') || 'Mesaj içeriği bulunamadı' }}</p>
               </div>
             </div>
           </div>
+
+          <ng-template #noMessages>
+            <div class="no-messages">
+              <div class="no-messages-content">
+                <i class="pi pi-comments no-messages-icon"></i>
+                <p>Henüz mesaj bulunmuyor</p>
+              </div>
+            </div>
+          </ng-template>
         </div>
 
         <!-- Response Form -->

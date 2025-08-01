@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Ticket, CreateTicketRequest, TicketMessage, DefaultTicketListRequestModel, TicketDto, TicketMessageDto, TicketStatus } from '../models/ticket.model';
 import { environment } from 'src/app/environments/environment.dev';
 import { BaseService } from 'src/app/core/services/base-service';
@@ -42,8 +42,13 @@ export class SupportService extends BaseService<Ticket, DefaultTicketListRequest
   //   return this._httpClient.get<PagedAndSortedResponse<Ticket>>(`${this.apiUrl}`, { params: input as any });
   // }
 
-  // // Tekil ticket
-  // getTicket(id: number, guidId: string): Observable<ActionResponse<Ticket>> {
-  //   return this._httpClient.get<ActionResponse<Ticket>>(`${this.apiUrl}/${id}/${guidId}`);
-  // }
+  // Tekil ticket
+  getTicket(id: number, guidId: string): Observable<ResponseModel<TicketDto>> {
+    return this._httpClient.get<ResponseModel<TicketDto>>(`${this.apiUrl}${this.controllerName}/${id}/${guidId}`).pipe(
+      tap((response) => {
+          this._entity.next(response.Entity);
+          return response;
+      })
+  );
+  }
 } 
