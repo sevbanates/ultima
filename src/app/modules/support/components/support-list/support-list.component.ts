@@ -9,8 +9,9 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
-import { Ticket } from '../../models/ticket.model';
-import { SupportService, PagedAndSortedSearchInput, PagedAndSortedResponse } from '../../services/support.service';
+import { Ticket, TicketDto } from '../../models/ticket.model';
+import { SupportService } from '../../services/support.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-support-list',
@@ -31,8 +32,9 @@ import { SupportService, PagedAndSortedSearchInput, PagedAndSortedResponse } fro
 })
 export class SupportListComponent implements OnInit {
 
-  tickets: Ticket[] = [];
-  filteredTickets: Ticket[] = [];
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
+  tickets: TicketDto[] = [];
+  filteredTickets: TicketDto[] = [];
   selectedStatus: string = 'all';
   selectedPriority: string = 'all';
   selectedCategory: string = 'all';
@@ -73,28 +75,23 @@ export class SupportListComponent implements OnInit {
   }
 
   loadTickets() {
-    const input: PagedAndSortedSearchInput = {
-      pageNumber: 1,
-      pageSize: 100,
-      sortField: 'createdAt',
-      sortOrder: 'desc'
-    };
-    
-    this.supportService.getTickets(input).subscribe((response: PagedAndSortedResponse<Ticket>) => {
-      this.tickets = response.items;
+
+    this.supportService._entityList.pipe(takeUntil(this._unsubscribeAll)).subscribe((entityList) => {
+      this.tickets = entityList;
       this.filterTickets();
-    });
+    })
+    
   }
 
   filterTickets() {
     this.filteredTickets = this.tickets.filter(ticket => {
-      const statusMatch = this.selectedStatus === 'all' || ticket.status === this.selectedStatus;
-      const priorityMatch = this.selectedPriority === 'all' || ticket.priority === this.selectedPriority;
-      const categoryMatch = this.selectedCategory === 'all' || ticket.category === this.selectedCategory;
+      const statusMatch = this.selectedStatus === 'all' || ticket.Status === this.selectedStatus;
+      const priorityMatch = this.selectedPriority === 'all' || ticket.Priority === this.selectedPriority;
+      const categoryMatch = this.selectedCategory === 'all' || ticket.Category === this.selectedCategory;
       const searchMatch = !this.searchTerm || 
-        ticket.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        ticket.description.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        ticket.createdBy.toLowerCase().includes(this.searchTerm.toLowerCase());
+        ticket.Title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        ticket.Description.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        ticket.CreatedBy.toLowerCase().includes(this.searchTerm.toLowerCase());
 
       return statusMatch && priorityMatch && categoryMatch && searchMatch;
     });
@@ -163,7 +160,8 @@ export class SupportListComponent implements OnInit {
   }
 
   openTicket(ticket: Ticket) {
-    this.router.navigate(['/support', ticket.id]);
+    debugger
+    this.router.navigate([`support/${ticket.Id}/${ticket.GuidId}`]);
   }
 
   createNewTicket() {
@@ -187,15 +185,15 @@ export class SupportListComponent implements OnInit {
   }
 
   get openTicketsCount(): number {
-    return this.tickets.filter(t => t.status === 'open').length;
+    return this.tickets.filter(t => t.Status === 'open').length;
   }
 
   get inProgressTicketsCount(): number {
-    return this.tickets.filter(t => t.status === 'in_progress').length;
+    return this.tickets.filter(t => t.Status === 'in_progress').length;
   }
 
   get resolvedTicketsCount(): number {
-    return this.tickets.filter(t => t.status === 'resolved').length;
+    return this.tickets.filter(t => t.Status === 'resolved').length;
   }
 
   get totalTicketsCount(): number {

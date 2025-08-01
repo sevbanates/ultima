@@ -1,16 +1,35 @@
-export interface Ticket {
-  id: string;
-  title: string;
-  description: string;
-  status: 'open' | 'in_progress' | 'resolved' | 'closed';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  category: 'technical' | 'billing' | 'feature_request' | 'bug_report' | 'general';
-  createdBy: string;
-  createdByEmail: string;
-  assignedTo?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  messages: TicketMessage[];
+import { BaseModel } from "src/app/core/models/base-model";
+import { PagedAndSortedSearchInput } from "src/app/core/models/request-model";
+
+export interface Ticket extends BaseModel {
+  GuidId: string;
+  Title: string;
+  Description: string;
+  Status: 'open' | 'in_progress' | 'resolved' | 'closed';
+  Priority: 'low' | 'medium' | 'high' | 'urgent';
+  Category: 'technical' | 'billing' | 'feature_request' | 'bug_report' | 'general';
+  CreatedBy: string;
+  CreatedByEmail: string;
+  AssignedTo?: string;
+  CreatedAt: Date;
+  UpdatedAt: Date;
+  Messages: TicketMessage[];
+}
+
+export interface TicketDto {
+  Id: number;
+  GuidId: string;
+  Title: string;
+  Description: string;
+  Status: 'open' | 'in_progress' | 'resolved' | 'closed';
+  Priority: 'low' | 'medium' | 'high' | 'urgent';
+  Category: 'technical' | 'billing' | 'feature_request' | 'bug_report' | 'general';
+  CreatedBy: string;
+  CreatedByEmail: string;
+  AssignedTo?: string;
+  CreatedAt: Date;
+  UpdatedAt: Date;
+  Messages: TicketMessage[];
 }
 
 export interface TicketMessage {
@@ -38,3 +57,23 @@ export interface TicketResponse {
   message: string;
   isInternal?: boolean;
 } 
+
+export interface TicketMessageDto  {
+  ticketId: number;
+  message: string;
+  attachments?: string[];
+}
+
+export type TicketStatus = 'open' | 'in_progress' | 'resolved' | 'closed';
+
+
+export class DefaultTicketListRequestModel extends PagedAndSortedSearchInput{
+
+  constructor() {
+      super();
+      this.Page = 1;
+      this.Limit = 10;
+      // this.SortExpression =  "UserName"+":"+"desc";
+      this.Search = "";
+  }
+}

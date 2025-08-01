@@ -129,19 +129,20 @@
     </div>
 
     <div *ngFor="let ticket of filteredTickets" class="ticket-card" (click)="openTicket(ticket)">
+      
       <div class="ticket-header">
         <div class="ticket-info">
-          <h3 class="ticket-title">{{ ticket.title }}</h3>
-          <p class="ticket-description">{{ ticket.description }}</p>
+          <h3 class="ticket-title">{{ ticket?.Title }}</h3>
+          <p class="ticket-description">{{ ticket?.Description }}</p>
         </div>
         
         <div class="ticket-meta">
           <div class="ticket-category">
-            <i [class]="getCategoryIcon(ticket.category)"></i>
-            <span>{{ getCategoryLabel(ticket.category) }}</span>
+            <i [class]="getCategoryIcon(ticket.Category)"></i>
+            <span>{{ getCategoryLabel(ticket.Category) }}</span>
           </div>
           <div class="ticket-date">
-            {{ ticket.createdAt | date:'dd MMM yyyy' }}
+            {{ ticket.CreatedAt | date:'dd MMM yyyy' }}
           </div>
         </div>
       </div>
@@ -149,23 +150,23 @@
       <div class="ticket-footer">
         <div class="ticket-tags">
           <p-tag 
-            [value]="getStatusLabel(ticket.status)" 
-            [severity]="getStatusColor(ticket.status)"
+            [value]="getStatusLabel(ticket.Status)" 
+            [severity]="getStatusColor(ticket.Status)"
           ></p-tag>
           <p-tag 
-            [value]="getPriorityLabel(ticket.priority)" 
-            [severity]="getPriorityColor(ticket.priority)"
+            [value]="getPriorityLabel(ticket.Priority)" 
+            [severity]="getPriorityColor(ticket.Priority)"
           ></p-tag>
         </div>
 
         <div class="ticket-details">
           <div class="ticket-author">
             <i class="pi pi-user"></i>
-            <span>{{ ticket.createdBy }}</span>
+            <span>{{ ticket.CreatedBy }}</span>
           </div>
           <div class="ticket-messages">
             <i class="pi pi-comments"></i>
-            <span>{{ ticket.messages.length }} mesaj</span>
+            <span>{{ ticket.Messages?.length || 0 }} mesaj</span>
           </div>
         </div>
       </div>

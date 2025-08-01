@@ -60,7 +60,8 @@ export class CreateTicketComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(20)]],
       category: ['', Validators.required],
       priority: ['medium', Validators.required],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      message: ['', [Validators.required]]
     });
   }
 
@@ -75,20 +76,20 @@ export class CreateTicketComponent implements OnInit {
 
       this.supportService.createTicket(ticketData).subscribe({
         next: (response) => {
-          if (response.isSuccess) {
+          if (response.IsSuccess) {
             this.messageService.add({
               severity: 'success',
               summary: 'Başarılı',
-              detail: 'Destek talebiniz başarıyla oluşturuldu. Ticket ID: ' + response.data
+              detail: 'Destek talebiniz başarıyla oluşturuldu. Ticket ID: ' + response.Entity
             });
             setTimeout(() => {
-              this.router.navigate(['/support', response.data]);
+              this.router.navigate(['/support', response.Entity]);
             }, 2000);
           } else {
             this.messageService.add({
               severity: 'error',
               summary: 'Hata',
-              detail: response.message || 'Destek talebi oluşturulamadı.'
+              detail: response.ReturnMessage.toString() || 'Destek talebi oluşturulamadı.'
             });
           }
           this.isSubmitting = false;

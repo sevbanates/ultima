@@ -11,10 +11,10 @@
                 pTooltip="Geri Dön">
         </button>
         <div class="ticket-info">
-          <h1 class="ticket-title">{{ ticket.title }}</h1>
+          <h1 class="ticket-title">{{ ticket.Title }}</h1>
           <div class="ticket-meta">
-            <span class="ticket-id">#{{ ticket.id }}</span>
-            <span class="ticket-date">{{ ticket.createdAt | date:'dd MMM yyyy HH:mm' }}</span>
+            <span class="ticket-id">#{{ ticket.Id }}</span>
+            <span class="ticket-date">{{ ticket.CreatedAt | date:'dd MMM yyyy HH:mm' }}</span>
           </div>
         </div>
       </div>
@@ -44,15 +44,15 @@
             <div class="card-header">
               <div class="ticket-tags">
                 <p-tag 
-                  [value]="getStatusLabel(ticket.status)" 
-                  [severity]="getStatusColor(ticket.status)"
+                  [value]="getStatusLabel(ticket.Status)" 
+                  [severity]="getStatusColor(ticket.Status)"
                 ></p-tag>
                 <p-tag 
-                  [value]="getPriorityLabel(ticket.priority)" 
-                  [severity]="getPriorityColor(ticket.priority)"
+                  [value]="getPriorityLabel(ticket.Priority)" 
+                  [severity]="getPriorityColor(ticket.Priority)"
                 ></p-tag>
                 <p-tag 
-                  [value]="getCategoryLabel(ticket.category)" 
+                  [value]="getCategoryLabel(ticket.Category)" 
                   severity="info"
                 ></p-tag>
               </div>
@@ -62,15 +62,15 @@
           <ng-template pTemplate="content">
             <div class="ticket-description">
               <h3>Talep Açıklaması</h3>
-              <p>{{ ticket.description }}</p>
+              <p>{{ ticket.Description }}</p>
             </div>
 
             <div class="ticket-author">
               <div class="author-info">
                 <i class="pi pi-user"></i>
                 <div class="author-details">
-                  <span class="author-name">{{ ticket.createdBy }}</span>
-                  <span class="author-email">{{ ticket.createdByEmail }}</span>
+                  <span class="author-name">{{ ticket.CreatedBy }}</span>
+                  <span class="author-email">{{ ticket.CreatedByEmail }}</span>
                 </div>
               </div>
             </div>
@@ -81,11 +81,11 @@
         <div class="messages-section">
           <h3 class="section-title">
             <i class="pi pi-comments"></i>
-            Mesajlar ({{ ticket.messages.length }})
+            Mesajlar ({{ ticket.Messages.length }})
           </h3>
 
           <div class="messages-list">
-            <div *ngFor="let message of ticket.messages" 
+            <div *ngFor="let message of ticket.Messages" 
                  class="message-item"
                  [ngClass]="{'admin-message': message.senderType === 'admin', 'user-message': message.senderType === 'user'}">
               
@@ -182,42 +182,42 @@
               <div class="info-item">
                 <span class="info-label">Durum:</span>
                 <p-tag 
-                  [value]="getStatusLabel(ticket.status)" 
-                  [severity]="getStatusColor(ticket.status)"
+                  [value]="getStatusLabel(ticket.Status)" 
+                  [severity]="getStatusColor(ticket.Status)"
                 ></p-tag>
               </div>
               
               <div class="info-item">
                 <span class="info-label">Öncelik:</span>
                 <p-tag 
-                  [value]="getPriorityLabel(ticket.priority)" 
-                  [severity]="getPriorityColor(ticket.priority)"
+                  [value]="getPriorityLabel(ticket.Priority)" 
+                  [severity]="getPriorityColor(ticket.Priority)"
                 ></p-tag>
               </div>
               
               <div class="info-item">
                 <span class="info-label">Kategori:</span>
-                <span class="info-value">{{ getCategoryLabel(ticket.category) }}</span>
+                <span class="info-value">{{ getCategoryLabel(ticket.Category) }}</span>
               </div>
               
               <div class="info-item">
                 <span class="info-label">Oluşturan:</span>
-                <span class="info-value">{{ ticket.createdBy }}</span>
+                <span class="info-value">{{ ticket.CreatedBy }}</span>
               </div>
               
               <div class="info-item">
                 <span class="info-label">E-posta:</span>
-                <span class="info-value">{{ ticket.createdByEmail }}</span>
+                <span class="info-value">{{ ticket.CreatedByEmail }}</span>
               </div>
               
               <div class="info-item">
                 <span class="info-label">Oluşturma:</span>
-                <span class="info-value">{{ ticket.createdAt | date:'dd MMM yyyy HH:mm' }}</span>
+                <span class="info-value">{{ ticket.CreatedAt | date:'dd MMM yyyy HH:mm' }}</span>
               </div>
               
               <div class="info-item">
                 <span class="info-label">Güncelleme:</span>
-                <span class="info-value">{{ ticket.updatedAt | date:'dd MMM yyyy HH:mm' }}</span>
+                <span class="info-value">{{ ticket.UpdatedAt | date:'dd MMM yyyy HH:mm' }}</span>
               </div>
             </div>
           </ng-template>
