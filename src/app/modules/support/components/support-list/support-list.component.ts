@@ -10,7 +10,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { Ticket } from '../../models/ticket.model';
-import { SupportService } from '../../services/support.service';
+import { SupportService, PagedAndSortedSearchInput, PagedAndSortedResponse } from '../../services/support.service';
 
 @Component({
   selector: 'app-support-list',
@@ -73,8 +73,15 @@ export class SupportListComponent implements OnInit {
   }
 
   loadTickets() {
-    this.supportService.getTickets().subscribe(tickets => {
-      this.tickets = tickets;
+    const input: PagedAndSortedSearchInput = {
+      pageNumber: 1,
+      pageSize: 100,
+      sortField: 'createdAt',
+      sortOrder: 'desc'
+    };
+    
+    this.supportService.getTickets(input).subscribe((response: PagedAndSortedResponse<Ticket>) => {
+      this.tickets = response.items;
       this.filterTickets();
     });
   }

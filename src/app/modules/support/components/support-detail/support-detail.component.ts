@@ -11,7 +11,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ticket, TicketMessage } from '../../models/ticket.model';
-import { SupportService } from '../../services/support.service';
+import { SupportService, TicketMessageDto, ActionResponse, TicketStatus } from '../../services/support.service';
 
 @Component({
   selector: 'app-support-detail',
@@ -65,9 +65,20 @@ export class SupportDetailComponent implements OnInit {
   }
 
   loadTicket(ticketId: string) {
-    this.supportService.getTicketById(ticketId).subscribe(ticket => {
-      this.ticket = ticket;
-      if (!ticket) {
+    // Parse ticketId to get both id and guidId
+    const parts = ticketId.split('/');
+    const id = parseInt(parts[0]);
+    const guidId = parts[1] || '';
+    
+    this.supportService.getTicket(id, guidId).subscribe((response: ActionResponse<Ticket>) => {
+      if (response.isSuccess) {
+        this.ticket = response.data;
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Hata',
+          detail: response.message || 'Ticket bulunamadı.'
+        });
         this.router.navigate(['/support']);
       }
     });
@@ -129,15 +140,29 @@ export class SupportDetailComponent implements OnInit {
       this.isSubmitting = true;
       const response = this.responseForm.value;
 
-      this.supportService.addResponse(this.ticket.id, response, true).subscribe({
-        next: (message) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Başarılı',
-            detail: 'Yanıtınız gönderildi.'
-          });
-          this.responseForm.reset();
-          this.loadTicket(this.ticket!.id);
+      const messageDto: TicketMessageDto = {
+        ticketId: parseInt(this.ticket.id),
+        message: response.message,
+        attachments: []
+      };
+
+      this.supportService.addMessage(messageDto).subscribe({
+        next: (response: ActionResponse<boolean>) => {
+          if (response.isSuccess) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Başarılı',
+              detail: 'Yanıtınız gönderildi.'
+            });
+            this.responseForm.reset();
+            this.loadTicket(this.ticket!.id);
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Hata',
+              detail: response.message || 'Yanıt gönderilemedi.'
+            });
+          }
           this.isSubmitting = false;
         },
         error: (error) => {
@@ -156,14 +181,24 @@ export class SupportDetailComponent implements OnInit {
 
   updateStatus(newStatus: string) {
     if (this.ticket) {
-      this.supportService.updateTicketStatus(this.ticket.id, newStatus as any).subscribe({
-        next: (updatedTicket) => {
-          this.ticket = updatedTicket;
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Başarılı',
-            detail: 'Ticket durumu güncellendi.'
-          });
+      const ticketId = parseInt(this.ticket.id);
+      this.supportService.changeStatus(ticketId, newStatus as TicketStatus).subscribe({
+        next: (response: ActionResponse<boolean>) => {
+          if (response.isSuccess) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Başarılı',
+              detail: 'Ticket durumu güncellendi.'
+            });
+            // Reload the ticket to get updated data
+            this.loadTicket(this.ticket!.id);
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Hata',
+              detail: response.message || 'Durum güncellenemedi.'
+            });
+          }
         },
         error: (error) => {
           this.messageService.add({
