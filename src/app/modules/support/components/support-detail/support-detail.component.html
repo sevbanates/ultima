@@ -96,31 +96,33 @@
             </button>
           </div>
 
-          <div class="messages-list" *ngIf="ticket.Messages && ticket.Messages.length > 0; else noMessages">
+          <div class="messages-list chat-container" *ngIf="ticket.Messages && ticket.Messages.length > 0; else noMessages">
             <div *ngFor="let message of ticket.Messages; let i = index" 
-                 class="message-item"
+                 class="message-wrapper"
                  [ngClass]="{
                    'admin-message': getMessageProperty(message, 'senderType') === 'admin', 
                    'user-message': getMessageProperty(message, 'senderType') === 'user'
                  }">
               
-              <div class="message-header">
-                <div class="message-author">
-                  <div class="author-avatar" [ngClass]="getMessageProperty(message, 'senderType') || 'user'">
-                    <i class="pi" [ngClass]="getMessageProperty(message, 'senderType') === 'admin' ? 'pi-shield' : 'pi-user'"></i>
+              <div class="message-bubble">
+                <div class="message-header">
+                  <div class="message-author">
+                    <div class="author-avatar" [ngClass]="getMessageProperty(message, 'senderType') || 'user'">
+                      <i class="pi" [ngClass]="getMessageProperty(message, 'senderType') === 'admin' ? 'pi-shield' : 'pi-user'"></i>
+                    </div>
+                    <div class="author-info">
+                      <span class="author-name">{{ getMessageProperty(message, 'senderName') || 'Bilinmeyen Kullanıcı' }}</span>
+                      <span class="message-time">{{ formatMessageDate(message) }}</span>
+                    </div>
                   </div>
-                  <div class="author-info">
-                    <span class="author-name">{{ getMessageProperty(message, 'senderName') || 'Bilinmeyen Kullanıcı' }}</span>
-                    <span class="message-time">{{ formatMessageDate(message) }}</span>
+                  <div class="message-badge" *ngIf="getMessageProperty(message, 'isInternal')">
+                    <p-tag value="İç Not" severity="warning" size="small"></p-tag>
                   </div>
                 </div>
-                <div class="message-badge" *ngIf="getMessageProperty(message, 'isInternal')">
-                  <p-tag value="İç Not" severity="warning" size="small"></p-tag>
-                </div>
-              </div>
 
-              <div class="message-content">
-                <p>{{ getMessageProperty(message, 'message') || 'Mesaj içeriği bulunamadı' }}</p>
+                <div class="message-content">
+                  <p>{{ getMessageProperty(message, 'message') || 'Mesaj içeriği bulunamadı' }}</p>
+                </div>
               </div>
             </div>
           </div>

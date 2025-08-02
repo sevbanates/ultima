@@ -10,10 +10,13 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { Ticket, TicketDto, TicketMessage, TicketMessageDto, TicketStatus } from '../../models/ticket.model';
+import { Ticket, TicketDto, TicketMessage, TicketMessageDto, TicketStatus, CreateTicketMessageRequest } from '../../models/ticket.model';
 import { SupportService } from '../../services/support.service';
 import { ResponseModel } from 'src/app/core/models/response-model';
 import { Subject, takeUntil } from 'rxjs';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { LocalStorageType } from 'src/app/core/enums/local-storage-type.enum';
+import { User } from 'src/app/modules/system-management/user/models/user-list-model';
 
 @Component({
   selector: 'app-support-detail',
@@ -39,6 +42,7 @@ export class SupportDetailComponent implements OnInit {
   ticket: TicketDto | undefined;
   responseForm: FormGroup;
   isSubmitting = false;
+  currentUser: User;
 
   statusOptions = [
     { label: 'Açık', value: 'open' },
@@ -52,12 +56,15 @@ export class SupportDetailComponent implements OnInit {
     private router: Router,
     private supportService: SupportService,
     private fb: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private localStorageService: LocalStorageService
   ) {
     this.responseForm = this.fb.group({
       message: ['', [Validators.required, Validators.minLength(10)]],
       isInternal: [false]
     });
+    
+    this.currentUser = this.localStorageService.getItem(LocalStorageType.userData) as User;
   }
 
   ngOnInit() {
@@ -162,13 +169,18 @@ export class SupportDetailComponent implements OnInit {
       this.isSubmitting = true;
       const response = this.responseForm.value;
 
-      const messageDto: TicketMessageDto = {
+      const messageRequest: CreateTicketMessageRequest = {
         ticketId: this.ticket.Id,
+        senderId: this.currentUser.Id,
+        senderName: this.currentUser.UserName,
+        senderEmail: this.currentUser.Email,
+        senderType: this.currentUser.IsAdmin ? 'admin' : 'user',
         message: response.message,
-        attachments: []
+        attachments: "", // Boş string olarak gönder
+        isInternal: response.isInternal || false
       };
 
-      this.supportService.addMessage(messageDto).subscribe({
+      this.supportService.addMessage(messageRequest).subscribe({
         next: (response) => {
           if (response.IsSuccess) {
             this.messageService.add({

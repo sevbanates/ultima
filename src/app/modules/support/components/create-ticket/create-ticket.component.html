@@ -127,23 +127,23 @@
 
             <!-- Description Field -->
             <div class="form-field">
-              <label for="description" class="field-label">
+              <label for="message" class="field-label">
                 <i class="pi pi-file-text"></i>
                 Mesajınız
                 <span class="required">*</span>
               </label>
               <textarea
-                id="description"
+                id="message"
                 pInputTextarea
                 formControlName="message"
                 [rows]="6"
                 placeholder="Sorununuzu detaylı bir şekilde açıklayın. Hata mesajları, ekran görüntüleri veya adımları belirtin."
-                [class.invalid]="isFieldInvalid('description')"
+                [class.invalid]="isFieldInvalid('message')"
                 class="form-textarea"
               ></textarea>
-              <div *ngIf="getFieldError('description')" class="error-message">
+              <div *ngIf="getFieldError('message')" class="error-message">
                 <i class="pi pi-exclamation-triangle"></i>
-                {{ getFieldError('description') }}
+                {{ getFieldError('message') }}
               </div>
             </div>
 

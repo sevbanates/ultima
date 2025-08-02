@@ -45,12 +45,24 @@ export interface TicketMessage {
   isInternal?: boolean; // Admin'ler arası notlar için
 }
 
+export interface CreateTicketMessageRequest {
+  ticketId: number;
+  senderId: number;
+  senderName: string;
+  senderEmail: string;
+  senderType: 'user' | 'admin';
+  message: string;
+  attachments?: string; // Virgül ile ayrılmış dosya yolları
+  isInternal: boolean; // Admin'ler arası notlar için
+}
+
 export interface CreateTicketRequest {
   title: string;
-  description: string;
+  // description: string;
   priority: 'low' | 'medium' | 'high' | 'urgent';
   category: 'technical' | 'billing' | 'feature_request' | 'bug_report' | 'general';
   email: string;
+  message: string;
 }
 
 export interface TicketResponse {

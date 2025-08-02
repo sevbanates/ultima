@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Ticket, CreateTicketRequest, TicketMessage, DefaultTicketListRequestModel, TicketDto, TicketMessageDto, TicketStatus } from '../models/ticket.model';
+import { Ticket, CreateTicketRequest, TicketMessage, DefaultTicketListRequestModel, TicketDto, TicketMessageDto, TicketStatus, CreateTicketMessageRequest } from '../models/ticket.model';
 import { environment } from 'src/app/environments/environment.dev';
 import { BaseService } from 'src/app/core/services/base-service';
 import { ResponseModel } from 'src/app/core/models/response-model';
@@ -28,7 +28,7 @@ export class SupportService extends BaseService<Ticket, DefaultTicketListRequest
   }
 
   // Mesaj ekleme
-  addMessage(dto: TicketMessageDto): Observable<ResponseModel<boolean>> {
+  addMessage(dto: CreateTicketMessageRequest): Observable<ResponseModel<boolean>> {
     return this._httpClient.post<ResponseModel<boolean>>(`${this.apiUrl}${this.controllerName}/message`, dto);
   }
 
