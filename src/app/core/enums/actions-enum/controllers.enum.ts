@@ -7,4 +7,5 @@ export enum Controllers {
     ScheduleEvent = "ScheduleEvent",
     Inquiry = "Inquiry",
     Message = "Message",
+    Ticket = "Ticket",
 }
