@@ -23,8 +23,8 @@ export class SupportService extends BaseService<Ticket, DefaultTicketListRequest
   }
 
   // Ticket oluşturma
-  createTicket(dto: CreateTicketRequest): Observable<ResponseModel<number>> {
-    return this._httpClient.post<ResponseModel<number>>(`${this.apiUrl}${this.controllerName}/create`, dto);
+  createTicket(dto: CreateTicketRequest): Observable<ResponseModel<TicketDto>> {
+    return this._httpClient.post<ResponseModel<TicketDto>>(`${this.apiUrl}${this.controllerName}/create`, dto);
   }
 
   // Mesaj ekleme

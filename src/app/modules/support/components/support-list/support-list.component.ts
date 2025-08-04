@@ -9,7 +9,7 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
-import { Ticket, TicketDto } from '../../models/ticket.model';
+import { CategoryEnum, PriorityEnum, Ticket, TicketDto, TicketStatusEnum } from '../../models/ticket.model';
 import { SupportService } from '../../services/support.service';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -35,34 +35,34 @@ export class SupportListComponent implements OnInit {
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   tickets: TicketDto[] = [];
   filteredTickets: TicketDto[] = [];
-  selectedStatus: string = 'all';
-  selectedPriority: string = 'all';
-  selectedCategory: string = 'all';
+  selectedStatus: number = 0;
+  selectedPriority: number = 0;
+  selectedCategory: number = 0;
   searchTerm: string = '';
 
   statusOptions = [
-    { label: 'Tümü', value: 'all' },
-    { label: 'Açık', value: 'open' },
-    { label: 'İşlemde', value: 'in_progress' },
-    { label: 'Çözüldü', value: 'resolved' },
-    { label: 'Kapalı', value: 'closed' }
+    { label: 'Tümü', value: 0 },
+    { label: 'Açık', value: 1 },
+    { label: 'İşlemde', value: 2 },
+    { label: 'Çözüldü', value: 3 },
+    { label: 'Kapalı', value: 4 }
   ];
 
   priorityOptions = [
-    { label: 'Tümü', value: 'all' },
-    { label: 'Düşük', value: 'low' },
-    { label: 'Orta', value: 'medium' },
-    { label: 'Yüksek', value: 'high' },
-    { label: 'Acil', value: 'urgent' }
+    { label: 'Tümü', value: 0 },
+    { label: 'Düşük', value: 1 },
+    { label: 'Orta', value: 2 },
+    { label: 'Yüksek', value: 3 },
+    { label: 'Acil', value: 4 }
   ];
 
   categoryOptions = [
-    { label: 'Tümü', value: 'all' },
-    { label: 'Teknik', value: 'technical' },
-    { label: 'Faturalama', value: 'billing' },
-    { label: 'Özellik Talebi', value: 'feature_request' },
-    { label: 'Hata Raporu', value: 'bug_report' },
-    { label: 'Genel', value: 'general' }
+    { label: 'Tümü', value: 0 },
+    { label: 'Teknik', value: 1 },
+    { label: 'Faturalama', value: 2 },
+    { label: 'Özellik Talebi', value: 3 },
+    { label: 'Hata Raporu', value: 4 },
+    { label: 'Genel', value: 5 }
   ];
 
   constructor(
@@ -85,9 +85,9 @@ export class SupportListComponent implements OnInit {
 
   filterTickets() {
     this.filteredTickets = this.tickets.filter(ticket => {
-      const statusMatch = this.selectedStatus === 'all' || ticket.Status === this.selectedStatus;
-      const priorityMatch = this.selectedPriority === 'all' || ticket.Priority === this.selectedPriority;
-      const categoryMatch = this.selectedCategory === 'all' || ticket.Category === this.selectedCategory;
+      const statusMatch = this.selectedStatus === 0 || ticket.Status === this.selectedStatus;
+      const priorityMatch = this.selectedPriority === 0 || ticket.Priority === this.selectedPriority;
+      const categoryMatch = this.selectedCategory === 0 || ticket.Category === this.selectedCategory;
       const searchMatch = !this.searchTerm || 
         ticket.Title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         ticket.Description.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
@@ -97,69 +97,69 @@ export class SupportListComponent implements OnInit {
     });
   }
 
-  getStatusColor(status: string): string {
+  getStatusColor(status: number): string {
     switch (status) {
-      case 'open': return 'warning';
-      case 'in_progress': return 'info';
-      case 'resolved': return 'success';
-      case 'closed': return 'secondary';
+      case TicketStatusEnum.Open: return 'warning';
+      case TicketStatusEnum.InProgress: return 'info';
+      case TicketStatusEnum.Resolved: return 'success';
+      case TicketStatusEnum.Closed: return 'secondary';
       default: return 'secondary';
     }
   }
 
-  getStatusLabel(status: string): string {
+  getStatusLabel(status: number): string {
     switch (status) {
-      case 'open': return 'Açık';
-      case 'in_progress': return 'İşlemde';
-      case 'resolved': return 'Çözüldü';
-      case 'closed': return 'Kapalı';
+      case TicketStatusEnum.Open: return 'Açık';
+      case TicketStatusEnum.InProgress: return 'İşlemde';
+      case TicketStatusEnum.Resolved: return 'Çözüldü';
+      case TicketStatusEnum.Closed: return 'Kapalı';
       default: return 'Bilinmiyor';
     }
   }
 
-  getPriorityColor(priority: string): string {
+  getPriorityColor(priority: number): string {
     switch (priority) {
-      case 'low': return 'success';
-      case 'medium': return 'warning';
-      case 'high': return 'danger';
-      case 'urgent': return 'danger';
+      case PriorityEnum.Low: return 'success';
+      case PriorityEnum.Medium: return 'warning';
+      case PriorityEnum.High: return 'danger';
+      case PriorityEnum.Urgent: return 'danger';
       default: return 'secondary';
     }
   }
 
-  getPriorityLabel(priority: string): string {
+  getPriorityLabel(priority: number): string {
     switch (priority) {
-      case 'low': return 'Düşük';
-      case 'medium': return 'Orta';
-      case 'high': return 'Yüksek';
-      case 'urgent': return 'Acil';
+      case PriorityEnum.Low: return 'Düşük';
+      case PriorityEnum.Medium: return 'Orta';
+      case PriorityEnum.High: return 'Yüksek';
+      case PriorityEnum.Urgent: return 'Acil';
       default: return 'Bilinmiyor';
     }
   }
 
-  getCategoryLabel(category: string): string {
+  getCategoryLabel(category: number): string {
     switch (category) {
-      case 'technical': return 'Teknik';
-      case 'billing': return 'Faturalama';
-      case 'feature_request': return 'Özellik Talebi';
-      case 'bug_report': return 'Hata Raporu';
-      case 'general': return 'Genel';
+      case CategoryEnum.Technical: return 'Teknik';
+      case CategoryEnum.Billing: return 'Faturalama';
+      case CategoryEnum.FeatureRequest: return 'Özellik Talebi';
+      case CategoryEnum.BugReport: return 'Hata Raporu';
+      case CategoryEnum.General: return 'Genel';
       default: return 'Bilinmiyor';
     }
   }
 
-  getCategoryIcon(category: string): string {
+  getCategoryIcon(category: number): string {
     switch (category) {
-      case 'technical': return 'pi pi-cog';
-      case 'billing': return 'pi pi-credit-card';
-      case 'feature_request': return 'pi pi-star';
-      case 'bug_report': return 'pi pi-exclamation-triangle';
-      case 'general': return 'pi pi-question-circle';
+      case CategoryEnum.Technical: return 'pi pi-cog';
+      case CategoryEnum.Billing: return 'pi pi-credit-card';
+      case CategoryEnum.FeatureRequest: return 'pi pi-star';
+      case CategoryEnum.BugReport: return 'pi pi-exclamation-triangle';
+      case CategoryEnum.General: return 'pi pi-question-circle';
       default: return 'pi pi-file';
     }
   }
 
-  openTicket(ticket: Ticket) {
+  openTicket(ticket: TicketDto) {
     debugger
     this.router.navigate([`support/${ticket.Id}/${ticket.GuidId}`]);
   }
@@ -185,15 +185,15 @@ export class SupportListComponent implements OnInit {
   }
 
   get openTicketsCount(): number {
-    return this.tickets.filter(t => t.Status === 'open').length;
+    return this.tickets.filter(t => t.Status === TicketStatusEnum.Open).length;
   }
 
   get inProgressTicketsCount(): number {
-    return this.tickets.filter(t => t.Status === 'in_progress').length;
+    return this.tickets.filter(t => t.Status === TicketStatusEnum.InProgress).length;
   }
 
   get resolvedTicketsCount(): number {
-    return this.tickets.filter(t => t.Status === 'resolved').length;
+    return this.tickets.filter(t => t.Status === TicketStatusEnum.Resolved).length;
   }
 
   get totalTicketsCount(): number {

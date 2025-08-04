@@ -21,9 +21,9 @@ export interface TicketDto {
   GuidId: string;
   Title: string;
   Description: string;
-  Status: 'open' | 'in_progress' | 'resolved' | 'closed';
-  Priority: 'low' | 'medium' | 'high' | 'urgent';
-  Category: 'technical' | 'billing' | 'feature_request' | 'bug_report' | 'general';
+  Status: TicketStatusEnum;
+  Priority: PriorityEnum;
+  Category: CategoryEnum;
   CreatedBy: string;
   CreatedByEmail: string;
   AssignedTo?: string;
@@ -59,8 +59,8 @@ export interface CreateTicketMessageRequest {
 export interface CreateTicketRequest {
   title: string;
   // description: string;
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  category: 'technical' | 'billing' | 'feature_request' | 'bug_report' | 'general';
+  priority: PriorityEnum;
+  category: CategoryEnum;
   email: string;
   message: string;
 }
@@ -88,4 +88,26 @@ export class DefaultTicketListRequestModel extends PagedAndSortedSearchInput{
       // this.SortExpression =  "UserName"+":"+"desc";
       this.Search = "";
   }
+}
+
+export enum CategoryEnum {
+  Technical = 1,
+  Billing = 2,
+  FeatureRequest = 3,
+  BugReport = 4,
+  General = 5
+}
+
+export enum PriorityEnum {
+  Low = 1,
+  Medium = 2,
+  High = 3,
+  Urgent = 4
+}
+
+export enum TicketStatusEnum {
+  Open = 1,
+  InProgress = 2,
+  Resolved = 3,
+  Closed = 4
 }

@@ -173,7 +173,7 @@ export class AppMenuComponent implements OnInit {
                         },
                        {
                             label: 'Teknik Destek',
-                            icon: 'pi pi-headset',
+                            icon: 'pi pi-wrench',
                             routerLink: ['/support']
                         },
                         // {
@@ -702,6 +702,11 @@ export class AppMenuComponent implements OnInit {
                             label: 'Carilerim',
                             icon: 'pi pi-users',
                             routerLink: ['/customer']
+                        },
+                        {
+                            label: 'Teknik Destek',
+                            icon: 'pi pi-wrench',
+                            routerLink: ['/support']
                         },
                         // {
                         //     label: 'Analytics Dashboard',

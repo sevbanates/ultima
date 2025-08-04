@@ -9,7 +9,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { CreateTicketRequest } from '../../models/ticket.model';
+import { CategoryEnum, CreateTicketRequest, PriorityEnum } from '../../models/ticket.model';
 import { SupportService } from '../../services/support.service';
 
 @Component({
@@ -35,18 +35,18 @@ export class CreateTicketComponent implements OnInit {
   isSubmitting = false;
 
   categoryOptions = [
-    { label: 'Teknik', value: 'technical' },
-    { label: 'Faturalama', value: 'billing' },
-    { label: 'Özellik Talebi', value: 'feature_request' },
-    { label: 'Hata Raporu', value: 'bug_report' },
-    { label: 'Genel', value: 'general' }
+    { label: 'Teknik', value: CategoryEnum.Technical },
+    { label: 'Faturalama', value: CategoryEnum.Billing },
+    { label: 'Özellik Talebi', value: CategoryEnum.FeatureRequest },
+    { label: 'Hata Raporu', value: CategoryEnum.BugReport },
+    { label: 'Genel', value: CategoryEnum.General }
   ];
 
   priorityOptions = [
-    { label: 'Düşük', value: 'low' },
-    { label: 'Orta', value: 'medium' },
-    { label: 'Yüksek', value: 'high' },
-    { label: 'Acil', value: 'urgent' }
+    { label: 'Düşük', value: PriorityEnum.Low },
+    { label: 'Orta', value: PriorityEnum.Medium },
+    { label: 'Yüksek', value: PriorityEnum.High },
+    { label: 'Acil', value: PriorityEnum.Urgent }
   ];
 
   constructor(
@@ -83,7 +83,7 @@ export class CreateTicketComponent implements OnInit {
               detail: 'Destek talebiniz başarıyla oluşturuldu. Ticket ID: ' + response.Entity
             });
             setTimeout(() => {
-              this.router.navigate(['/support', response.Entity]);
+              this.router.navigate(['/support/' + response.Entity.Id + '/' + response.Entity.GuidId]);
             }, 2000);
           } else {
             this.messageService.add({

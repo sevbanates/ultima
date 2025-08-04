@@ -89,11 +89,14 @@
     display: grid;
     grid-template-columns: 1fr 350px;
     gap: 2rem;
+    overflow: hidden; // Grid taşmasını önle
     
     .main-content {
       display: flex;
       flex-direction: column;
       gap: 2rem;
+      min-width: 0; // Flex item'ın küçülmesine izin ver
+      overflow: hidden; // İçerik taşmasını önle
       
       .ticket-card {
         ::ng-deep .p-card {
@@ -173,6 +176,8 @@
         border-radius: 16px;
         padding: 2rem;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        min-width: 0; // Flex item'ın küçülmesine izin ver
+        overflow: hidden; // İçerik taşmasını önle
         
         .section-header {
           display: flex;
@@ -207,15 +212,19 @@
           display: flex;
           flex-direction: column;
           gap: 1rem;
+          min-height: 300px; // Minimum yükseklik
           max-height: 500px;
           overflow-y: auto;
+          overflow-x: hidden; // Yatay taşmayı önle
           padding: 1rem;
           background: #f8f9fa;
           border-radius: 12px;
+          width: 100%; // Genişliği garantile
           
           .message-wrapper {
             display: flex;
             width: 100%;
+            min-width: 0; // Flex item'ın küçülmesine izin ver
             
             &.user-message {
               justify-content: flex-start; // User mesajları sol tarafta
@@ -295,6 +304,8 @@
               padding: 1rem 1.25rem;
               box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
               transition: all 0.3s ease;
+              min-width: 0; // Flex item'ın küçülmesine izin ver
+              box-sizing: border-box; // Padding'i genişliğe dahil et
               
               &:hover {
                 transform: translateY(-1px);
@@ -345,11 +356,17 @@
               }
               
               .message-content {
+                width: 100%; // Genişliği garantile
+                
                 p {
                   line-height: 1.5;
                   margin: 0;
                   font-size: 0.9rem;
                   word-wrap: break-word;
+                  word-break: break-word; // Uzun kelimeleri kır
+                  overflow-wrap: break-word; // Modern tarayıcılar için
+                  max-width: 100%; // Maksimum genişlik sınırla
+                  white-space: normal; // Normal metin akışı
                 }
               }
             }
@@ -630,6 +647,7 @@
       }
       
       .messages-section .messages-list.chat-container {
+        min-height: 250px; // Mobile minimum yükseklik
         max-height: 400px;
         padding: 0.75rem;
         
@@ -662,8 +680,15 @@
               }
             }
             
-            .message-content p {
-              font-size: 0.85rem;
+            .message-content {
+              p {
+                font-size: 0.85rem;
+                word-wrap: break-word;
+                word-break: break-word;
+                overflow-wrap: break-word;
+                max-width: 100%;
+                white-space: normal;
+              }
             }
           }
           

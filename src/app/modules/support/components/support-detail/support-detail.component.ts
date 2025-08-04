@@ -10,7 +10,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { Ticket, TicketDto, TicketMessage, TicketMessageDto, TicketStatus, CreateTicketMessageRequest } from '../../models/ticket.model';
+import { Ticket, TicketDto, TicketMessage, TicketMessageDto, TicketStatus, CreateTicketMessageRequest, CategoryEnum, PriorityEnum, TicketStatusEnum } from '../../models/ticket.model';
 import { SupportService } from '../../services/support.service';
 import { ResponseModel } from 'src/app/core/models/response-model';
 import { Subject, takeUntil } from 'rxjs';
@@ -113,53 +113,53 @@ export class SupportDetailComponent implements OnInit {
     });
   }
 
-  getStatusColor(status: string): string {
+  getStatusColor(status: number): string {
     switch (status) {
-      case 'open': return 'warning';
-      case 'in_progress': return 'info';
-      case 'resolved': return 'success';
-      case 'closed': return 'secondary';
+      case TicketStatusEnum.Open: return 'warning';
+      case TicketStatusEnum.InProgress: return 'info';
+      case TicketStatusEnum.Resolved: return 'success';
+      case TicketStatusEnum.Closed: return 'secondary';
       default: return 'secondary';
     }
   }
 
-  getStatusLabel(status: string): string {
+  getStatusLabel(status: number): string {
     switch (status) {
-      case 'open': return 'Açık';
-      case 'in_progress': return 'İşlemde';
-      case 'resolved': return 'Çözüldü';
-      case 'closed': return 'Kapalı';
+      case TicketStatusEnum.Open: return 'Açık';
+      case TicketStatusEnum.InProgress: return 'İşlemde';
+      case TicketStatusEnum.Resolved: return 'Çözüldü';
+      case TicketStatusEnum.Closed: return 'Kapalı';
       default: return 'Bilinmiyor';
     }
   }
 
-  getPriorityColor(priority: string): string {
+  getPriorityColor(priority: number): string {
     switch (priority) {
-      case 'low': return 'success';
-      case 'medium': return 'warning';
-      case 'high': return 'danger';
-      case 'urgent': return 'danger';
+      case PriorityEnum.Low: return 'success';
+      case PriorityEnum.Medium: return 'warning';
+      case PriorityEnum.High: return 'danger';
+      case PriorityEnum.Urgent: return 'danger';
       default: return 'secondary';
     }
   }
 
-  getPriorityLabel(priority: string): string {
+  getPriorityLabel(priority: number): string {
     switch (priority) {
-      case 'low': return 'Düşük';
-      case 'medium': return 'Orta';
-      case 'high': return 'Yüksek';
-      case 'urgent': return 'Acil';
+      case PriorityEnum.Low: return 'Düşük';
+      case PriorityEnum.Medium: return 'Orta';
+      case PriorityEnum.High: return 'Yüksek';
+      case PriorityEnum.Urgent: return 'Acil';
       default: return 'Bilinmiyor';
     }
   }
 
-  getCategoryLabel(category: string): string {
+  getCategoryLabel(category: number): string {
     switch (category) {
-      case 'technical': return 'Teknik';
-      case 'billing': return 'Faturalama';
-      case 'feature_request': return 'Özellik Talebi';
-      case 'bug_report': return 'Hata Raporu';
-      case 'general': return 'Genel';
+      case CategoryEnum.Technical: return 'Teknik';
+      case CategoryEnum.Billing: return 'Faturalama';
+      case CategoryEnum.FeatureRequest: return 'Özellik Talebi';
+      case CategoryEnum.BugReport: return 'Hata Raporu';
+      case CategoryEnum.General: return 'Genel';
       default: return 'Bilinmiyor';
     }
   }
