@@ -1,433 +1,417 @@
-.create-request-container {
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
+.mail-request-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
 }
 
 // Header Section
-.request-header {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.mail-header {
+  text-align: center;
+  color: white;
   
   .header-content {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
+    gap: 1.5rem;
     
-    .header-title {
-      h1 {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #2c3e50;
-        margin: 0 0 0.5rem 0;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        
-        i {
-          color: #3498db;
-          font-size: 1.75rem;
-        }
-      }
+    .mail-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255, 255, 255, 0.3);
       
-      .header-subtitle {
-        color: #7f8c8d;
-        margin: 0;
-        font-size: 1rem;
+      i {
+        font-size: 2.5rem;
+        color: white;
       }
     }
     
-    .header-info {
-      .info-card {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 1rem;
-        background: rgba(52, 152, 219, 0.1);
+    .header-text {
+      h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        color: white;
+      }
+      
+      p {
+        font-size: 1.2rem;
+        margin: 0;
+        opacity: 0.9;
+        text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
+
+// Main Form Card
+.mail-form-card {
+  background: white;
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+  }
+  
+  .card-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin: 0 0 1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      
+      i {
+        color: #667eea;
+        font-size: 1.5rem;
+      }
+    }
+    
+    p {
+      color: #7f8c8d;
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+  }
+}
+
+// Email Input Section
+.email-section {
+  margin-bottom: 2.5rem;
+  
+  .input-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    
+    .input-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1.5rem;
+      
+      i {
+        color: white;
+        font-size: 1.25rem;
+      }
+    }
+    
+    .input-field {
+      flex: 1;
+      
+      .input-label {
+        display: block;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.75rem;
+        font-size: 1rem;
+      }
+      
+      .email-input {
+        width: 100%;
+        padding: 1rem 1.25rem;
+        border: 2px solid #e9ecef;
         border-radius: 12px;
-        border-left: 4px solid #3498db;
+        font-size: 1rem;
+        transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+        background: #f8f9fa;
+        will-change: border-color, background-color;
         
-        .info-icon {
-          color: #3498db;
-          font-size: 1.5rem;
-          flex-shrink: 0;
+        &:focus {
+          border-color: #667eea;
+          background: white;
+          box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+          outline: none;
         }
         
-        .info-content {
-          h4 {
-            color: #2c3e50;
-            margin: 0 0 0.25rem 0;
-            font-size: 0.9rem;
-            font-weight: 600;
-          }
-          
-          p {
-            color: #6c757d;
-            margin: 0;
-            font-size: 0.8rem;
-          }
+        &.invalid {
+          border-color: #e74c3c;
+          background: #fdf2f2;
+        }
+        
+        &::placeholder {
+          color: #adb5bd;
+        }
+      }
+      
+      .error-message {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #e74c3c;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        
+        i {
+          font-size: 0.75rem;
         }
       }
     }
   }
 }
 
-// Form Section
-.form-section {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+// Submit Section
+.submit-section {
+  text-align: center;
   
-  .form-container {
-    .request-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+  .send-button {
+    ::ng-deep .p-button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      will-change: transform;
+      min-width: 200px;
       
-      .form-field {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        
-        .field-label {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-weight: 600;
-          color: #2c3e50;
-          font-size: 0.9rem;
-          margin: 0;
-          
-          i {
-            color: #3498db;
-            font-size: 0.8rem;
-          }
-          
-          .required {
-            color: #e74c3c;
-            font-weight: 700;
-          }
-        }
-        
-        .form-input,
-        .form-textarea {
-          border: 2px solid #e9ecef;
-          border-radius: 8px;
-          padding: 0.75rem;
-          font-size: 0.9rem;
-          transition: all 0.3s ease;
-          
-          &:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-          }
-          
-          &.invalid {
-            border-color: #e74c3c;
-            
-            &:focus {
-              box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
-            }
-          }
-          
-          &::placeholder {
-            color: #adb5bd;
-          }
-        }
-        
-        .form-textarea {
-          resize: vertical;
-          min-height: 120px;
-        }
-        
-        .form-dropdown {
-          ::ng-deep .p-dropdown {
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            
-            &:not(.p-disabled):hover {
-              border-color: #3498db;
-            }
-            
-            &.p-focus {
-              border-color: #3498db;
-              box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-            }
-            
-            &.invalid {
-              border-color: #e74c3c;
-              
-              &.p-focus {
-                box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
-              }
-            }
-            
-            .p-dropdown-label {
-              padding: 0.75rem;
-              font-size: 0.9rem;
-            }
-            
-            .p-dropdown-trigger {
-              padding-right: 0.75rem;
-            }
-          }
-          
-          ::ng-deep .p-dropdown-panel {
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            
-            .p-dropdown-items {
-              padding: 0.5rem 0;
-              
-              .p-dropdown-item {
-                padding: 0.75rem 1rem;
-                font-size: 0.9rem;
-                
-                &:hover {
-                  background: rgba(52, 152, 219, 0.1);
-                }
-                
-                &.p-highlight {
-                  background: #3498db;
-                  color: white;
-                }
-              }
-            }
-          }
-        }
-        
-        .dropdown-item {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          
-          i {
-            color: #3498db;
-            font-size: 1rem;
-          }
-          
-          .item-content {
-            display: flex;
-            flex-direction: column;
-            
-            .item-label {
-              font-weight: 500;
-              color: #2c3e50;
-            }
-            
-            .item-description {
-              font-size: 0.8rem;
-              color: #6c757d;
-              margin-top: 0.25rem;
-            }
-          }
-        }
-        
-        .error-message {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          color: #e74c3c;
-          font-size: 0.8rem;
-          margin-top: 0.25rem;
-          
-          i {
-            font-size: 0.75rem;
-          }
-        }
+      &:hover:not(:disabled) {
+        background: linear-gradient(135deg, #5a6fd8, #6a4190);
+        transform: translate3d(0, -1px, 0);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
       }
       
-      .form-actions {
-        display: flex;
-        justify-content: center;
-        margin-top: 1rem;
-        
-        .submit-button {
-          min-width: 200px;
-          
-          ::ng-deep .p-button {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            border: none;
-            border-radius: 12px;
-            padding: 1rem 2rem;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            
-            &:hover {
-              transform: translateY(-2px);
-              box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
-            }
-            
-            &:active {
-              transform: translateY(0);
-            }
-            
-            &.p-disabled {
-              background: #bdc3c7;
-              transform: none;
-              box-shadow: none;
-            }
-          }
-        }
+      &:active {
+        transform: translate3d(0, 0, 0);
       }
-    }
-    
-    .form-info {
-      margin-top: 2rem;
       
-      .info-content {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        
-        .info-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 1rem;
-          padding: 1rem;
-          background: #f8f9fa;
-          border-radius: 12px;
-          transition: all 0.3s ease;
-          
-          &:hover {
-            background: #e9ecef;
-            transform: translateX(4px);
-          }
-          
-          .info-icon {
-            color: #3498db;
-            font-size: 1.25rem;
-            margin-top: 0.25rem;
-            flex-shrink: 0;
-          }
-          
-          .info-text {
-            h4 {
-              color: #2c3e50;
-              margin: 0 0 0.5rem 0;
-              font-size: 0.9rem;
-              font-weight: 600;
-            }
-            
-            p {
-              color: #6c757d;
-              margin: 0;
-              font-size: 0.85rem;
-              line-height: 1.5;
-            }
-          }
-        }
+      .p-button-icon {
+        margin-right: 0.75rem;
       }
     }
   }
 }
+
+// Success State
+.success-state {
+  text-align: center;
+  padding: 2rem;
+  
+  .success-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    
+    i {
+      font-size: 2.5rem;
+      color: white;
+    }
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 1rem 0;
+  }
+  
+  p {
+    color: #7f8c8d;
+    margin: 0 0 2rem 0;
+    line-height: 1.6;
+  }
+  
+  .new-mail-button {
+    ::ng-deep .p-button {
+      border-radius: 25px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+    }
+  }
+}
+
+// Info Cards
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  width: 100%;
+  
+  .info-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
+    
+    &:hover {
+      transform: translate3d(0, -2px, 0);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+    
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      
+      &.secure {
+        background: linear-gradient(135deg, #28a745, #20c997);
+      }
+      
+      &.fast {
+        background: linear-gradient(135deg, #ffc107, #fd7e14);
+      }
+      
+      &.support {
+        background: linear-gradient(135deg, #17a2b8, #6f42c1);
+      }
+      
+      i {
+        font-size: 1.5rem;
+        color: white;
+      }
+    }
+    
+    .card-content {
+      h4 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0 0 0.75rem 0;
+      }
+      
+      p {
+        color: #7f8c8d;
+        margin: 0;
+        line-height: 1.6;
+      }
+    }
+  }
+}
+
+// Optimized for performance - removed heavy animations
 
 // Responsive Design
 @media (max-width: 768px) {
-  .create-request-container {
+  .mail-request-container {
     padding: 1rem;
+    gap: 2rem;
   }
   
-  .request-header {
-    padding: 1.5rem;
-    
+  .mail-header {
     .header-content {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.5rem;
-      
-      .header-title h1 {
-        font-size: 1.75rem;
+      .mail-icon {
+        width: 60px;
+        height: 60px;
+        
+        i {
+          font-size: 2rem;
+        }
       }
       
-      .header-info {
-        width: 100%;
+      .header-text {
+        h1 {
+          font-size: 2.5rem;
+        }
         
-        .info-card {
-          width: 100%;
+        p {
+          font-size: 1rem;
         }
       }
     }
   }
   
-  .form-section {
-    padding: 1.5rem;
+  .mail-form-card {
+    padding: 2rem;
+    margin: 0 1rem;
     
-    .form-container {
-      .request-form {
-        gap: 1.25rem;
-        
-        .form-field {
-          .form-input,
-          .form-textarea {
-            padding: 0.625rem;
-          }
-        }
-        
-        .form-actions {
-          .submit-button {
-            width: 100%;
-            min-width: auto;
-          }
-        }
-      }
+    .card-header h2 {
+      font-size: 1.5rem;
+    }
+  }
+  
+  .email-section {
+    .input-group {
+      flex-direction: column;
+      align-items: stretch;
       
-      .form-info {
-        .info-content {
-          gap: 1rem;
-          
-          .info-item {
-            padding: 0.75rem;
-          }
-        }
+      .input-icon {
+        align-self: center;
+        margin-top: 0;
+        margin-bottom: 1rem;
       }
+    }
+  }
+  
+  .info-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    
+    .info-card {
+      padding: 1.5rem;
     }
   }
 }
 
 @media (max-width: 480px) {
-  .create-request-container {
-    padding: 0.5rem;
-  }
-  
-  .request-header {
-    padding: 1rem;
-    
+  .mail-header {
     .header-content {
-      .header-title h1 {
-        font-size: 1.5rem;
+      .header-text {
+        h1 {
+          font-size: 2rem;
+        }
       }
     }
   }
   
-  .form-section {
-    padding: 1rem;
-    
-    .form-container {
-      .request-form {
-        gap: 1rem;
-        
-        .form-field {
-          .field-label {
-            font-size: 0.85rem;
-          }
-          
-          .form-input,
-          .form-textarea {
-            font-size: 0.85rem;
-          }
-        }
+  .mail-form-card {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+  
+  .submit-section {
+    .send-button {
+      ::ng-deep .p-button {
+        min-width: 100%;
+        padding: 1rem;
       }
     }
   }

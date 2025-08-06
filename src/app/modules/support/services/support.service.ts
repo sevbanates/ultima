@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Ticket, CreateTicketRequest, TicketMessage, DefaultTicketListRequestModel, TicketDto, TicketMessageDto, TicketStatus, CreateTicketMessageRequest } from '../models/ticket.model';
+import { Ticket, CreateTicketRequest, TicketMessage, DefaultTicketListRequestModel, TicketDto, TicketMessageDto, TicketStatus, CreateTicketMessageRequest, TicketStatusEnum } from '../models/ticket.model';
 import { environment } from 'src/app/environments/environment.dev';
 import { BaseService } from 'src/app/core/services/base-service';
 import { ResponseModel } from 'src/app/core/models/response-model';
+import { LocalStorageType } from 'src/app/core/enums/local-storage-type.enum';
 
 // Backend DTO'ları
 
@@ -33,7 +34,7 @@ export class SupportService extends BaseService<Ticket, DefaultTicketListRequest
   }
 
   // Durum değiştirme
-  changeStatus(ticketId: number, status: TicketStatus): Observable<ResponseModel<boolean>> {
+  changeStatus(ticketId: number, status: TicketStatusEnum): Observable<ResponseModel<boolean>> {
     return this._httpClient.put<ResponseModel<boolean>>(`${this.apiUrl}${this.controllerName}/status/${ticketId}`, status);
   }
 
@@ -47,6 +48,8 @@ export class SupportService extends BaseService<Ticket, DefaultTicketListRequest
     return this._httpClient.get<ResponseModel<TicketDto>>(`${this.apiUrl}${this.controllerName}/${id}/${guidId}`).pipe(
       tap((response) => {
           this._entity.next(response.Entity);
+          
+          localStorage.setItem(LocalStorageType.ticket, JSON.stringify(response.Entity));
           return response;
       })
   );

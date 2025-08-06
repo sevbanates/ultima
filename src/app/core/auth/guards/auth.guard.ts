@@ -72,7 +72,7 @@ export class AuthGuard
               return true;
           }
     
-          this._alertService.ShowErrorMessage("You are not permitted!");
+          this._alertService.ShowErrorMessage("Yetkiniz yok!");
           this._router.navigate(["/"]);
           return false;
     

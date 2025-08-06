@@ -27,10 +27,10 @@ import { Subject, takeUntil } from 'rxjs';
     DropdownModule,
     InputTextModule
   ],
-  templateUrl: './support-list.component.html',
-  styleUrl: './support-list.component.scss'
+  templateUrl: './ticket-list.component.html',
+  styleUrl: './ticket-list.component.scss'
 })
-export class SupportListComponent implements OnInit {
+export class TicketListComponent implements OnInit {
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   tickets: TicketDto[] = [];
@@ -159,9 +159,18 @@ export class SupportListComponent implements OnInit {
     }
   }
 
+  getTicketStatusClass(status: number): string {
+    switch (status) {
+      case TicketStatusEnum.Open: return 'status-open';
+      case TicketStatusEnum.InProgress: return 'status-in-progress';
+      case TicketStatusEnum.Resolved: return 'status-resolved';
+      case TicketStatusEnum.Closed: return 'status-closed';
+      default: return 'status-unknown';
+    }
+  }
+
   openTicket(ticket: TicketDto) {
-    debugger
-    this.router.navigate([`support/${ticket.Id}/${ticket.GuidId}`]);
+    this.router.navigate([`tickets/${ticket.Id}/${ticket.GuidId}`]);
   }
 
   createNewTicket() {

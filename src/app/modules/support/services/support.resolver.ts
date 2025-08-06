@@ -3,13 +3,13 @@ import { SupportService } from "./support.service";
 import { inject } from "@angular/core";
 import { DefaultTicketListRequestModel } from "../models/ticket.model";
 
-export const supportListResolver: ResolveFn<any> =
+export const ticketListResolver: ResolveFn<any> =
     () => {
         let reqModel=new DefaultTicketListRequestModel();
       return inject(SupportService).getEntityPage(reqModel);
     }
 
-export const supportDetailResolver: ResolveFn<any> =
+export const ticketDetailResolver: ResolveFn<any> =
 (route:ActivatedRouteSnapshot,state:RouterStateSnapshot) => {
 
     let id=route.paramMap.get('id');

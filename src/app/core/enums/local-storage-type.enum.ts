@@ -4,4 +4,5 @@ export enum LocalStorageType {
     createdTokenTime = 'createdTokenTime',
     userData = 'userData',
     language = 'language', 
+    ticket = 'ticket', 
 }

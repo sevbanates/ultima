@@ -56,7 +56,7 @@ export class ResourceOwnerGuard {
                 const currentUserId = currentUser.Id.toString();
                 
                 // Kullanıcı ticket'ın yaratıcısı mı yoksa atanmış kişi mi kontrol et
-                if (ticket.CreatedBy !== currentUserId && ticket.AssignedTo !== currentUserId) {
+                if (Number(ticket.CreatedBy) !== Number(currentUserId)) {
                     this._alertService.ShowErrorMessage("Bu ticket'a erişim yetkiniz bulunmamaktadır!");
                     this._router.navigate(['/support']);
                     return of(false);

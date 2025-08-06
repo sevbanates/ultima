@@ -22,13 +22,55 @@
       
       <div class="header-right">
         <div class="ticket-status">
-          <!-- <p-dropdown
-            [options]="statusOptions"
-            [value]="ticket.status"
-            (onChange)="updateStatus($event.value)"
-            placeholder="Durum seçin"
-            class="status-dropdown"
-          ></p-dropdown> -->
+          <p-tag 
+            [value]="getStatusLabel(ticket.Status)" 
+            [severity]="getStatusColor(ticket.Status)"
+            class="status-badge"
+          ></p-tag>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="header-actions" *ngIf="!isTicketClosedOrResolved()">
+          <p-button
+            *ngIf="!isTicketResolved()"
+            label="Çözüldü"
+            icon="pi pi-check-circle"
+            severity="success"
+            size="small"
+            class="action-btn success-btn"
+            (click)="resolveTicket()"
+            [loading]="isUpdatingStatus"
+            pTooltip="Ticket'ı çözüldü olarak işaretle"
+            tooltipPosition="bottom"
+          ></p-button>
+
+          <!-- <p-button
+            *ngIf="!isTicketClosed()"
+            label="Kapat"
+            icon="pi pi-times-circle"
+            severity="secondary"
+            size="small"
+            class="action-btn close-btn"
+            (click)="closeTicket()"
+            [loading]="isUpdatingStatus"
+            pTooltip="Ticket'ı kapat"
+            tooltipPosition="bottom"
+          ></p-button> -->
+        </div>
+
+        <!-- Reopen Button for Closed/Resolved Tickets -->
+        <div class="header-actions" *ngIf="isTicketClosedOrResolved()">
+          <p-button
+            label="Tekrar Aç"
+            icon="pi pi-refresh"
+            severity="warning"
+            size="small"
+            class="action-btn reopen-btn"
+            (click)="reopenTicket()"
+            [loading]="isUpdatingStatus"
+            pTooltip="Ticket'ı tekrar aktif hale getir"
+            tooltipPosition="bottom"
+          ></p-button>
         </div>
       </div>
     </div>
@@ -40,7 +82,7 @@
       <!-- Main Content -->
       <div class="main-content">
         <!-- Ticket Info Card -->
-        <p-card class="ticket-card">
+        <!-- <p-card class="ticket-card">
           <ng-template pTemplate="header">
             <div class="card-header">
               <div class="ticket-tags">
@@ -70,13 +112,13 @@
               <div class="author-info">
                 <i class="pi pi-user"></i>
                 <div class="author-details">
-                  <span class="author-name">{{ ticket.CreatedBy }}</span>
+                  <span class="author-name">{{ ticket.SenderName }}</span>
                   <span class="author-email">{{ ticket.CreatedByEmail }}</span>
                 </div>
               </div>
             </div>
           </ng-template>
-        </p-card>
+        </p-card> -->
 
         <!-- Messages Section -->
         <div class="messages-section">
@@ -138,13 +180,30 @@
         </div>
 
         <!-- Response Form -->
-        <div class="response-section">
+        <div class="response-section" [ngClass]="{'disabled-section': isTicketClosedOrResolved()}">
           <h3 class="section-title">
             <i class="pi pi-reply"></i>
             Yanıt Yaz
+            <p-tag 
+              *ngIf="isTicketClosedOrResolved()" 
+              value="Devre Dışı" 
+              severity="secondary" 
+              size="small"
+              class="disabled-badge"
+            ></p-tag>
           </h3>
 
-          <form [formGroup]="responseForm" (ngSubmit)="onSubmit()" class="response-form">
+          <!-- Disabled Message -->
+          <div *ngIf="isTicketClosedOrResolved()" class="disabled-message">
+            <div class="disabled-content">
+              <i class="pi pi-lock disabled-icon"></i>
+              <p>Bu ticket {{ isTicketClosed() ? 'kapalı' : 'çözüldü' }} durumda olduğu için yanıt yazılamaz.</p>
+              <p class="disabled-subtitle">Yanıt yazmak için ticket'ı tekrar açabilirsiniz.</p>
+            </div>
+          </div>
+
+          <!-- Active Form -->
+          <form *ngIf="!isTicketClosedOrResolved()" [formGroup]="responseForm" (ngSubmit)="onSubmit()" class="response-form">
             <div class="form-field">
               <label for="message" class="field-label">
                 Mesajınız
@@ -223,12 +282,17 @@
               
               <div class="info-item">
                 <span class="info-label">Kategori:</span>
-                <span class="info-value">{{ getCategoryLabel(ticket.Category) }}</span>
+                <p-tag 
+                  [value]="getCategoryLabel(ticket.Category)" 
+                  [severity]="getCategoryColor(ticket.Category)"
+                ></p-tag>
+                <!-- <span class="info-label">Kategori:</span>
+                <span class="info-value">{{ getCategoryLabel(ticket.Category) }}</span> -->
               </div>
               
               <div class="info-item">
                 <span class="info-label">Oluşturan:</span>
-                <span class="info-value">{{ ticket.CreatedBy }}</span>
+                <span class="info-value">{{ ticket.SenderName }}</span>
               </div>
               
               <div class="info-item">
@@ -248,6 +312,8 @@
             </div>
           </ng-template>
         </p-card>
+
+
       </div>
     </div>
   </div>

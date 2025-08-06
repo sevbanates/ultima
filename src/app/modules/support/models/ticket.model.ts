@@ -29,6 +29,7 @@ export interface TicketDto {
   AssignedTo?: string;
   CreatedAt: Date;
   UpdatedAt: Date;
+  SenderName?: string;
   Messages: TicketMessage[];
 }
 

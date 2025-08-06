@@ -128,7 +128,10 @@
       ></p-button>
     </div>
 
-    <div *ngFor="let ticket of filteredTickets" class="ticket-card" (click)="openTicket(ticket)">
+    <div *ngFor="let ticket of filteredTickets" 
+         class="ticket-card" 
+         [ngClass]="getTicketStatusClass(ticket.Status)"
+         (click)="openTicket(ticket)">
       
       <div class="ticket-header">
         <div class="ticket-info">
@@ -162,7 +165,7 @@
         <div class="ticket-details">
           <div class="ticket-author">
             <i class="pi pi-user"></i>
-            <span>{{ ticket.CreatedBy }}</span>
+            <span>{{ ticket.SenderName }}</span>
           </div>
           <div class="ticket-messages">
             <i class="pi pi-comments"></i>

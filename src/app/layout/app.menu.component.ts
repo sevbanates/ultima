@@ -137,7 +137,7 @@ export class AppMenuComponent implements OnInit {
                        {
                             label: 'Carilerim',
                             icon: 'pi pi-users',
-                            routerLink: ['/customer']
+                            routerLink: ['/customers']
                         },
                         // {
                         //     label: 'Analytics Dashboard',
@@ -174,7 +174,7 @@ export class AppMenuComponent implements OnInit {
                        {
                             label: 'Teknik Destek',
                             icon: 'pi pi-wrench',
-                            routerLink: ['/support']
+                            routerLink: ['/tickets']
                         },
                         // {
                         //     label: 'Analytics Dashboard',
@@ -701,13 +701,19 @@ export class AppMenuComponent implements OnInit {
                        {
                             label: 'Carilerim',
                             icon: 'pi pi-users',
-                            routerLink: ['/customer']
+                            routerLink: ['/customers']
                         },
                         {
                             label: 'Teknik Destek',
                             icon: 'pi pi-wrench',
-                            routerLink: ['/support']
+                            routerLink: ['/tickets']
                         },
+                        {
+                            label: 'Sistem Ayarları',
+                            icon: 'pi pi-cog',
+                            routerLink: ['/settings']
+                        },
+                        
                         // {
                         //     label: 'Analytics Dashboard',
                         //     icon: 'pi pi-fw pi-chart-pie',

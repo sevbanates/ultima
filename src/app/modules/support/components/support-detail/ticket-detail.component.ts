@@ -33,15 +33,16 @@ import { User } from 'src/app/modules/system-management/user/models/user-list-mo
     ToastModule
   ],
   providers: [MessageService],
-  templateUrl: './support-detail.component.html',
-  styleUrl: './support-detail.component.scss'
+  templateUrl: './ticket-detail.component.html',
+  styleUrl: './ticket-detail.component.scss'
 })
-export class SupportDetailComponent implements OnInit {
+export class TicketDetailComponent implements OnInit {
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   ticket: TicketDto | undefined;
   responseForm: FormGroup;
   isSubmitting = false;
+  isUpdatingStatus = false;
   currentUser: User;
 
   statusOptions = [
@@ -108,7 +109,7 @@ export class SupportDetailComponent implements OnInit {
           summary: 'Hata',
           detail: response.ReturnMessage.toString() || 'Ticket bulunamadı.'
         });
-        this.router.navigate(['/support']);
+        this.router.navigate(['/tickets']);
       }
     });
   }
@@ -163,6 +164,17 @@ export class SupportDetailComponent implements OnInit {
       default: return 'Bilinmiyor';
     }
   }
+  getCategoryColor(priority: number): string {
+    switch (priority) {
+      case CategoryEnum.Technical: return 'success';
+      case CategoryEnum.Billing: return 'warning';
+      case CategoryEnum.FeatureRequest: return 'danger';
+      case CategoryEnum.BugReport: return 'danger';
+      case CategoryEnum.General: return 'secondary';
+      default: return 'secondary';
+    }
+  }
+
 
   onSubmit() {
     if (this.responseForm.valid && this.ticket) {
@@ -213,10 +225,11 @@ export class SupportDetailComponent implements OnInit {
     }
   }
 
-  updateStatus(newStatus: string) {
+  updateStatus(newStatus: TicketStatusEnum) {
     if (this.ticket) {
+      this.isUpdatingStatus = true;
       const ticketId = this.ticket.Id;
-      this.supportService.changeStatus(ticketId, newStatus as TicketStatus).subscribe({
+      this.supportService.changeStatus(ticketId, newStatus as TicketStatusEnum).subscribe({
         next: (response) => {
           if (response.IsSuccess) {
             this.messageService.add({
@@ -233,6 +246,7 @@ export class SupportDetailComponent implements OnInit {
               detail: response.ReturnMessage.toString() || 'Durum güncellenemedi.'
             });
           }
+          this.isUpdatingStatus = false;
         },
         error: (error) => {
           this.messageService.add({
@@ -240,9 +254,41 @@ export class SupportDetailComponent implements OnInit {
             summary: 'Hata',
             detail: 'Durum güncellenirken bir hata oluştu.'
           });
+          this.isUpdatingStatus = false;
         }
       });
     }
+  }
+
+  resolveTicket() {
+    if (this.ticket && this.ticket.Status !== TicketStatusEnum.Resolved) {
+      this.updateStatus(TicketStatusEnum.Resolved);
+    }
+  }
+
+  closeTicket() {
+    if (this.ticket && this.ticket.Status !== TicketStatusEnum.Closed) {
+      this.updateStatus(TicketStatusEnum.Closed);
+    }
+  }
+
+  reopenTicket() {
+    if (this.ticket && (this.ticket.Status === TicketStatusEnum.Closed || this.ticket.Status === TicketStatusEnum.Resolved)) {
+      this.updateStatus(TicketStatusEnum.InProgress);
+    }
+  }
+
+  // Helper methods for template
+  isTicketResolved(): boolean {
+    return this.ticket?.Status === TicketStatusEnum.Resolved;
+  }
+
+  isTicketClosed(): boolean {
+    return this.ticket?.Status === TicketStatusEnum.Closed;
+  }
+
+  isTicketClosedOrResolved(): boolean {
+    return this.isTicketResolved() || this.isTicketClosed();
   }
 
   markFormGroupTouched() {
@@ -271,7 +317,7 @@ export class SupportDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/support']);
+    this.router.navigate(['/tickets']);
   }
 
   // Debug method to check message structure

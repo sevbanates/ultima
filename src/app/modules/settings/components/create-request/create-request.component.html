@@ -1,180 +1,117 @@
-<div class="create-request-container">
+<div class="mail-request-container">
   <p-toast></p-toast>
 
   <!-- Header Section -->
-  <div class="request-header">
+  <div class="mail-header">
     <div class="header-content">
-      <div class="header-title">
-        <h1>
-          <i class="pi pi-plus-circle"></i>
-          Yeni İstek Oluştur
-        </h1>
-        <p class="header-subtitle">
-          Sistem yöneticilerine istek gönderin ve hızlı yanıt alın
-        </p>
+      <div class="mail-icon">
+        <i class="pi pi-envelope"></i>
       </div>
-      <div class="header-info">
-        <div class="info-card">
-          <i class="pi pi-clock info-icon"></i>
-          <div class="info-content">
-            <h4>Hızlı Yanıt</h4>
-            <p>İstekleriniz 24 saat içinde değerlendirilir</p>
-          </div>
-        </div>
+      <div class="header-text">
+        <h1>Mail Gönder</h1>
+        <p>E-posta adresinizi girin ve hızlıca iletişime geçin</p>
       </div>
     </div>
   </div>
 
-  <!-- Form Section -->
-  <div class="form-section">
-    <div class="form-container">
-      <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="request-form">
-        
-        <!-- Email Field -->
-        <div class="form-field">
-          <label for="email" class="field-label">
-            <i class="pi pi-envelope"></i>
-            E-posta Adresi
-            <span class="required">*</span>
-          </label>
-          <input 
-            id="email"
-            type="email" 
-            pInputText 
-            formControlName="email"
-            placeholder="ornek@firma.com"
-            [class.invalid]="isFieldInvalid('email')"
-            class="form-input"
-          />
-          <div *ngIf="getFieldError('email')" class="error-message">
-            <i class="pi pi-exclamation-triangle"></i>
-            {{ getFieldError('email') }}
-          </div>
-        </div>
+  <!-- Main Form Card -->
+  <div class="mail-form-card">
+    <div class="card-header">
+      <h2>
+        <i class="pi pi-send"></i>
+        E-posta Gönderimi
+      </h2>
+      <p>Aşağıya e-posta adresinizi girin, size hemen dönüş yapalım</p>
+    </div>
 
-        <!-- Request Type Field -->
-        <div class="form-field">
-          <label for="requestType" class="field-label">
-            <i class="pi pi-tag"></i>
-            İstek Türü
-            <span class="required">*</span>
-          </label>
-          <p-dropdown
-            id="requestType"
-            formControlName="requestType"
-            [options]="requestTypes"
-            optionLabel="label"
-            optionValue="value"
-            placeholder="İstek türünü seçin"
-            [class.invalid]="isFieldInvalid('requestType')"
-            class="form-dropdown"
-          ></p-dropdown>
-          <div *ngIf="getFieldError('requestType')" class="error-message">
-            <i class="pi pi-exclamation-triangle"></i>
-            {{ getFieldError('requestType') }}
+    <form [formGroup]="mailForm" (ngSubmit)="onSubmit()" class="mail-form">
+      <!-- Email Input Section -->
+      <div class="email-section">
+        <div class="input-group">
+          <div class="input-icon">
+            <i class="pi pi-at"></i>
           </div>
-        </div>
-
-        <!-- Priority Field -->
-        <div class="form-field">
-          <label for="priority" class="field-label">
-            <i class="pi pi-flag"></i>
-            Öncelik
-            <span class="required">*</span>
-          </label>
-          <p-dropdown
-            id="priority"
-            formControlName="priority"
-            [options]="priorities"
-            optionLabel="label"
-            optionValue="value"
-            placeholder="Öncelik seviyesini seçin"
-            [class.invalid]="isFieldInvalid('priority')"
-            class="form-dropdown"
-          ></p-dropdown>
-          <div *ngIf="getFieldError('priority')" class="error-message">
-            <i class="pi pi-exclamation-triangle"></i>
-            {{ getFieldError('priority') }}
-          </div>
-        </div>
-
-        <!-- Title Field -->
-        <div class="form-field">
-          <label for="title" class="field-label">
-            <i class="pi pi-pencil"></i>
-            İstek Başlığı
-            <span class="required">*</span>
-          </label>
-          <input 
-            id="title"
-            type="text" 
-            pInputText 
-            formControlName="title"
-            placeholder="İsteğinizi kısaca özetleyen bir başlık"
-            [class.invalid]="isFieldInvalid('title')"
-            class="form-input"
-          />
-          <div *ngIf="getFieldError('title')" class="error-message">
-            <i class="pi pi-exclamation-triangle"></i>
-            {{ getFieldError('title') }}
-          </div>
-        </div>
-
-        <!-- Description Field -->
-        <div class="form-field">
-          <label for="description" class="field-label">
-            <i class="pi pi-file-text"></i>
-            İstek Açıklaması
-            <span class="required">*</span>
-          </label>
-          <textarea 
-            id="description"
-            pInputTextarea 
-            formControlName="description"
-            placeholder="İsteğinizi detaylı olarak açıklayın..."
-            [rows]="5"
-            [class.invalid]="isFieldInvalid('description')"
-            class="form-textarea"
-          ></textarea>
-          <div *ngIf="getFieldError('description')" class="error-message">
-            <i class="pi pi-exclamation-triangle"></i>
-            {{ getFieldError('description') }}
-          </div>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="form-actions">
-          <p-button 
-            type="submit"
-            label="İsteği Gönder"
-            icon="pi pi-send"
-            [loading]="isSubmitting"
-            [disabled]="isSubmitting"
-            size="large"
-            class="submit-button"
-          ></p-button>
-        </div>
-      </form>
-
-      <!-- Form Info -->
-      <div class="form-info">
-        <p-divider></p-divider>
-        <div class="info-content">
-          <div class="info-item">
-            <i class="pi pi-shield-check info-icon"></i>
-            <div class="info-text">
-              <h4>Güvenli İletişim</h4>
-              <p>Tüm istekleriniz güvenli şekilde şifrelenerek iletilir</p>
-            </div>
-          </div>
-          <div class="info-item">
-            <i class="pi pi-bell info-icon"></i>
-            <div class="info-text">
-              <h4>Anlık Bildirim</h4>
-              <p>İsteğinizin durumu hakkında e-posta ile bilgilendirilirsiniz</p>
+          <div class="input-field">
+            <label for="email" class="input-label">E-posta Adresi</label>
+            <input 
+              id="email"
+              type="email" 
+              pInputText 
+              formControlName="email"
+              placeholder="ornek@firma.com"
+              [class.invalid]="isFieldInvalid('email')"
+              class="email-input"
+              autocomplete="email"
+            />
+            <div *ngIf="getFieldError('email')" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              {{ getFieldError('email') }}
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="submit-section">
+        <p-button 
+          type="submit"
+          label="Mail Gönder"
+          icon="pi pi-send"
+          [loading]="isSubmitting"
+          [disabled]="mailForm.invalid || isSubmitting"
+          size="large"
+          severity="primary"
+          class="send-button"
+        ></p-button>
+      </div>
+    </form>
+
+    <!-- Success State -->
+    <div *ngIf="isEmailSent" class="success-state">
+      <div class="success-icon">
+        <i class="pi pi-check-circle"></i>
+      </div>
+      <h3>Mail Başarıyla Gönderildi!</h3>
+      <p>E-posta adresinize bir onay maili gönderildi.</p>
+      <p-button 
+        label="Yeni Mail Gönder"
+        icon="pi pi-plus"
+        severity="secondary"
+        (click)="resetForm()"
+        class="new-mail-button"
+      ></p-button>
+    </div>
+  </div>
+
+  <!-- Info Cards -->
+  <div class="info-cards" *ngIf="!isEmailSent">
+    <div class="info-card">
+      <div class="card-icon secure">
+        <i class="pi pi-shield"></i>
+      </div>
+      <div class="card-content">
+        <h4>Güvenli</h4>
+        <p>E-posta adresiniz güvenli şekilde korunur</p>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="card-icon fast">
+        <i class="pi pi-bolt"></i>
+      </div>
+      <div class="card-content">
+        <h4>Hızlı</h4>
+        <p>Anında mail gönderimi gerçekleşir</p>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="card-icon support">
+        <i class="pi pi-headset"></i>
+      </div>
+      <div class="card-content">
+        <h4>Destek</h4>
+        <p>7/24 müşteri desteği hazır</p>
       </div>
     </div>
   </div>

@@ -15,7 +15,7 @@ const routes: Routes = [
     component: RecievedRequestsComponent
   },
   {
-    path: 'create-requests',
+    path: 'accounter/create-requests',
     component: CreateRequestComponent
   }
 ];

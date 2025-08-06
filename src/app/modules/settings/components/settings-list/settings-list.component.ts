@@ -79,7 +79,7 @@ export class SettingsListComponent {
         icon: 'pi pi-plus',
         color: 'primary',
         // badge: '3',
-        route: '/settings/create-requests',
+        route: '/settings/accounter/create-requests',
         // features: [
         //   'Yeni istek bildirimleri',
         //   'İstek durumu takibi',
