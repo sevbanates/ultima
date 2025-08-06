@@ -8,8 +8,8 @@
         <i class="pi pi-envelope"></i>
       </div>
       <div class="header-text">
-        <h1>Mail Gönder</h1>
-        <p>E-posta adresinizi girin ve hızlıca iletişime geçin</p>
+        <h1>Muhasebeci Talebi Gönder</h1>
+        <p></p>
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@
         <i class="pi pi-send"></i>
         E-posta Gönderimi
       </h2>
-      <p>Aşağıya e-posta adresinizi girin, size hemen dönüş yapalım</p>
+      <p>Entegre olmak istediğiniz muhasebecinizin e-posta adresini giriniz.</p>
     </div>
 
     <form [formGroup]="mailForm" (ngSubmit)="onSubmit()" class="mail-form">
@@ -84,7 +84,7 @@
   </div>
 
   <!-- Info Cards -->
-  <div class="info-cards" *ngIf="!isEmailSent">
+  <!-- <div class="info-cards" *ngIf="!isEmailSent">
     <div class="info-card">
       <div class="card-icon secure">
         <i class="pi pi-shield"></i>
@@ -114,5 +114,5 @@
         <p>7/24 müşteri desteği hazır</p>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

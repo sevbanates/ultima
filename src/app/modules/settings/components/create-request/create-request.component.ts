@@ -5,6 +5,8 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { SettingsService } from '../../services/settings.service';
+import { CreateAccounterRequestDto } from '../../models/accounter.models';
 
 @Component({
   selector: 'app-create-request',
@@ -28,7 +30,8 @@ export class CreateRequestComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private settingsService: SettingsService
   ) {}
 
   ngOnInit() {
@@ -44,31 +47,34 @@ export class CreateRequestComponent implements OnInit {
   onSubmit() {
     if (this.mailForm.valid) {
       this.isSubmitting = true;
+      debugger
       const email = this.mailForm.get('email')?.value;
       
       // Simulate mail sending API call
-      setTimeout(() => {
-        console.log('Sending mail to:', email);
-        
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Başarılı!',
-          detail: `${email} adresine mail başarıyla gönderildi.`,
-          life: 4000
-        });
-        
-        this.isEmailSent = true;
-        this.isSubmitting = false;
-      }, 2000);
-    } else {
-      this.markFormGroupTouched();
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Hata!',
-        detail: 'Lütfen geçerli bir e-posta adresi girin.',
-        life: 3000
+      const dto: CreateAccounterRequestDto = {
+      TargetEmail : email
+      }
+      this.settingsService.createAccounterRequest(dto).subscribe((response) => {
+        if (response.IsSuccess) {
+          // this.messageService.add({
+          //   severity: 'success',
+          //   summary: 'Başarılı!',
+          //   detail: `${email} adresine mail başarıyla gönderildi.`,
+          //   life: 4000
+          // });
+          this.isEmailSent = true;
+          this.isSubmitting = false;
+        }else{
+          // this.messageService.add({ 
+          //   severity: 'error',
+          //   summary: 'Hata!',
+          //   detail: response.ReturnMessage[0],
+          //   life: 3000
+          // });
+          this.isSubmitting = false;
+        }
       });
-    }
+    } 
   }
 
   resetForm() {
