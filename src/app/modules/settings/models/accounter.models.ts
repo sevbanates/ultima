@@ -16,3 +16,9 @@ export interface AccounterRequestDto {
   export interface CreateAccounterRequestDto {
     TargetEmail: string;
   }
+
+  export interface ChangeAccounterRequestStatusDto {
+    Id: number;
+    GuidId: string;
+    Status: AccounterRequestStatus;
+  }

@@ -14,6 +14,7 @@ import { UserDetailComponent } from "./user-detail.component";
 import { UserDetailRoutingModule } from "./user-detail-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CheckboxModule } from "primeng/checkbox";
+import { DropdownModule } from "primeng/dropdown";
 
 const clientRoutes: Route[] = [
     {
@@ -46,7 +47,8 @@ const clientRoutes: Route[] = [
         PaginatorModule,
         FormsModule,
         ReactiveFormsModule,
-        CheckboxModule
+        CheckboxModule,
+        DropdownModule
     ],
     providers: [DialogService]
 })

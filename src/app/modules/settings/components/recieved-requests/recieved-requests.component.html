@@ -20,8 +20,8 @@
           <span class="stat-label">Toplam İstek</span>
         </div>
         <div class="stat-item pending">
-          <span class="stat-number">{{ pendingCount }}</span>
-          <span class="stat-label">Bekleyen</span>
+          <span class="stat-number">{{ draftCount }}</span>
+          <span class="stat-label">Taslak</span>
         </div>
         <div class="stat-item approved">
           <span class="stat-number">{{ approvedCount }}</span>
@@ -30,6 +30,10 @@
         <div class="stat-item rejected">
           <span class="stat-number">{{ rejectedCount }}</span>
           <span class="stat-label">Reddedilen</span>
+        </div>
+        <div class="stat-item canceled">
+          <span class="stat-number">{{ canceledCount }}</span>
+          <span class="stat-label">İptal Edilen</span>
         </div>
       </div>
     </div>
@@ -52,39 +56,18 @@
         </div>
       </div>
 
-      <div class="filter-group">
-        <label class="filter-label">Öncelik:</label>
-        <div class="filter-buttons">
-          <button 
-            *ngFor="let option of priorityOptions" 
-            [class.active]="selectedPriority === option.value"
-            (click)="selectedPriority = option.value; onPriorityChange()"
-            class="filter-button"
-          >
-            {{ option.label }}
-          </button>
-        </div>
-      </div>
 
-      <div class="filter-group">
-        <label class="filter-label">Tür:</label>
-        <div class="filter-buttons">
-          <button 
-            *ngFor="let option of typeOptions" 
-            [class.active]="selectedType === option.value"
-            (click)="selectedType = option.value; onTypeChange()"
-            class="filter-button"
-          >
-            {{ option.label }}
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 
   <!-- Requests List -->
   <div class="requests-list">
-    <div *ngIf="filteredRequests.length === 0" class="empty-state">
+    <div *ngIf="isLoading" class="loading-state">
+      <i class="pi pi-spin pi-spinner"></i>
+      <p>İstekler yükleniyor...</p>
+    </div>
+
+    <div *ngIf="!isLoading && filteredRequests.length === 0" class="empty-state">
       <i class="pi pi-inbox empty-icon"></i>
       <h3>Henüz İstek Yok</h3>
       <p>Filtreleme kriterlerinize uygun istek bulunamadı.</p>
@@ -94,47 +77,43 @@
       <div class="request-header">
         <div class="user-info">
           <p-avatar 
-            [label]="request.userAvatar" 
+            [label]="getUserAvatar(request.TargetFullName)" 
             size="large" 
             shape="circle"
             [style]="{'background-color': '#3498db', 'color': '#ffffff'}"
           ></p-avatar>
           <div class="user-details">
-            <h3 class="user-name">{{ request.userName }}</h3>
-            <p class="user-email">{{ request.userEmail }}</p>
-            <p class="user-department" *ngIf="request.department">{{ request.department }}</p>
+            <h3 class="user-name">{{ request.TargetFullName }}</h3>
+            <p class="user-email">ID: {{ request.Id }}</p>
+            <p class="user-guid" *ngIf="request.GuidId">GUID: {{ request.GuidId }}</p>
           </div>
         </div>
         
         <div class="request-meta">
           <div class="request-type">
-            <i [class]="getTypeIcon(request.requestType)"></i>
-            <span>{{ getTypeLabel(request.requestType) }}</span>
+            <i class="pi pi-user-plus"></i>
+            <span>Muhasebeci Erişim Talebi</span>
           </div>
           <div class="request-date">
-            {{ request.requestDate | date:'dd MMM yyyy' }}
+            {{ request.CreDate | date:'dd MMM yyyy' }}
           </div>
         </div>
       </div>
 
       <div class="request-content">
-        <h4 class="request-title">{{ request.requestTitle }}</h4>
-        <p class="request-description">{{ request.requestDescription }}</p>
+        <h4 class="request-title">Muhasebeci Yetkisi Talebi</h4>
+        <p class="request-description">{{ request.TargetFullName }} kullanıcısı sistem muhasebeci yetkisi talep ediyor.</p>
       </div>
 
       <div class="request-footer">
         <div class="request-tags">
           <p-tag 
-            [value]="getStatusLabel(request.status)" 
-            [severity]="getStatusColor(request.status)"
-          ></p-tag>
-          <p-tag 
-            [value]="getPriorityLabel(request.priority)" 
-            [severity]="getPriorityColor(request.priority)"
+            [value]="getStatusLabel(request.Status)" 
+            [severity]="getStatusColor(request.Status)"
           ></p-tag>
         </div>
 
-        <div class="request-actions" *ngIf="request.status === 'pending'">
+        <div class="request-actions" *ngIf="request.Status === 1">
           <p-button 
             label="Onayla" 
             icon="pi pi-check" 
@@ -154,12 +133,12 @@
           ></p-button>
         </div>
 
-        <div class="request-status" *ngIf="request.status !== 'pending'">
+        <div class="request-status" *ngIf="request.Status !== 1">
           <i 
-            [class]="request.status === 'approved' ? 'pi pi-check-circle text-success' : 'pi pi-times-circle text-danger'"
+            [class]="request.Status === 2 ? 'pi pi-check-circle text-success' : request.Status === 3 ? 'pi pi-times-circle text-danger' : 'pi pi-ban text-secondary'"
           ></i>
-          <span [class]="request.status === 'approved' ? 'text-success' : 'text-danger'">
-            {{ getStatusLabel(request.status) }}
+          <span [class]="request.Status === 2 ? 'text-success' : request.Status === 3 ? 'text-danger' : 'text-secondary'">
+            {{ getStatusLabel(request.Status) }}
           </span>
         </div>
       </div>

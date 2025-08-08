@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ResponseModel } from 'src/app/core/models/response-model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment';
-import { AccounterRequestDto, CreateAccounterRequestDto } from '../models/accounter.models';
+import { AccounterRequestDto, ChangeAccounterRequestStatusDto, CreateAccounterRequestDto } from '../models/accounter.models';
 
 @Injectable({
     providedIn: 'root'
@@ -31,6 +31,18 @@ export class SettingsService
     createAccounterRequest(dto : CreateAccounterRequestDto): Observable<ResponseModel<AccounterRequestDto>> {
         return this._httpClient.post<ResponseModel<AccounterRequestDto>>(
             `${this.apiUrl}${this.controllerName}/create-accounter-request`, dto
+        );
+    }
+
+    getAccounterRequest(): Observable<ResponseModel<AccounterRequestDto>> {
+        return this._httpClient.get<ResponseModel<AccounterRequestDto>>(
+            `${this.apiUrl}${this.controllerName}/get-requests`
+        );
+    }
+
+    changeStatus(dto : AccounterRequestDto): Observable<ResponseModel<AccounterRequestDto>> {
+        return this._httpClient.put<ResponseModel<AccounterRequestDto>>(
+            `${this.apiUrl}${this.controllerName}/get-requests`, dto
         );
     }
 }

@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateUserDto, CreateUserDto } from '../../models/user-list-model';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { UserChangePasswordComponent } from '../user-change-password/user-change-password.component';
+import { Role } from 'src/app/core/enums/role.enum';
 
 @Component({
   selector: 'app-user-detail',
@@ -24,6 +25,13 @@ export class UserDetailComponent implements OnInit {
   submitted = false;
   isEditMode = false;
   private dialogRef?: DynamicDialogRef;
+
+  // Role dropdown options
+  roleOptions = [
+    { label: 'Admin', value: Role.Admin },
+    { label: 'Kullanıcı', value: Role.User },
+    { label: 'Muhasebeci', value: Role.Accounter }
+  ];
 
   constructor(
 
