@@ -1,0 +1,205 @@
+<!-- Dashboard Header -->
+<div class="grid">
+  <div class="col-12">
+    <div class="flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="text-4xl font-bold text-900 mb-1">Dashboard</h1>
+        <p class="text-600 text-lg">İşletmenizin genel durumunu burada görebilirsiniz</p>
+      </div>
+      <div>
+        <p-button 
+          icon="pi pi-refresh" 
+          label="Yenile" 
+          [loading]="loading"
+          (onClick)="refreshData()"
+          class="p-button-outlined">
+        </p-button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="grid" *ngIf="loading">
+  <div class="col-12 md:col-6 lg:col-4" *ngFor="let i of [1,2,3,4,5,6]">
+    <p-card>
+      <div class="flex align-items-center">
+        <div class="flex-1">
+          <p-skeleton height="1.5rem" class="mb-2"></p-skeleton>
+          <p-skeleton height="2rem" width="60%"></p-skeleton>
+        </div>
+        <p-skeleton shape="circle" size="3rem"></p-skeleton>
+      </div>
+    </p-card>
+  </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="grid" *ngIf="!loading && dashboardCards.length > 0">
+  <div class="col-12 md:col-6 lg:col-4" *ngFor="let card of dashboardCards">
+    <p-card class="dashboard-card" [ngClass]="'dashboard-card-' + card.color">
+      <div class="flex align-items-center">
+        <div class="flex-1">
+          <div class="text-500 font-medium mb-1">{{ card.title }}</div>
+          <div class="text-900 font-bold text-2xl mb-1">{{ card.value }}</div>
+          <div class="text-sm text-600" *ngIf="card.subtitle">{{ card.subtitle }}</div>
+          
+          <!-- Trend Indicator -->
+          <div class="flex align-items-center mt-2" *ngIf="card.percentage !== undefined">
+            <i [class]="'pi ' + getTrendIcon(card.trend || 'stable')" 
+               [ngClass]="getTrendClass(card.trend || 'stable')"></i>
+            <span class="ml-1 text-sm" [ngClass]="getTrendClass(card.trend || 'stable')">
+              {{ card.percentage }}%
+            </span>
+          </div>
+        </div>
+        
+        <!-- Icon -->
+        <div class="dashboard-card-icon" [ngClass]="'dashboard-card-icon-' + card.color">
+          <i [class]="'pi ' + card.icon"></i>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
+
+<!-- Charts and Recent Data -->
+<div class="grid" *ngIf="!loading && statistics">
+  <!-- Revenue Chart -->
+  <div class="col-12 lg:col-8">
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center justify-content-between p-3">
+          <h3 class="m-0">Gelir & Gider Analizi</h3>
+          <i class="pi pi-chart-bar text-xl text-primary"></i>
+        </div>
+      </ng-template>
+      
+      <div class="chart-container">
+        <p-chart 
+          type="bar" 
+          [data]="revenueChartData" 
+          [options]="revenueChartOptions"
+          width="100%"
+          height="400px">
+        </p-chart>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="col-12 lg:col-4">
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center justify-content-between p-3">
+          <h3 class="m-0">Hızlı İstatistikler</h3>
+          <i class="pi pi-info-circle text-xl text-primary"></i>
+        </div>
+      </ng-template>
+      
+      <div class="quick-stats">
+        <div class="quick-stat-item">
+          <div class="flex justify-content-between align-items-center mb-3">
+            <span class="text-600">Günlük Fatura</span>
+            <span class="font-bold text-900">{{ statistics.dailyInvoices }}</span>
+          </div>
+          <p-progressBar [value]="(statistics.dailyInvoices / statistics.monthlyInvoices) * 100"></p-progressBar>
+        </div>
+        
+        <div class="quick-stat-item">
+          <div class="flex justify-content-between align-items-center mb-3">
+            <span class="text-600">Haftalık Fatura</span>
+            <span class="font-bold text-900">{{ statistics.weeklyInvoices }}</span>
+          </div>
+          <p-progressBar [value]="(statistics.weeklyInvoices / statistics.monthlyInvoices) * 100"></p-progressBar>
+        </div>
+        
+        <div class="quick-stat-item">
+          <div class="flex justify-content-between align-items-center mb-3">
+            <span class="text-600">Aktif Müşteri Oranı</span>
+            <span class="font-bold text-900">{{ ((statistics.activeCustomers / statistics.totalCustomers) * 100).toFixed(0) }}%</span>
+          </div>
+          <p-progressBar [value]="(statistics.activeCustomers / statistics.totalCustomers) * 100"></p-progressBar>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
+
+<!-- Recent Invoices -->
+<div class="grid" *ngIf="!loading && recentInvoices.length > 0">
+  <div class="col-12">
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center justify-content-between p-3">
+          <h3 class="m-0">Son Faturalar</h3>
+          <p-button 
+            label="Tümünü Gör" 
+            icon="pi pi-external-link" 
+            class="p-button-text p-button-sm"
+            routerLink="/invoices">
+          </p-button>
+        </div>
+      </ng-template>
+      
+      <p-table [value]="recentInvoices" [responsiveLayout]="'stack'">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Fatura No</th>
+            <th>Müşteri</th>
+            <th>Tutar</th>
+            <th>Tarih</th>
+            <th>Durum</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-invoice>
+          <tr>
+            <td>
+              <span class="p-column-title">Fatura No</span>
+              <span class="font-medium">{{ invoice.invoiceNumber }}</span>
+            </td>
+            <td>
+              <span class="p-column-title">Müşteri</span>
+              {{ invoice.customerName }}
+            </td>
+            <td>
+              <span class="p-column-title">Tutar</span>
+              <span class="font-bold">
+                {{ invoice.amount | currency:'TRY':'symbol':'1.0-0':'tr-TR' }}
+              </span>
+            </td>
+            <td>
+              <span class="p-column-title">Tarih</span>
+              {{ invoice.date | date:'dd.MM.yyyy':'tr-TR' }}
+            </td>
+            <td>
+              <span class="p-column-title">Durum</span>
+              <p-tag 
+                [value]="invoice.status" 
+                [severity]="getStatusSeverity(invoice.status)">
+              </p-tag>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+</div>
+
+<!-- Empty State -->
+<div class="grid" *ngIf="!loading && !statistics">
+  <div class="col-12">
+    <p-card>
+      <div class="text-center py-8">
+        <i class="pi pi-chart-line text-6xl text-400 mb-4"></i>
+        <h3 class="text-900 mb-2">Henüz veri bulunmuyor</h3>
+        <p class="text-600 mb-4">Dashboard verilerinizi görmek için önce bazı faturalar oluşturun.</p>
+        <p-button 
+          label="Fatura Oluştur" 
+          icon="pi pi-plus" 
+          routerLink="/invoices/create">
+        </p-button>
+      </div>
+    </p-card>
+  </div>
+</div>

@@ -24,6 +24,7 @@ import { AppFooterComponent } from './app.footer.component';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
+import { DropdownModule } from 'primeng/dropdown';
 import { StyleClassModule } from 'primeng/styleclass';
 import { SharedModule } from '../shared/shared.module';
 
@@ -56,6 +57,7 @@ import { SharedModule } from '../shared/shared.module';
         RouterModule,
         ButtonModule,
         MenuModule,
+        DropdownModule,
         AppConfigModule,
         SharedModule
     ]

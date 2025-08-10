@@ -143,6 +143,11 @@ export class UserChangePasswordDto  {
     PasswordConfirmation: string;
 }
 
+export class AccounterUserDto  {
+    UserId:number;
+    FullName:string;
+}
+
 
 
 

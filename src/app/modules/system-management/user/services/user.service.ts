@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { BaseService } from 'src/app/core/services/base-service';
 import { ResponseModel } from 'src/app/core/models/response-model';
 import { SelectNumberModel } from 'src/app/core/models/utility-model';
-import { CreateUserDto, UpdateUserDto, User, UserBasicDto, UserChangePasswordDto, UserListRequestModel } from '../models/user-list-model';
+import { AccounterUserDto, CreateUserDto, UpdateUserDto, User, UserBasicDto, UserChangePasswordDto, UserListRequestModel } from '../models/user-list-model';
 
 @Injectable({
     providedIn: 'root'
@@ -50,6 +50,11 @@ updateEntity(input:UpdateUserDto): Observable<ResponseModel<UserBasicDto>>
 updateOthersPassword(input:UserChangePasswordDto, userId:number): Observable<ResponseModel<UserBasicDto>>
         {
             return  this._httpClient.put<ResponseModel<UserBasicDto>>(`${this.apiUrl}${this.controllerName}/${userId}/password`,input);
+        }
+
+getAccounterUsers(): Observable<ResponseModel<AccounterUserDto>>
+        {
+            return  this._httpClient.get<ResponseModel<AccounterUserDto>>(`${this.apiUrl}${this.controllerName}/get-accounter-users`);
         }
 
         // getCustomers(): Observable<ResponseModel<CustomerSelectModel[]>> {

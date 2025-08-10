@@ -174,7 +174,7 @@ export class TicketListComponent implements OnInit {
   }
 
   createNewTicket() {
-    this.router.navigate(['/support/create']);
+    this.router.navigate(['/tickets/create']);
   }
 
   onStatusChange() {
