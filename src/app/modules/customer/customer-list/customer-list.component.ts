@@ -31,7 +31,7 @@ export class CustomerListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPagination();
-    this.getEntityPage();
+    // this.getEntityPage();
     this._customerService._entityList.pipe(takeUntil(this._unsubscribeAll)).subscribe((entityList) => {
       this.customers = entityList;
     })

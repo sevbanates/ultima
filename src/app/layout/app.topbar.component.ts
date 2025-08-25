@@ -5,7 +5,7 @@ import { AuthService } from '../core/auth/auth.service';
 import { timer, finalize, takeWhile, takeUntil, tap, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserService } from '../modules/system-management/user/services/user.service';
-import { AccounterUserDto } from '../modules/system-management/user/models/user-list-model';
+import { AccounterUserDto, User } from '../modules/system-management/user/models/user-list-model';
 
 @Component({
     selector: 'app-topbar',
@@ -13,20 +13,22 @@ import { AccounterUserDto } from '../modules/system-management/user/models/user-
 })
 export class AppTopbarComponent {
     
+    user: User;
     @ViewChild('menuButton') menuButton!: ElementRef;
 
     @ViewChild('mobileMenuButton') mobileMenuButton!: ElementRef;
 
     @ViewChild('searchInput') searchInput!: ElementRef;
-    accounterUsers: AccounterUserDto[] = [];
+    // accounterUsers: AccounterUserDto[] = [];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(public layoutService: LayoutService, public el: ElementRef, private _authService: AuthService, private _router: Router
         ,private _userService: UserService
     ) {
-        this._userService.getAccounterUsers().subscribe((response) => {
-            this.accounterUsers = response.EntityList;
-            console.log(this.accounterUsers);
-        });
+        // this._userService.getAccounterUsers().subscribe((response) => {
+        //     this.accounterUsers = response.EntityList;
+        //     console.log(this.accounterUsers);
+        // });
+      
     }
 
     activeItem!: number;
@@ -104,14 +106,19 @@ export class AppTopbarComponent {
         // Gerekirse event emit veya filtreleme işlemleri burada tetiklenebilir
     }
 
-    getLeftOptionLabel(value: number): string {
-        const found = this.accounterUsers.find((o) => o.UserId === value);
-        return found ? found.FullName : 'Filtre';
-    }
+    // getLeftOptionLabel(value: number): string {
+    //     const found = this.accounterUsers.find((o) => o.UserId === value);
+    //     return found ? found.FullName : 'Filtre';
+    // }
 
     get isAccounter(): boolean {
         try {
-            return this._authService?.userData?.IsAccounter === true;
+            const roleId = this._authService?.userData?.RoleId;
+            const isAccounterRole = roleId === 102;
+            
+            // console.log('🔥 Topbar isAccounter check:', { roleId, isAccounterRole });
+            
+            return isAccounterRole;
         } catch {
             return false;
         }

@@ -1,0 +1,45 @@
+<!-- User Selector for Accounters -->
+<div class="user-selector-container" *ngIf="isAccounter">
+  <div class="user-selector-wrapper">
+    <p-dropdown
+      [options]="dropdownOptions"
+      [(ngModel)]="selectedUserId"
+      (onChange)="onUserChange($event)"
+      placeholder="Kullanıcı"
+      optionLabel="label"
+      optionValue="value"
+      styleClass="user-dropdown"
+      [showClear]="false"
+      appendTo="body"
+    >
+      <ng-template pTemplate="selectedItem">
+        <div class="selected-user-template">
+          <i class="pi pi-user mr-2"></i>
+          <span>{{ getSelectedUserName() }}</span>
+        </div>
+      </ng-template>
+      
+      <ng-template pTemplate="item" let-option>
+        <div class="dropdown-item-template">
+          <i class="pi pi-user mr-2" 
+             [ngClass]="option.value === null ? 'text-primary' : 'text-secondary'"></i>
+          <span [ngClass]="option.value === null ? 'font-bold text-primary' : ''">
+            {{ option.label }}
+          </span>
+          <i class="pi pi-check ml-auto check-icon" 
+             *ngIf="option.value === selectedUserId"></i>
+        </div>
+      </ng-template>
+    </p-dropdown>
+    
+    <!-- User count badge -->
+    <!-- <div class="user-count-badge" *ngIf="accessibleUsers.AccessibleUsers.length > 1">
+      {{ accessibleUsers.AccessibleUsers.length }}
+    </div> -->
+  </div>
+  
+  <!-- Loading indicator -->
+  <div class="loading-indicator" *ngIf="loading">
+    <i class="pi pi-spin pi-spinner"></i>
+  </div>
+</div>

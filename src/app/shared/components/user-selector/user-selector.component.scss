@@ -1,0 +1,230 @@
+.user-selector-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.user-selector-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+// Custom PrimeNG Dropdown styling
+:host ::ng-deep {
+  .user-dropdown {
+    min-width: 140px;
+    max-width: 180px;
+    
+    .p-dropdown {
+      border: 1px solid var(--surface-border);
+      border-radius: 6px;
+      background: var(--surface-card);
+      transition: all 0.2s ease;
+      height: 32px;
+      
+      &:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 1px var(--primary-color-text);
+      }
+      
+      &.p-focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(var(--primary-color), 0.2);
+      }
+      
+      .p-dropdown-trigger {
+        width: 28px;
+        color: var(--text-color-secondary);
+        
+        .p-dropdown-trigger-icon {
+          transition: transform 0.2s ease;
+          font-size: 12px;
+        }
+      }
+      
+      &.p-dropdown-open .p-dropdown-trigger .p-dropdown-trigger-icon {
+        transform: rotate(180deg);
+      }
+      
+      .p-dropdown-label {
+        padding: 0.4rem 0.6rem;
+        font-size: 13px;
+        color: var(--text-color);
+        
+        &.p-placeholder {
+          color: var(--text-color-secondary);
+        }
+      }
+    }
+    
+    .p-dropdown-panel {
+      border: 1px solid var(--surface-border);
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      margin-top: 2px;
+      
+      .p-dropdown-items-wrapper {
+        max-height: 200px;
+      }
+      
+      .p-dropdown-item {
+        padding: 0.5rem 0.75rem;
+        transition: all 0.2s ease;
+        border: none;
+        font-size: 13px;
+        
+        &:hover {
+          background: var(--surface-hover);
+        }
+        
+        &.p-highlight {
+          background: var(--primary-color);
+          color: var(--primary-color-text);
+        }
+      }
+    }
+  }
+}
+
+// Selected user template styling
+.selected-user-template {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--text-color);
+  
+  i {
+    color: var(--primary-color);
+    font-size: 12px;
+  }
+}
+
+// Dropdown item template styling
+.dropdown-item-template {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 6px;
+  
+  i.pi-user {
+    font-size: 12px;
+  }
+  
+  span {
+    flex: 1;
+    font-size: 13px;
+  }
+  
+  i.pi-check {
+    font-size: 12px;
+    margin-left: auto;
+  }
+  
+  .check-icon {
+    color: var(--green-500);
+  }
+}
+
+// User count badge
+.user-count-badge {
+  background: var(--primary-color);
+  color: var(--primary-color-text);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 600;
+  min-width: 16px;
+  box-shadow: 0 1px 4px rgba(var(--primary-color), 0.3);
+}
+
+// Loading indicator
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  
+  i {
+    color: var(--primary-color);
+    font-size: 12px;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .user-selector-container {
+    .user-dropdown {
+      min-width: 120px;
+      max-width: 150px;
+      
+      :host ::ng-deep .p-dropdown {
+        height: 28px;
+        
+        .p-dropdown-label {
+          padding: 0.3rem 0.5rem;
+          font-size: 12px;
+        }
+        
+        .p-dropdown-trigger {
+          width: 24px;
+          
+          .p-dropdown-trigger-icon {
+            font-size: 10px;
+          }
+        }
+      }
+    }
+  }
+  
+  .user-count-badge {
+    width: 14px;
+    height: 14px;
+    font-size: 8px;
+  }
+}
+
+// Animation for dropdown appearance
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:host ::ng-deep .p-dropdown-panel {
+  animation: fadeInDown 0.3s ease;
+}
+
+// Hover effects for accessibility
+.user-selector-wrapper:hover .user-count-badge {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+// Focus styles for better accessibility
+:host ::ng-deep .p-dropdown:focus-within {
+  outline: 1px solid var(--primary-color);
+  outline-offset: 1px;
+}
+
+// Compact mode for better topbar integration
+.user-selector-container {
+  // Ensure it doesn't take too much vertical space
+  max-height: 40px;
+  
+  // Better alignment with other topbar elements
+  align-self: center;
+}

@@ -1,7 +1,7 @@
 <div class="layout-topbar">
     <div class="layout-topbar-start">
         <a class="layout-topbar-logo" routerLink="/">
-            <img src="assets/layout/images/mukellefio-high-resolution-logo-transparent.png" alt="logo" height="55"/>
+            <img src="assets/layout/images/mukellefio-high-resolution-logo-transparent.png" alt="logo" title="Mükellefio Logo" height="55"/>
         </a>
         <a #menuButton class="layout-menu-button" (click)="onMenuButtonClick()" pRipple>
             <i class="pi pi-chevron-right"></i>
@@ -14,7 +14,12 @@
 
     <div class="layout-topbar-end">
         <div class="layout-topbar-actions-start">
-            <p-megaMenu [model]="model" styleClass="layout-megamenu"></p-megaMenu>
+            <!-- <p-megaMenu [model]="model" styleClass="layout-megamenu"></p-megaMenu> -->
+             <ng-container *ngIf="isAccounter">
+
+                 <app-user-selector></app-user-selector>
+             </ng-container>
+                
         </div>
         <div class="layout-topbar-actions-end">
             <ul class="layout-topbar-items">
@@ -43,7 +48,9 @@
                             </li>
                             <li class="p-3" *ngFor="let notification of notifications">
                                 <div class="flex align-items-center">
-                                    <img [src]="notification.avatarUrl || 'assets/demo/images/avatar/avatar-1.png'" [alt]="notification.user" />
+                                    <img [src]="notification.avatarUrl || 'assets/demo/images/avatar/avatar-1.png'" 
+                                         alt="Kullanıcı profil resmi" 
+                                         title="Kullanıcı profil resmi" />
                                     <div class="flex flex-column ml-3 flex-1">
                                         <div class="flex align-items-center justify-content-between mb-1">
                                             <span class="font-bold">{{ notification.user }}</span>
@@ -89,9 +96,11 @@
                         </div>
                     </div>
                 </li> -->
+                                 <!-- User Selector for Accounters -->
+        
                 <li>
                     <a pStyleClass="@next" enterFromClass="ng-hidden" enterActiveClass="px-scalein" leaveToClass="ng-hidden" leaveActiveClass="px-fadeout" [hideOnOutsideClick]="true" pRipple>
-                        <img src="assets/demo/images/avatar/amyelsner.png" alt="avatar" class="w-2rem h-2rem">
+                        <img src="assets/demo/images/avatar/amyelsner.png" alt="avatar" title="Kullanıcı profili" class="w-2rem h-2rem">
                     </a>
                     <div class="ng-hidden">
                         <ul class="list-none p-0 m-0">
