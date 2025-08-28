@@ -80,7 +80,16 @@ export interface TicketMessageDto  {
 export type TicketStatus = 'open' | 'in_progress' | 'resolved' | 'closed';
 
 
-export class DefaultTicketListRequestModel extends PagedAndSortedSearchInput{
+export class TicketListRequestModel extends PagedAndSortedSearchInput{
+  StartDate?:Date;
+  EndDate?:Date;
+  TicketCategory?:CategoryEnum;
+  TicketStatus?:TicketStatusEnum;
+  TicketPriority?:PriorityEnum;
+
+}
+
+export class DefaultTicketListRequestModel extends TicketListRequestModel{
 
   constructor() {
       super();
@@ -92,6 +101,7 @@ export class DefaultTicketListRequestModel extends PagedAndSortedSearchInput{
 }
 
 export enum CategoryEnum {
+  All = 0,
   Technical = 1,
   Billing = 2,
   FeatureRequest = 3,
@@ -100,6 +110,7 @@ export enum CategoryEnum {
 }
 
 export enum PriorityEnum {
+  All = 0,
   Low = 1,
   Medium = 2,
   High = 3,
@@ -107,6 +118,7 @@ export enum PriorityEnum {
 }
 
 export enum TicketStatusEnum {
+  All = 0,
   Open = 1,
   InProgress = 2,
   Resolved = 3,

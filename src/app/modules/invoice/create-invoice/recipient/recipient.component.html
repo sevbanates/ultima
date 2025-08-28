@@ -1,81 +1,179 @@
-<!-- <p-card class="shadow-3 border-round-xl surface-card p-4"> -->
-  <ng-template pTemplate="header">
-   
-  </ng-template>
- <div class="flex align-items-center gap-2">
-      <i class="pi pi-id-card text-2xl"></i>
-      <span class="text-xl font-semibold">Alıcı Bilgileri</span>
+<div class="recipient-container">
+  <!-- Simple Header -->
+      <div class="recipient-header">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="pi pi-id-card animated-icon"></i>
+        </div>
+        <div class="header-text">
+          <h3 class="header-title">Alıcı Bilgileri</h3>
+          <p class="header-subtitle">Fatura alıcısının detay bilgilerini giriniz</p>
+        </div>
+      </div>
+    </div>
+
+  <!-- Form Card -->
+  <div class="form-card">
+    <form [formGroup]="form" class="recipient-form">
+      
+      <!-- Customer Selection -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="pi pi-users"></i>
+          </div>
+          <div class="section-title">Cari Seçimi</div>
+          <span class="section-subtitle">Faturayı kime kesileceğini belirleyin</span>
+        </div>
+        <div class="form-group">
+          <div class="input-wrapper">
+            <label for="customerSelect" class="field-label">
+              <i class="label-icon pi pi-user"></i>
+              Cari Seç
+            </label>
+          </div>
+          <p-dropdown
+            id="customerSelect"
+            [options]="customers"
+            optionLabel="FullName"
+            placeholder="Cari seçin..."
+            (onChange)="onCustomerSelect($event.value)"
+            [showClear]="true"
+            [filter]="true"
+            styleClass="modern-dropdown"
+            appendTo="body"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- Customer Details -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="pi pi-id-card"></i>
+          </div>
+          <div class="section-title">Kimlik Bilgileri</div>
+          <span class="section-subtitle">Müşteri kimlik ve vergi bilgilerini giriniz</span>
+        </div>
+        <div class="form-grid">
+          <!-- VKN/TCKN -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="vkn" class="field-label required">
+                <i class="label-icon pi pi-hashtag"></i>
+                VKN/TCKN
+              </label>
+            </div>
+            <input 
+              id="vkn" 
+              pInputText 
+              formControlName="vkn" 
+              placeholder="VKN veya TCKN giriniz"
+              class="modern-input"
+            />
+            <div *ngIf="form.get('vkn')?.invalid && form.get('vkn')?.touched" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              VKN/TCKN zorunludur
+            </div>
+          </div>
+
+          <!-- Ad -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="firstName" class="field-label">
+                <i class="label-icon pi pi-user"></i>
+                Ad
+              </label>
+            </div>
+            <input 
+              id="firstName" 
+              pInputText 
+              formControlName="firstName" 
+              placeholder="Ad giriniz"
+              class="modern-input"
+            />
+          </div>
+
+          <!-- Soyad -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="lastName" class="field-label">
+                <i class="label-icon pi pi-user"></i>
+                Soyad
+              </label>
+            </div>
+            <input 
+              id="lastName" 
+              pInputText 
+              formControlName="lastName" 
+              placeholder="Soyad giriniz"
+              class="modern-input"
+            />
+          </div>
+
+          <!-- Ünvan -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="title" class="field-label">
+                <i class="label-icon pi pi-briefcase"></i>
+                Ünvan
+              </label>
+            </div>
+            <input 
+              id="title" 
+              pInputText 
+              formControlName="title" 
+              placeholder="Ünvan giriniz"
+              class="modern-input"
+            />
+          </div>
+
+          <!-- Vergi Dairesi -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="taxOffice" class="field-label">
+                <i class="label-icon pi pi-building"></i>
+                Vergi Dairesi
+              </label>
+            </div>
+            <input 
+              id="taxOffice" 
+              pInputText 
+              formControlName="taxOffice" 
+              placeholder="Vergi dairesi giriniz"
+              class="modern-input"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="pi pi-map-marker"></i>
+          </div>
+          <div class="section-title">Adres Bilgileri</div>
+          <span class="section-subtitle">Fatura teslimat adresini giriniz</span>
+        </div>
+        <div class="form-group">
+          <div class="input-wrapper">
+            <label for="address" class="field-label">
+              <i class="label-icon pi pi-map-marker"></i>
+              Fatura Adresi
+            </label>
+          </div>
+          <textarea 
+            id="address" 
+            pInputTextarea 
+            rows="3" 
+            formControlName="address" 
+            placeholder="Tam adres bilgilerini giriniz..."
+            class="modern-textarea"
+          ></textarea>
+        </div>
+      </div>
+
+    </form>
   </div>
-  <form [formGroup]="form" class="grid p-fluid formgrid mt-4">
-
-    <div class="field col-12">
-      <label for="customerSelect">Cari Seç</label>
-      <p-dropdown
-        id="customerSelect"
-        [options]="customers"
-        optionLabel="FullName"
-        placeholder="Cari Seçin"
-        (onChange)="onCustomerSelect($event.value)"
-        [showClear]="true"
-        [filter]="true"
-        class="w-full mb-3"
-      ></p-dropdown>
-    </div>
-
-    <!-- VKN/TCKN -->
-    <div class="field col-12 md:col-6">
-      <span class="p-float-label">
-        <input id="vkn" pInputText formControlName="vkn" class="w-full" />
-        <label for="vkn">VKN/TCKN</label>
-      </span>
-      <small *ngIf="form.get('vkn')?.invalid && form.get('vkn')?.touched" class="p-error">
-  * VKN/TCKN zorunludur.
-</small>
-    </div>
-
-    <!-- Ad -->
-    <div class="field col-12 md:col-6">
-      <span class="p-float-label">
-        <input id="firstName" pInputText formControlName="firstName" class="w-full" />
-        <label for="firstName">Ad</label>
-      </span>
-    </div>
-
-    <!-- Soyad -->
-    <div class="field col-12 md:col-6">
-      <span class="p-float-label">
-        <input id="lastName" pInputText formControlName="lastName" class="w-full" />
-        <label for="lastName">Soyad</label>
-      </span>
-    </div>
-
-    <!-- Ünvan -->
-    <div class="field col-12 md:col-6">
-      <span class="p-float-label">
-        <input id="title" pInputText formControlName="title" class="w-full" />
-        <label for="title">Ünvan</label>
-      </span>
-    </div>
-
-    <!-- Vergi Dairesi -->
-    <div class="field col-12 md:col-6">
-      <span class="p-float-label">
-        <input id="taxOffice" pInputText formControlName="taxOffice" class="w-full" />
-        <label for="taxOffice">Vergi Dairesi</label>
-      </span>
-    </div>
-
-    <!-- Adres -->
-    <div class="field col-12">
-      <label for="address" class="font-medium">Adres</label>
-      <textarea id="address" pInputTextarea rows="3" formControlName="address" class="w-full border-round"></textarea>
-    </div>
-
-    <!-- Teslimat Adresi -->
-    <!-- <div class="field col-12">
-      <label for="deliveryAddress" class="font-medium">Fatura Teslimat Adresi</label>
-      <textarea id="deliveryAddress" pInputTextarea rows="3" formControlName="deliveryAddress" class="w-full border-round"></textarea>
-    </div> -->
-
-  </form>
-<!-- </p-card> -->
+</div>

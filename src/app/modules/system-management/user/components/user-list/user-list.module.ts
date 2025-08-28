@@ -8,6 +8,7 @@ import { PaginatorModule } from "primeng/paginator";
 import { ProgressBarModule } from "primeng/progressbar";
 import { RippleModule } from "primeng/ripple";
 import { TableModule } from "primeng/table";
+import { TagModule } from "primeng/tag";
 import { UserListComponent } from "./user-list.component";
 import { userResolver } from "../../services/customer.resolver";
 
@@ -37,7 +38,8 @@ const clientRoutes: Route[] = [
         TableModule,
         ProgressBarModule,
         DialogModule,
-        PaginatorModule
+        PaginatorModule,
+        TagModule
     ]
 })
 export class UserListModule { }

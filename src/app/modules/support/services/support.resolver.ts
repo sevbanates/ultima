@@ -1,11 +1,11 @@
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular/router";
 import { SupportService } from "./support.service";
 import { inject } from "@angular/core";
-import { DefaultTicketListRequestModel } from "../models/ticket.model";
+import { DefaultTicketListRequestModel, TicketListRequestModel } from "../models/ticket.model";
 
 export const ticketListResolver: ResolveFn<any> =
     () => {
-        let reqModel=new DefaultTicketListRequestModel();
+        let reqModel=new TicketListRequestModel();
       return inject(SupportService).getEntityPage(reqModel);
     }
 

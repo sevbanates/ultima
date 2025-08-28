@@ -69,8 +69,8 @@ export class UserSelectorComponent implements OnInit {
 
   buildDropdownOptions(): void {
     this.dropdownOptions = [
-      { label: '🏠 Kendi Hesabım', value: null },
-      ...this.accessibleUsers.AccessibleUsers.map(user => ({
+      // { label: '🏠 Kendi Hesabım', value: null },
+      ...(this.accessibleUsers?.AccessibleUsers || []).map(user => ({
         label: user.FullName,
         value: user.UserId
       }))
@@ -82,17 +82,18 @@ export class UserSelectorComponent implements OnInit {
       return 'Ben';
     }
     
-    const user = this.accessibleUsers.AccessibleUsers.find(u => u.UserId === this.selectedUserId);
+    const user = this.accessibleUsers?.AccessibleUsers?.find(u => u.UserId === this.selectedUserId);
     return user ? user.FullName.split(' ')[0] : 'Kullanıcı'; // Sadece ilk isim
   }
 
   onUserChange(event: any): void {
     const newUserId = event.value;
-    
     this.userPreferenceService.setSelectedUser({ selectedUserId: newUserId }).subscribe({
       next: (response) => {
-        if (response.isSuccess) {
+        if (response.IsSuccess) {
           this.selectedUserId = newUserId;
+          // API isteği başarılı olduğunda sayfayı yenile
+          window.location.reload();
         }
       },
       error: (error) => {

@@ -1,178 +1,259 @@
-<div class="support-container">
-  <!-- Header Section -->
-  <div class="support-header">
-    <div class="header-content">
-      <div class="header-title">
-        <h1>
-          <i class="pi pi-headset"></i>
-          Teknik Destek
-        </h1>
-        <p class="header-subtitle">
-          Destek taleplerinizi yönetin ve takip edin
-        </p>
+<div class="ticket-list-container">
+  <!-- Hero Header Section -->
+  <div class="hero-header">
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-title">
+          <i class="pi pi-headset hero-icon"></i>
+          <div class="title-text">
+            <h1>Teknik Destek Merkezi</h1>
+            <p>Destek taleplerinizi kolayca yönetin ve takip edin</p>
+          </div>
+        </div>
       </div>
-      <div class="header-actions">
+      <div class="hero-right">
         <p-button 
           label="Yeni Talep Oluştur" 
           icon="pi pi-plus" 
           severity="primary"
+          size="large"
+          [raised]="true"
           (click)="createNewTicket()"
+          styleClass="create-ticket-btn"
         ></p-button>
       </div>
     </div>
   </div>
 
-  <!-- Stats Section -->
+  <!-- Stats Cards Section -->
   <div class="stats-section">
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon total">
+      <div class="stat-card total-stats">
+        <div class="stat-icon">
           <i class="pi pi-ticket"></i>
         </div>
         <div class="stat-content">
-          <span class="stat-number">{{ totalTicketsCount }}</span>
+          <span class="stat-number">{{ pagination?.TotalCount || 0 }}</span>
           <span class="stat-label">Toplam Talep</span>
         </div>
+        <div class="stat-accent"></div>
       </div>
-      <div class="stat-card">
-        <div class="stat-icon open">
+      
+      <div class="stat-card open-stats">
+        <div class="stat-icon">
           <i class="pi pi-clock"></i>
         </div>
         <div class="stat-content">
-          <span class="stat-number">{{ openTicketsCount }}</span>
-          <span class="stat-label">Açık</span>
+          <span class="stat-number">{{ getOpenTicketsCount() }}</span>
+          <span class="stat-label">Açık Talepler</span>
         </div>
+        <div class="stat-accent"></div>
       </div>
-      <div class="stat-card">
-        <div class="stat-icon progress">
+      
+      <div class="stat-card progress-stats">
+        <div class="stat-icon">
           <i class="pi pi-spinner"></i>
         </div>
         <div class="stat-content">
-          <span class="stat-number">{{ inProgressTicketsCount }}</span>
-          <span class="stat-label">İşlemde</span>
+          <span class="stat-number">{{ getInProgressTicketsCount() }}</span>
+          <span class="stat-label">İşleme Alınan</span>
         </div>
+        <div class="stat-accent"></div>
       </div>
-      <div class="stat-card">
-        <div class="stat-icon resolved">
+      
+      <div class="stat-card resolved-stats">
+        <div class="stat-icon">
           <i class="pi pi-check-circle"></i>
         </div>
         <div class="stat-content">
-          <span class="stat-number">{{ resolvedTicketsCount }}</span>
-          <span class="stat-label">Çözüldü</span>
+          <span class="stat-number">{{ getResolvedTicketsCount() }}</span>
+          <span class="stat-label">Çözülen Talepler</span>
         </div>
+        <div class="stat-accent"></div>
       </div>
     </div>
   </div>
 
-  <!-- Filters Section -->
-  <div class="filters-section">
-    <div class="filters-container">
-      <div class="search-filter">
-        <span class="p-input-icon-left">
-          <i class="pi pi-search"></i>
-          <input 
-            pInputText 
-            type="text" 
-            placeholder="Talep ara..."
-            [(ngModel)]="searchTerm"
-            (input)="onSearchChange()"
-          />
-        </span>
-      </div>
-      
-      <div class="filter-group">
-        <label class="filter-label">Durum:</label>
-        <p-dropdown
-          [options]="statusOptions"
-          [(ngModel)]="selectedStatus"
-          (onChange)="onStatusChange()"
-          placeholder="Durum seçin"
-          class="filter-dropdown"
-        ></p-dropdown>
-      </div>
-
-      <div class="filter-group">
-        <label class="filter-label">Öncelik:</label>
-        <p-dropdown
-          [options]="priorityOptions"
-          [(ngModel)]="selectedPriority"
-          (onChange)="onPriorityChange()"
-          placeholder="Öncelik seçin"
-          class="filter-dropdown"
-        ></p-dropdown>
-      </div>
-
-      <div class="filter-group">
-        <label class="filter-label">Kategori:</label>
-        <p-dropdown
-          [options]="categoryOptions"
-          [(ngModel)]="selectedCategory"
-          (onChange)="onCategoryChange()"
-          placeholder="Kategori seçin"
-          class="filter-dropdown"
-        ></p-dropdown>
+  <!-- Main Table Card -->
+  <div class="main-card">
+    <div class="card-header">
+      <div class="header-left">
+        <h3 class="section-title">
+          <i class="pi pi-list"></i>
+          Talep Listesi
+        </h3>
+        <p class="section-subtitle">Tüm destek taleplerini görüntüleyin ve yönetin</p>
       </div>
     </div>
-  </div>
 
-  <!-- Tickets List -->
-  <div class="tickets-list">
-    <div *ngIf="filteredTickets.length === 0" class="empty-state">
-      <i class="pi pi-inbox empty-icon"></i>
-      <h3>Henüz Talep Yok</h3>
-      <p>Filtreleme kriterlerinize uygun talep bulunamadı.</p>
-      <p-button 
-        label="Yeni Talep Oluştur" 
-        icon="pi pi-plus" 
-        (click)="createNewTicket()"
-      ></p-button>
-    </div>
-
-    <div *ngFor="let ticket of filteredTickets" 
-         class="ticket-card" 
-         [ngClass]="getTicketStatusClass(ticket.Status)"
-         (click)="openTicket(ticket)">
-      
-      <div class="ticket-header">
-        <div class="ticket-info">
-          <h3 class="ticket-title">{{ ticket?.Title }}</h3>
-          <p class="ticket-description">{{ ticket?.Description }}</p>
-        </div>
+    <p-table #dt [value]="tickets" 
+             [paginator]="false"
+             [loading]="false"
+             responsiveLayout="scroll"
+             [scrollable]="true"
+             [globalFilterFields]="['Title','Description','CreatedBy']">
         
-        <div class="ticket-meta">
-          <div class="ticket-category">
-            <i [class]="getCategoryIcon(ticket.Category)"></i>
-            <span>{{ getCategoryLabel(ticket.Category) }}</span>
-          </div>
-          <div class="ticket-date">
-            {{ ticket.CreatedAt | date:'dd MMM yyyy' }}
-          </div>
-        </div>
-      </div>
-
-      <div class="ticket-footer">
-        <div class="ticket-tags">
-          <p-tag 
-            [value]="getStatusLabel(ticket.Status)" 
-            [severity]="getStatusColor(ticket.Status)"
-          ></p-tag>
-          <p-tag 
-            [value]="getPriorityLabel(ticket.Priority)" 
-            [severity]="getPriorityColor(ticket.Priority)"
-          ></p-tag>
-        </div>
-
-        <div class="ticket-details">
-          <div class="ticket-author">
-            <i class="pi pi-user"></i>
-            <span>{{ ticket.SenderName }}</span>
-          </div>
-          <div class="ticket-messages">
-            <i class="pi pi-comments"></i>
-            <span>{{ ticket.Messages?.length || 0 }} mesaj</span>
-          </div>
-        </div>
-      </div>
-    </div>
+        <ng-template pTemplate="caption">
+            <div class="table-toolbar">
+                <div class="search-section">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" 
+                               (input)="onGlobalFilter(dt, $event)" 
+                               placeholder="Talep ara..." 
+                               class="search-input" />
+                    </span>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-item">
+                        <label class="filter-label">Durum</label>
+                        <p-dropdown
+                            [options]="statusOptions"
+                            [(ngModel)]="selectedStatus"
+                            (onChange)="onStatusChange()"
+                            placeholder="Durum Seçin"
+                            [showClear]="false"
+                            styleClass="filter-dropdown"
+                            appendTo="body"
+                        ></p-dropdown>
+                    </div>
+                    
+                    <div class="filter-item">
+                        <label class="filter-label">Öncelik</label>
+                        <p-dropdown
+                            [options]="priorityOptions"
+                            [(ngModel)]="selectedPriority"
+                            (onChange)="onPriorityChange()"
+                            placeholder="Öncelik Seçin"
+                            [showClear]="false"
+                            styleClass="filter-dropdown"
+                            appendTo="body"
+                        ></p-dropdown>
+                    </div>
+                    
+                    <div class="filter-item">
+                        <label class="filter-label">Kategori</label>
+                        <p-dropdown
+                            [options]="categoryOptions"
+                            [(ngModel)]="selectedCategory"
+                            (onChange)="onCategoryChange()"
+                            placeholder="Kategori Seçin"
+                            [showClear]="false"
+                            styleClass="filter-dropdown"
+                            appendTo="body"
+                        ></p-dropdown>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="Title" class="title-column">
+                    Başlık <p-sortIcon field="Title"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Status" class="status-column">
+                    Durum <p-sortIcon field="Status"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Priority" class="priority-column">
+                    Öncelik <p-sortIcon field="Priority"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Category" class="category-column">
+                    Kategori <p-sortIcon field="Category"></p-sortIcon>
+                </th>
+                <th pSortableColumn="CreatedAt" class="date-column">
+                    Oluşturma Tarihi <p-sortIcon field="CreatedAt"></p-sortIcon>
+                </th>
+                <th *ngIf="user.IsAdmin" pSortableColumn="SenderName" class="sender-column">
+                    Gönderen <p-sortIcon field="SenderName"></p-sortIcon>
+                </th>
+                <th class="actions-column">İşlemler</th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-ticket>
+            <tr class="ticket-row">
+                <td class="title-column">
+                    <div class="ticket-title-cell">
+                        <strong class="ticket-title">{{ ticket.Title }}</strong>
+                        <small class="ticket-description">
+                            {{ ticket.Description | slice:0:100 }}{{ ticket.Description?.length > 100 ? '...' : '' }}
+                        </small>
+                    </div>
+                </td>
+                <td class="status-column">
+                    <p-tag 
+                        [value]="getStatusLabel(ticket.Status)" 
+                        [severity]="getStatusColor(ticket.Status)"
+                    ></p-tag>
+                </td>
+                <td class="priority-column">
+                    <p-tag 
+                        [value]="getPriorityLabel(ticket.Priority)" 
+                        [severity]="getPriorityColor(ticket.Priority)"
+                    ></p-tag>
+                </td>
+                <td class="category-column">
+                    <div class="category-cell">
+                        <i [class]="getCategoryIcon(ticket.Category)" class="category-icon"></i>
+                        <span>{{ getCategoryLabel(ticket.Category) }}</span>
+                    </div>
+                </td>
+                <td class="date-column">
+                    {{ ticket.CreatedAt | date:'dd/MM/yyyy HH:mm' }}
+                </td>
+                <td class="sender-column" *ngIf="user.IsAdmin">
+                    <div class="sender-cell">
+                        <i class="pi pi-user sender-icon"></i>
+                        <span>{{ ticket.SenderName || ticket.CreatedBy }}</span>
+                    </div>
+                </td>
+                <td class="actions-column">
+                    <div class="action-buttons">
+                        <p-button 
+                            icon="pi pi-eye" 
+                            severity="info"
+                            [text]="true"
+                            size="small"
+                            (click)="openTicket(ticket)" 
+                            pTooltip="Detay"
+                        ></p-button>
+                        <p-button 
+                            icon="pi pi-comments" 
+                            severity="secondary"
+                            [text]="true"
+                            size="small"
+                            pTooltip="Mesajlar ({{ ticket.Messages?.length || 0 }})"
+                        ></p-button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7" class="empty-message">
+                    <div class="empty-state">
+                        <i class="pi pi-inbox empty-icon"></i>
+                        <h3>Hiç talep bulunamadı</h3>
+                        <p>Arama kriterlerinize uygun talep bulunamadı.</p>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+          </p-table>
+      
+      <p-paginator
+        [rows]="requestModel.Limit"
+        [totalRecords]="pagination?.TotalCount || 0"
+        [first]="(requestModel.Page - 1) * requestModel.Limit"
+        [rowsPerPageOptions]="[5,10, 25, 50, 100]"
+        [showFirstLastIcon]="true"
+        [showCurrentPageReport]="true"
+        (onPageChange)="onPageChange($event)" 
+        currentPageReportTemplate="Toplam {totalRecords} kayıttan {first} - {last} arası gösteriliyor"
+        styleClass="custom-paginator">
+    </p-paginator>
   </div>
 </div> 

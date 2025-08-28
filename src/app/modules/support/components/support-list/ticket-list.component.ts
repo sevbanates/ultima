@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,9 +9,16 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
-import { CategoryEnum, PriorityEnum, Ticket, TicketDto, TicketStatusEnum } from '../../models/ticket.model';
+import { TableModule } from 'primeng/table';
+import { PaginatorModule } from 'primeng/paginator';
+import { CategoryEnum, PriorityEnum, Ticket, TicketDto, TicketStatusEnum, DefaultTicketListRequestModel, TicketListRequestModel } from '../../models/ticket.model';
 import { SupportService } from '../../services/support.service';
 import { Subject, takeUntil } from 'rxjs';
+import { PagedAndSortedResponse } from 'src/app/core/models/response-model';
+import { Table } from 'primeng/table';
+import { User } from 'src/app/modules/system-management/user/models/user-list-model';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { LocalStorageType } from 'src/app/core/enums/local-storage-type.enum';
 
 @Component({
   selector: 'app-support-list',
@@ -25,7 +32,9 @@ import { Subject, takeUntil } from 'rxjs';
     TagModule,
     TooltipModule,
     DropdownModule,
-    InputTextModule
+    InputTextModule,
+    TableModule,
+    PaginatorModule
   ],
   templateUrl: './ticket-list.component.html',
   styleUrl: './ticket-list.component.scss'
@@ -34,7 +43,9 @@ export class TicketListComponent implements OnInit {
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   tickets: TicketDto[] = [];
-  filteredTickets: TicketDto[] = [];
+  pagination: PagedAndSortedResponse<any>;
+  requestModel: DefaultTicketListRequestModel = new DefaultTicketListRequestModel();
+  
   selectedStatus: number = 0;
   selectedPriority: number = 0;
   selectedCategory: number = 0;
@@ -65,36 +76,53 @@ export class TicketListComponent implements OnInit {
     { label: 'Genel', value: 5 }
   ];
 
-  constructor(
-    private supportService: SupportService,
-    private router: Router
-  ) {}
+  private readonly _router: Router = inject(Router);
+  protected readonly _supportService: SupportService = inject(SupportService);
+  protected readonly _changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
+  public user: User = inject(LocalStorageService).getItem(LocalStorageType.userData);
+  constructor() {}
 
   ngOnInit() {
-    this.loadTickets();
+    this.getPagination();
+    // this.getEntityPage();
+    this._supportService.entityList$.pipe(takeUntil(this._unsubscribeAll)).subscribe((entityList) => {
+      this.tickets = entityList;
+    });
   }
 
-  loadTickets() {
+  getEntityPage() {
+    return this._supportService.getEntityPage(this.requestModel).subscribe(() => {
+      // Loading completed
+    });
+  }
 
-    this.supportService.entityList$.pipe(takeUntil(this._unsubscribeAll)).subscribe((entityList) => {
-      this.tickets = entityList;
-      this.filterTickets();
-    })
-    
+  onPageChange(event: any) {
+    this.requestModel.Limit = event.rows;
+    this.requestModel.Page = event.page + 1;
+    this.getEntityPage();
+  }
+
+  getPagination() {
+    this._supportService.pagination$
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagination) => {
+        this.pagination = pagination;
+        this._changeDetectorRef.markForCheck();
+      });
+  }
+
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
   filterTickets() {
-    this.filteredTickets = this.tickets.filter(ticket => {
-      const statusMatch = this.selectedStatus === 0 || ticket.Status === this.selectedStatus;
-      const priorityMatch = this.selectedPriority === 0 || ticket.Priority === this.selectedPriority;
-      const categoryMatch = this.selectedCategory === 0 || ticket.Category === this.selectedCategory;
-      const searchMatch = !this.searchTerm || 
-        ticket.Title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        ticket.Description.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        ticket.CreatedBy.toLowerCase().includes(this.searchTerm.toLowerCase());
-
-      return statusMatch && priorityMatch && categoryMatch && searchMatch;
-    });
+    // Server-side filtreleme için requestModel'i güncelle ve yeniden yükle
+    this.requestModel.TicketCategory = this.selectedCategory;
+    this.requestModel.TicketStatus = this.selectedStatus;
+    this.requestModel.TicketPriority = this.selectedPriority;
+    this.requestModel.Search = this.searchTerm;
+    this.requestModel.Page = 1; // Filtreleme yapıldığında ilk sayfaya dön
+    this.getEntityPage();
   }
 
   getStatusColor(status: number): string {
@@ -170,11 +198,11 @@ export class TicketListComponent implements OnInit {
   }
 
   openTicket(ticket: TicketDto) {
-    this.router.navigate([`tickets/${ticket.Id}/${ticket.GuidId}`]);
+    this._router.navigate([`tickets/${ticket.Id}/${ticket.GuidId}`]);
   }
 
   createNewTicket() {
-    this.router.navigate(['/tickets/create']);
+    this._router.navigate(['/tickets/create']);
   }
 
   onStatusChange() {
@@ -193,19 +221,19 @@ export class TicketListComponent implements OnInit {
     this.filterTickets();
   }
 
-  get openTicketsCount(): number {
+  getOpenTicketsCount(): number {
     return this.tickets.filter(t => t.Status === TicketStatusEnum.Open).length;
   }
 
-  get inProgressTicketsCount(): number {
+  getInProgressTicketsCount(): number {
     return this.tickets.filter(t => t.Status === TicketStatusEnum.InProgress).length;
   }
 
-  get resolvedTicketsCount(): number {
+  getResolvedTicketsCount(): number {
     return this.tickets.filter(t => t.Status === TicketStatusEnum.Resolved).length;
   }
 
-  get totalTicketsCount(): number {
-    return this.tickets.length;
+  getTotalTicketsCount(): number {
+    return this.pagination?.TotalCount || 0;
   }
 } 

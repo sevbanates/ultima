@@ -38,6 +38,8 @@ export class SupportService extends BaseService<Ticket, DefaultTicketListRequest
     return this._httpClient.put<ResponseModel<boolean>>(`${this.apiUrl}${this.controllerName}/status/${ticketId}`, status);
   }
 
+
+
   // Ticket listeleme (paged)
   // getTickets(input: PagedAndSortedSearchInput): Observable<PagedAndSortedResponse<Ticket>> {
   //   return this._httpClient.get<PagedAndSortedResponse<Ticket>>(`${this.apiUrl}`, { params: input as any });

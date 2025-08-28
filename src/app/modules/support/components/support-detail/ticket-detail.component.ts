@@ -278,7 +278,51 @@ export class TicketDetailComponent implements OnInit {
     }
   }
 
+  takeTicket() {
+    if (this.ticket && this.ticket.Status === TicketStatusEnum.Open) {
+      this.isUpdatingStatus = true;
+      const ticketId = this.ticket.Id;
+      
+      this.supportService.changeStatus(ticketId, TicketStatusEnum.InProgress).subscribe({
+        next: (response) => {
+          if (response.IsSuccess) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Başarılı',
+              detail: 'Ticket işleme alındı.'
+            });
+            // Reload the ticket to get updated data
+            this.loadTicket(this.ticket!.Id, this.ticket!.GuidId);
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Hata',
+              detail: response.ReturnMessage.toString() || 'Ticket işleme alınamadı.'
+            });
+          }
+          this.isUpdatingStatus = false;
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Hata',
+            detail: 'Ticket işleme alınırken bir hata oluştu.'
+          });
+          this.isUpdatingStatus = false;
+        }
+      });
+    }
+  }
+
   // Helper methods for template
+  isTicketOpen(): boolean {
+    return this.ticket?.Status === TicketStatusEnum.Open;
+  }
+
+  isTicketInProgress(): boolean {
+    return this.ticket?.Status === TicketStatusEnum.InProgress;
+  }
+
   isTicketResolved(): boolean {
     return this.ticket?.Status === TicketStatusEnum.Resolved;
   }
@@ -289,6 +333,10 @@ export class TicketDetailComponent implements OnInit {
 
   isTicketClosedOrResolved(): boolean {
     return this.isTicketResolved() || this.isTicketClosed();
+  }
+
+  canTakeTicket(): boolean {
+    return this.isTicketOpen() && this.currentUser && this.currentUser.IsAdmin;
   }
 
   markFormGroupTouched() {

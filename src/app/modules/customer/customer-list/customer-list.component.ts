@@ -66,11 +66,11 @@ export class CustomerListComponent implements OnInit {
   }
 
   navigateToCreateCustomer() {
-    this._router.navigate([`customer/create`]);
+    this._router.navigate([`customers/create`]);
   }
 
   editCustomer(customer: CustomerDto) {
-    this._router.navigate([`customer/details/${customer.Id}/${customer.GuidId}`]);
+    this._router.navigate([`customers/details/${customer.Id}/${customer.GuidId}`]);
   }
 
   // Delete logic
@@ -89,4 +89,6 @@ export class CustomerListComponent implements OnInit {
     // this._invoiceService.deleteEntity(this.selectedCustomer.Id, this.selectedCustomer.GuidId).subscribe(() => {...})
     this.closeDeleteCustomerDialog();
   }
+
+
 }

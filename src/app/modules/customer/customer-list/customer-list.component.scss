@@ -1,0 +1,635 @@
+// Customer List Container - Full Width Layout
+.customer-list-container {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  background: var(--surface-ground);
+}
+
+// Hero Header Section
+.hero-header {
+  background: var(--surface-card);
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--surface-border);
+  
+  .hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    
+    .hero-left {
+      flex: 1;
+      
+      .hero-title {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        
+        .hero-icon {
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-size: 3rem;
+          animation: pulse 2s infinite;
+        }
+        
+        .title-text {
+          h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            background: linear-gradient(135deg, #2c3e50, #4a69bd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          
+          p {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin: 0;
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+    
+    .hero-right {
+      .create-customer-btn {
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+      }
+    }
+  }
+}
+
+// Main Card with Beautiful Design
+.main-card {
+  background: var(--surface-card);
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--surface-border);
+  overflow: hidden;
+}
+
+// Card Header Styles for Main Card
+.main-card .card-header {
+  padding: 2rem 2rem 1.5rem 2rem;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+  margin-bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(102, 126, 234, 0.05) 0%, 
+    rgba(118, 75, 162, 0.05) 100%);
+  
+  .header-left {
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: linear-gradient(135deg, #2c3e50, #4a69bd);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      
+      i {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 1.5rem;
+      }
+    }
+    
+    .section-subtitle {
+      color: #6c757d;
+      margin: 0;
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+  }
+}
+
+// Table Toolbar Styles
+.table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, 
+    rgba(102, 126, 234, 0.08) 0%, 
+    rgba(118, 75, 162, 0.08) 100%);
+  margin: 1.5rem 2rem;
+  border-radius: 16px;
+  flex-wrap: wrap;
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  
+  .search-section {
+    flex: 1;
+    min-width: 300px;
+    
+    .search-input {
+      width: 100%;
+      min-width: 300px;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      background: var(--surface-100);
+      transition: all 0.3s ease;
+      
+      &:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        background: var(--surface-0);
+      }
+    }
+  }
+}
+
+// Table Column Styles with Beautiful Design
+::ng-deep .main-card .p-datatable {
+  border-radius: 0 0 24px 24px;
+  overflow: hidden;
+  
+  .p-datatable-thead > tr > th {
+    background: linear-gradient(135deg, 
+      rgba(102, 126, 234, 0.1) 0%, 
+      rgba(118, 75, 162, 0.1) 100%);
+    border-bottom: 3px solid rgba(102, 126, 234, 0.2);
+    font-weight: 700;
+    color: #2c3e50;
+    padding: 1.25rem 1rem;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    &.name-column {
+      min-width: 200px;
+      width: 25%;
+    }
+    
+    &.surname-column {
+      min-width: 150px;
+      width: 20%;
+    }
+    
+    &.phone-column {
+      min-width: 180px;
+      width: 20%;
+    }
+    
+    &.email-column {
+      min-width: 200px;
+      width: 25%;
+    }
+    
+    &.actions-column {
+      min-width: 140px;
+      width: 10%;
+      text-align: center;
+    }
+  }
+  
+  .p-datatable-tbody > tr {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: linear-gradient(135deg, 
+        rgba(102, 126, 234, 0.03) 0%, 
+        rgba(118, 75, 162, 0.03) 100%);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    > td {
+      padding: 1.25rem 1rem;
+      border-bottom: 1px solid rgba(102, 126, 234, 0.08);
+      vertical-align: top;
+      
+      &.actions-column {
+        text-align: center;
+      }
+    }
+  }
+  
+  .p-datatable-tbody > tr:last-child > td {
+    border-bottom: none;
+  }
+}
+
+// Table Cell Content Styles with Beautiful Effects
+.customer-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  
+  .customer-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+  
+  .customer-name {
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1.4;
+    margin: 0;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    
+    &:hover {
+      color: #667eea;
+    }
+  }
+}
+
+.customer-surname {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 1rem;
+}
+
+.contact-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+  .contact-icon {
+    color: #667eea;
+    font-size: 1rem;
+    padding: 0.5rem;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: rgba(102, 126, 234, 0.2);
+      transform: translateY(-1px);
+    }
+  }
+  
+  span {
+    color: #4a5568;
+    font-size: 0.95rem;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  
+  ::ng-deep .p-button {
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+// Empty State Styles with Beautiful Animation
+.empty-message {
+  padding: 4rem 2rem !important;
+  text-align: center;
+  
+  .empty-state {
+    animation: fadeInUp 0.6s ease-out;
+    
+    .empty-icon {
+      font-size: 4rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.5rem;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    h3 {
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+    }
+    
+    p {
+      color: #6c757d;
+      opacity: 0.8;
+      margin: 0;
+      font-size: 1rem;
+    }
+  }
+}
+
+// Paginator Styles with Beautiful Design
+::ng-deep .custom-paginator {
+  margin: 2rem;
+  border-top: 2px solid rgba(102, 126, 234, 0.1);
+  padding: 1.5rem 0 0 0;
+  background: linear-gradient(135deg, 
+    rgba(102, 126, 234, 0.02) 0%, 
+    rgba(118, 75, 162, 0.02) 100%);
+  border-radius: 0 0 24px 24px;
+  
+  .p-paginator-pages .p-paginator-page {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: rgba(102, 126, 234, 0.05);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+    }
+    
+    &.p-highlight {
+      background: rgba(102, 126, 234, 0.15);
+      border-color: rgba(102, 126, 234, 0.3);
+      color: #667eea;
+      font-weight: 600;
+    }
+  }
+  
+  .p-paginator-first,
+  .p-paginator-prev,
+  .p-paginator-next,
+  .p-paginator-last {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: rgba(102, 126, 234, 0.05);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    
+    &:hover:not(.p-disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+    }
+    
+    &.p-disabled {
+      background: rgba(108, 117, 125, 0.05);
+      border-color: rgba(108, 117, 125, 0.1);
+      color: #6c757d;
+      opacity: 0.5;
+    }
+  }
+}
+
+// Beautiful Animations
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Apply animations to main elements
+.hero-header {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.main-card {
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .customer-list-container {
+    padding: 1rem;
+  }
+  
+  .hero-header {
+    padding: 2rem;
+    
+    .hero-content {
+      flex-direction: column;
+      text-align: center;
+      
+      .hero-title {
+        justify-content: center;
+        
+        .title-text h1 {
+          font-size: 2rem;
+        }
+      }
+    }
+  }
+  
+  .table-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    margin: 1rem;
+    padding: 1rem;
+    
+    .search-section {
+      width: 100%;
+      min-width: 100%;
+      
+      .search-input {
+        min-width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .customer-list-container {
+    padding: 0.75rem;
+  }
+  
+  .hero-header {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    
+    .hero-content .hero-title {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+      
+      .hero-icon {
+        font-size: 2.5rem;
+      }
+      
+      .title-text h1 {
+        font-size: 1.75rem;
+      }
+    }
+  }
+  
+
+  
+  .main-card .card-header {
+    padding: 1.5rem;
+    
+    .section-title {
+      font-size: 1.5rem;
+      
+      i {
+        font-size: 1.25rem;
+      }
+    }
+  }
+  
+  .table-toolbar {
+    margin: 1rem;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  // Simplify table on mobile
+  ::ng-deep .main-card .p-datatable {
+    .p-datatable-thead > tr > th,
+    .p-datatable-tbody > tr > td {
+      padding: 1rem 0.75rem;
+    }
+    
+    .p-datatable-thead > tr > th {
+      font-size: 0.875rem;
+    }
+  }
+  
+  .customer-name-cell {
+    .customer-avatar {
+      width: 35px;
+      height: 35px;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .customer-list-container {
+    padding: 0.5rem;
+  }
+  
+  .hero-header {
+    padding: 1rem;
+    
+    .hero-content .hero-title {
+      .hero-icon {
+        font-size: 2rem;
+      }
+      
+      .title-text h1 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  
+
+  
+  .main-card .card-header {
+    padding: 1rem;
+    
+    .section-title {
+      font-size: 1.25rem;
+      
+      i {
+        font-size: 1rem;
+      }
+    }
+  }
+  
+  .table-toolbar {
+    margin: 0.5rem;
+    padding: 0.75rem;
+  }
+  
+  ::ng-deep .main-card .p-datatable {
+    .p-datatable-thead > tr > th,
+    .p-datatable-tbody > tr > td {
+      padding: 0.75rem 0.5rem;
+    }
+  }
+  
+  ::ng-deep .custom-paginator {
+    margin: 1rem;
+  }
+  
+  .customer-name-cell {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    
+    .customer-avatar {
+      width: 30px;
+      height: 30px;
+      font-size: 0.8rem;
+    }
+  }
+  
+  .contact-cell {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    
+    .contact-icon {
+      align-self: center;
+    }
+  }
+}
+
+// Dialog warning icon style
+.warning-icon {
+  font-size: 2rem !important;
+}

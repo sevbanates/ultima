@@ -154,3 +154,4 @@ Development ortamında component'te debug bilgileri gösterilir:
 - `CurrentUser.SelectedUserId` tüm backend işlemlerinde kullanılabilir
 - Session bazlı çalıştığı için sayfa yenilenmesinde kaybolur (bu normal)
 - Her login'de `initialize-selected-user` çağrılarak son tercih yüklenir
+

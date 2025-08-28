@@ -31,6 +31,20 @@
         
         <!-- Action Buttons -->
         <div class="header-actions" *ngIf="!isTicketClosedOrResolved()">
+          <!-- İşleme Al Butonu (sadece Open status'taki ticketlar için) -->
+          <p-button
+            *ngIf="canTakeTicket()"
+            label="İşleme Al"
+            icon="pi pi-play"
+            severity="info"
+            size="small"
+            class="action-btn take-btn"
+            (click)="takeTicket()"
+            [loading]="isUpdatingStatus"
+            pTooltip="Ticket'ı işleme al ve kendine ata"
+            tooltipPosition="bottom"
+          ></p-button>
+
           <p-button
             *ngIf="!isTicketResolved()"
             label="Çözüldü"

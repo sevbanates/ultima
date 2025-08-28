@@ -1,75 +1,166 @@
-<div class="card">
-    <p-table #dt [value]="customers" responsiveLayout="scroll"
-        [globalFilterFields]="['Name','Surname','Email', 'Phone']">
+<div class="customer-list-container">
+  <!-- Hero Header Section -->
+  <div class="hero-header">
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-title">
+          <i class="pi pi-users hero-icon"></i>
+          <div class="title-text">
+            <h1>Cari Yönetimi</h1>
+            <p>Carilerinizi kolayca yönetin ve takip edin</p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <p-button 
+          label="Yeni Cari Ekle" 
+          icon="pi pi-user-plus" 
+          severity="primary"
+          size="large"
+          [raised]="true"
+          (click)="navigateToCreateCustomer()"
+          styleClass="create-customer-btn"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Table Card -->
+  <div class="main-card">
+    <div class="card-header">
+      <div class="header-left">
+        <h3 class="section-title">
+          <i class="pi pi-list"></i>
+          Cari Listesi
+        </h3>
+        <p class="section-subtitle">Tüm carileri görüntüleyin ve yönetin</p>
+      </div>
+    </div>
+
+    <p-table #dt [value]="customers" 
+             [paginator]="false"
+             [loading]="false"
+             responsiveLayout="scroll"
+             [scrollable]="true"
+             [globalFilterFields]="['Name','Surname','Email', 'Phone']">
+        
         <ng-template pTemplate="caption">
-            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
-                <span class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Ara" class="w-full" />
-                </span>
-                <button
-  type="button"
-  (click)="navigateToCreateCustomer()"
-  pButton
-  class="p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1"
-  icon="pi pi-user-plus"
-  label="Yeni Cari Ekle"
-  title="Yeni Cari Ekle">
-</button>
+            <div class="table-toolbar">
+                <div class="search-section">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" 
+                               (input)="onGlobalFilter(dt, $event)" 
+                               placeholder="Cari ara..." 
+                               class="search-input" />
+                    </span>
+                </div>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="Name" class="white-space-nowrap" style="width:25%">Ad <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="Surname" class="white-space-nowrap" style="width:25%">Soyad <p-sortIcon field="country.name"></p-sortIcon></th>
-                <!-- <th pSortableColumn="CreDate" class="white-space-nowrap" style="width:25%">Olş. Tarihi <p-sortIcon field="date"></p-sortIcon></th> -->
-                <th pSortableColumn="Phone" class="white-space-nowrap" style="width:25%">Telefon Numarası <p-sortIcon field="representative.name"></p-sortIcon></th>
-                <th pSortableColumn="Email" class="white-space-nowrap" style="width:25%">Mail <p-sortIcon field="activity"></p-sortIcon></th>
-                <th></th>
+                <th pSortableColumn="Name" class="name-column">
+                    Ad <p-sortIcon field="Name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Surname" class="surname-column">
+                    Soyad <p-sortIcon field="Surname"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Phone" class="phone-column">
+                    Telefon <p-sortIcon field="Phone"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Email" class="email-column">
+                    E-posta <p-sortIcon field="Email"></p-sortIcon>
+                </th>
+                <th class="actions-column">İşlemler</th>
             </tr>
         </ng-template>
+        
         <ng-template pTemplate="body" let-customer>
-            <tr>
-                <td>{{customer.Name}}</td>
-                <td>
-                    <!-- <img src="assets/demo/images/flag/flag_placeholder.png" [class]="'flag flag-' + customer.country.code" class="w-2rem mr-2"> -->
-                    <span class="image-text">{{customer.Surname}}</span>
-                </td>
-                  <!-- <td>{{customer.CreDate | date: 'dd/MM/yyyy'}}...</td> -->
-                <td>
-                    <div class="inline-flex align-items-center">
-                        <!-- <img [alt]="customer.representative.name" src="assets/demo/images/avatar/{{customer.representative.image}}" class="w-2rem mr-2" /> -->
-                        <span>{{customer.Phone}}</span>
+            <tr class="customer-row">
+                <td class="name-column">
+                    <div class="customer-name-cell">
+                        <div class="customer-avatar">
+                            <i class="pi pi-user"></i>
+                        </div>
+                        <strong class="customer-name">{{ customer.Name }}</strong>
                     </div>
                 </td>
-              
-                <td> <div class="inline-flex align-items-center">
-                        <!-- <img [alt]="customer.representative.name" src="assets/demo/images/avatar/{{customer.representative.image}}" class="w-2rem mr-2" /> -->
-                        <span>{{customer.Email}}</span>
-                    </div></td>
-
-                       <td class="flex">
-        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editCustomer(customer)" title="Düzenle" type="button"></button>
-        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" title="Sil" (click)="openDeleteCustomerDialog(customer)" type="button"></button>
-      </td>
+                <td class="surname-column">
+                    <span class="customer-surname">{{ customer.Surname }}</span>
+                </td>
+                <td class="phone-column">
+                    <div class="contact-cell">
+                        <i class="pi pi-phone contact-icon"></i>
+                        <span>{{ customer.Phone }}</span>
+                    </div>
+                </td>
+                <td class="email-column">
+                    <div class="contact-cell">
+                        <i class="pi pi-envelope contact-icon"></i>
+                        <span>{{ customer.Email }}</span>
+                    </div>
+                </td>
+                <td class="actions-column">
+                    <div class="action-buttons">
+                        <p-button 
+                            icon="pi pi-eye" 
+                            severity="info"
+                            [text]="true"
+                            size="small"
+                            (click)="editCustomer(customer)" 
+                            pTooltip="Detay"
+                        ></p-button>
+                        <p-button 
+                            icon="pi pi-pencil" 
+                            severity="secondary"
+                            [text]="true"
+                            size="small"
+                            (click)="editCustomer(customer)"
+                            pTooltip="Düzenle"
+                        ></p-button>
+                        <p-button 
+                            icon="pi pi-trash" 
+                            severity="danger"
+                            [text]="true"
+                            size="small"
+                            (click)="openDeleteCustomerDialog(customer)"
+                            pTooltip="Sil"
+                        ></p-button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5" class="empty-message">
+                    <div class="empty-state">
+                        <i class="pi pi-users empty-icon"></i>
+                        <h3>Hiç cari bulunamadı</h3>
+                        <p>Arama kriterlerinize uygun cari bulunamadı.</p>
+                    </div>
+                </td>
             </tr>
         </ng-template>
     </p-table>
-<p-paginator
-    [rows]="requestModel.Limit"
-    [totalRecords]="pagination.TotalCount"
-    [first]="(requestModel.Page - 1) * requestModel.Limit"
-    [rowsPerPageOptions]="[5, 10, 25, 100]"
-    [showFirstLastIcon]="true"
-    [showCurrentPageReport]="true"
-    (onPageChange)="onPageChange($event)" 
-    currentPageReportTemplate="Toplam {totalRecords} kayıttan {first} - {last} arası gösteriliyor">
-</p-paginator>
+    
+    <p-paginator
+        [rows]="requestModel.Limit"
+        [totalRecords]="pagination?.TotalCount || 0"
+        [first]="(requestModel.Page - 1) * requestModel.Limit"
+        [rowsPerPageOptions]="[5,10, 25, 50, 100]"
+        [showFirstLastIcon]="true"
+        [showCurrentPageReport]="true"
+        (onPageChange)="onPageChange($event)" 
+        currentPageReportTemplate="Toplam {totalRecords} kayıttan {first} - {last} arası gösteriliyor"
+        styleClass="custom-paginator">
+    </p-paginator>
+  </div>
 </div>
 <p-dialog [(visible)]="deleteCustomerDialog" header="Onayla" [modal]="true" [style]="{width:'350px'}">
   <div class="flex align-items-center justify-content-center">
-    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-    <span>Seçili müşteriyi silmek istediğinize emin misiniz?</span>
+    <i class="pi pi-exclamation-triangle mr-3 warning-icon"></i>
+    <span>Seçili cariyi silmek istediğinize emin misiniz?</span>
   </div>
   <ng-template pTemplate="footer">
     <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Hayır" (click)="closeDeleteCustomerDialog()" title="Hayır" type="button"></button>

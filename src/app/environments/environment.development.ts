@@ -6,3 +6,4 @@ export const environment = {
   signalRHubUrl: 'http://localhost:44559/Chat',
   hostUrl: 'http://localhost:4200'
 };
+
