@@ -24,9 +24,9 @@ export interface TicketDto {
   Status: TicketStatusEnum;
   Priority: PriorityEnum;
   Category: CategoryEnum;
-  CreatedBy: string;
+  CreatedBy: number;
   CreatedByEmail: string;
-  AssignedTo?: string;
+  AssignedTo?: number;
   CreatedAt: Date;
   UpdatedAt: Date;
   SenderName?: string;

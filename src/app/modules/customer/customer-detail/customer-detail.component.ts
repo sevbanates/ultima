@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerAndCityModel } from '../models/customer.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
   selector: 'app-customer-detail',
@@ -20,6 +21,7 @@ export class CustomerDetailComponent implements OnInit {
   private readonly _formBuilder: FormBuilder = inject(FormBuilder);
   private readonly _route = inject(ActivatedRoute);
   private readonly _router = inject(Router);
+  private readonly _authService = inject(AuthService);
   // private readonly _messageService = inject(MessageService);
   private _entityData: any = null;
   submitted = false;
@@ -40,7 +42,30 @@ export class CustomerDetailComponent implements OnInit {
         this._customerService.getEntityById(id, guidId)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((response) => {
+            if (!response.IsSuccess) {
+              // Erişim hatası varsa dashboard'a yönlendir
+              this._messageService.add({
+                severity: 'error',
+                summary: 'Erişim Hatası',
+                detail: response.ReturnMessage?.join(', ') || 'Bu müşteriye erişim izniniz bulunmamaktadır.'
+              });
+              this._router.navigate(['/']);
+              return;
+            }
+            
             this._entityData = response?.Entity;
+            
+            // Admin değilse, kullanıcının kendi verisine erişip erişmediğini kontrol et
+            if (!this._authService.userData.IsAdmin && this._entityData?.UserId !== this._authService.userData.Id) {
+              this._messageService.add({
+                severity: 'error',
+                summary: 'Erişim Hatası',
+                detail: 'Bu müşteriye erişim izniniz bulunmamaktadır.'
+              });
+              this._router.navigate(['/']);
+              return;
+            }
+            
             this.tryPatchForm();
           });
       }

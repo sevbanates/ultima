@@ -17,6 +17,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { LocalStorageType } from 'src/app/core/enums/local-storage-type.enum';
 import { User } from 'src/app/modules/system-management/user/models/user-list-model';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
   selector: 'app-support-detail',
@@ -58,7 +59,8 @@ export class TicketDetailComponent implements OnInit {
     private supportService: SupportService,
     private fb: FormBuilder,
     private messageService: MessageService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private authService: AuthService
   ) {
     this.responseForm = this.fb.group({
       message: ['', [Validators.required, Validators.minLength(10)]],
@@ -97,19 +99,29 @@ export class TicketDetailComponent implements OnInit {
   }
 
   loadTicket(ticketId: number, guidId: string) {
-
-
-    
     this.supportService.getEntityById(ticketId, guidId).subscribe((response) => {
-      if (response.IsSuccess) {
-        this.ticket = response.Entity;
-      } else {
+      if (!response.IsSuccess) {
+        // Erişim hatası varsa dashboard'a yönlendir
         this.messageService.add({
           severity: 'error',
-          summary: 'Hata',
-          detail: response.ReturnMessage.toString() || 'Ticket bulunamadı.'
+          summary: 'Erişim Hatası',
+          detail: response.ReturnMessage?.join(', ') || 'Bu ticket\'a erişim izniniz bulunmamaktadır.'
         });
-        this.router.navigate(['/tickets']);
+        this.router.navigate(['/']);
+        return;
+      }
+      
+      this.ticket = response.Entity;
+      
+      // Admin değilse, kullanıcının kendi verisine erişip erişmediğini kontrol et
+      if (!this.authService.userData.IsAdmin && this.ticket?.CreatedBy !== this.authService.userData.Id) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erişim Hatası',
+          detail: 'Bu ticket\'a erişim izniniz bulunmamaktadır.'
+        });
+        this.router.navigate(['/']);
+        return;
       }
     });
   }

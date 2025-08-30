@@ -155,3 +155,4 @@ Development ortamında component'te debug bilgileri gösterilir:
 - Session bazlı çalıştığı için sayfa yenilenmesinde kaybolur (bu normal)
 - Her login'de `initialize-selected-user` çağrılarak son tercih yüklenir
 
+
