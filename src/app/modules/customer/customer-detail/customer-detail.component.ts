@@ -4,6 +4,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerAndCityModel } from '../models/customer.types';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-customer-detail',
@@ -19,9 +20,17 @@ export class CustomerDetailComponent implements OnInit {
   private readonly _formBuilder: FormBuilder = inject(FormBuilder);
   private readonly _route = inject(ActivatedRoute);
   private readonly _router = inject(Router);
+  // private readonly _messageService = inject(MessageService);
   private _entityData: any = null;
   submitted = false;
 
+  /**
+   *
+   */
+  constructor( private _messageService: MessageService) {
+   
+    
+  }
   ngOnInit(): void {
     this.initForm();
     this._route.paramMap.subscribe(params => {
@@ -75,6 +84,7 @@ export class CustomerDetailComponent implements OnInit {
       // PostalCode: [],
       // AddressDescription: [],
       CreDate: [],
+      UserId: [0],
     });
   }
 
@@ -83,6 +93,7 @@ export class CustomerDetailComponent implements OnInit {
   }
 
   save() {
+    debugger
     this.submitted = true;
     if (this.form.invalid) return;
     const formValue = { ...this.form.value };
@@ -93,12 +104,22 @@ export class CustomerDetailComponent implements OnInit {
     if (formValue.Id && formValue.Id > 0) {
       // Update
       this._customerService.updateEntity(formValue.Id, formValue).subscribe(() => {
-        this._router.navigate(['/customer']);
+        this._messageService.add({
+          severity: 'success',
+          summary: 'Başarılı',
+          detail: 'Müşteri başarıyla güncellendi.'
+        });
+        this._router.navigate(['/customers']);
       });
     } else {
       // Create
       this._customerService.createEntity(formValue).subscribe(() => {
-        this._router.navigate(['/customer']);
+        this._messageService.add({
+          severity: 'success',
+          summary: 'Başarılı',
+          detail: 'Müşteri başarıyla oluşturuldu.'
+        });
+        this._router.navigate(['/customers']);
       });
     }
   }

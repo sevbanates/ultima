@@ -73,6 +73,20 @@ export class SettingsListComponent {
       }
     ] : [
       {
+        id: 'incoming-requests',
+        title: 'Gelen İstekler',
+        description: 'Gelen istekleri yönetin ve yanıtlayın',
+        icon: 'pi pi-inbox',
+        color: 'primary',
+        badge: '3',
+        route: '/settings/recieved-requests',
+        // features: [
+        //   'Yeni istek bildirimleri',
+        //   'İstek durumu takibi',
+        //   'Otomatik yanıt ayarları'
+        // ]
+      },
+      {
         id: 'create-requests',
         title: 'İstek Oluştur',
         description: 'Muhasebecinize istek gönderin',

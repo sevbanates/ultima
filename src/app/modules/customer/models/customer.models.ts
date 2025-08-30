@@ -2,7 +2,7 @@ import { BaseModel } from "src/app/core/models/base-model";
 
 export interface Customer extends BaseModel {
   GuidId:string;
-
+  UserId:number;
   name: string;
   surname: string;
   vknTckn: string;
@@ -32,7 +32,7 @@ export interface Customer extends BaseModel {
 }
 export interface CustomerDto extends BaseModel {
   GuidId: string;
-
+  UserId:number;
   Name: string;
   Surname: string;
   VknTckn: string;

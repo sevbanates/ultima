@@ -8,7 +8,7 @@
       <div class="header-title">
         <h1>
           <i class="pi pi-inbox"></i>
-          Gelen İstekler
+          {{getLabel()}}
         </h1>
         <p class="header-subtitle">
           Kullanıcı isteklerini yönetin ve yanıtlayın
@@ -16,7 +16,7 @@
       </div>
       <div class="header-stats">
         <div class="stat-item">
-          <span class="stat-number">{{ filteredRequests.length }}</span>
+          <span class="stat-number">{{ totalRecords }}</span>
           <span class="stat-label">Toplam İstek</span>
         </div>
         <div class="stat-item pending">
@@ -67,13 +67,13 @@
       <p>İstekler yükleniyor...</p>
     </div>
 
-    <div *ngIf="!isLoading && filteredRequests.length === 0" class="empty-state">
+    <div *ngIf="!isLoading && totalRecords === 0" class="empty-state">
       <i class="pi pi-inbox empty-icon"></i>
       <h3>Henüz İstek Yok</h3>
       <p>Filtreleme kriterlerinize uygun istek bulunamadı.</p>
     </div>
 
-    <div *ngFor="let request of filteredRequests" class="request-card">
+    <div *ngFor="let request of paginatedRequests" class="request-card">
       <div class="request-header">
         <div class="user-info">
           <p-avatar 
@@ -115,6 +115,7 @@
 
         <div class="request-actions" *ngIf="request.Status === 1">
           <p-button 
+          *ngIf="user.IsAccounter || user.IsAdmin"
             label="Onayla" 
             icon="pi pi-check" 
             severity="success" 
@@ -123,6 +124,7 @@
             [pTooltip]="'İsteği onayla'"
           ></p-button>
           <p-button 
+          *ngIf="user.IsAccounter || user.IsAdmin"
             label="Reddet" 
             icon="pi pi-times" 
             severity="danger" 
@@ -130,6 +132,16 @@
             [outlined]="true"
             (click)="rejectRequest(request)"
             [pTooltip]="'İsteği reddet'"
+          ></p-button>
+          <p-button 
+          *ngIf="user.IsUser || user.IsAdmin"
+            label="İptal Et" 
+            icon="pi pi-times" 
+            severity="warn" 
+            size="small"
+            [outlined]="false"
+            (click)="cancelRequest(request)"
+            [pTooltip]="'İptal Et'"
           ></p-button>
         </div>
 
@@ -143,5 +155,20 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Pagination Section -->
+  <div *ngIf="!isLoading && totalRecords > 0" class="pagination-section">
+    <p-paginator 
+      [rows]="pageSize"
+      [totalRecords]="totalRecords"
+      [first]="currentPage * pageSize"
+      [rowsPerPageOptions]="[3, 6, 9, 12]"
+      (onPageChange)="onPageChange($event)"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="{first} - {last} / {totalRecords} istek"
+      [showFirstLastIcon]="true"
+      [showPageLinks]="true"
+    ></p-paginator>
   </div>
 </div>

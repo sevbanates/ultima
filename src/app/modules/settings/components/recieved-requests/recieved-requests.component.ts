@@ -10,8 +10,11 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { PaginatorModule } from 'primeng/paginator';
 import { SettingsService } from '../../services/settings.service';
 import { AccounterRequestDto, AccounterRequestStatus } from '../../models/accounter.models';
+import { AuthService } from 'src/app/core/auth/auth.service';
+import { User } from 'src/app/modules/system-management/user/models/user-list-model';
 
 // AccounterRequestDto'yu kullanacağız, interface kaldırıldı
 
@@ -28,7 +31,8 @@ import { AccounterRequestDto, AccounterRequestStatus } from '../../models/accoun
     TagModule,
     TooltipModule,
     ConfirmDialogModule,
-    ToastModule
+    ToastModule,
+    PaginatorModule
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './recieved-requests.component.html',
@@ -38,8 +42,14 @@ export class RecievedRequestsComponent implements OnInit {
 
   requests: AccounterRequestDto[] = [];
   filteredRequests: AccounterRequestDto[] = [];
+  paginatedRequests: AccounterRequestDto[] = [];
   selectedStatus: string = 'all';
   isLoading: boolean = false;
+
+  user : User;
+  currentPage: number = 0;
+  pageSize: number = 3; // Her sayfada 3 card gösterelim
+  totalRecords: number = 0;
 
   statusOptions = [
     { label: 'Tümü', value: 'all' },
@@ -49,6 +59,14 @@ export class RecievedRequestsComponent implements OnInit {
     { label: 'İptal Edildi', value: AccounterRequestStatus.Canceled.toString() }
   ];
 
+  constructor(
+    private confirmationService: ConfirmationService, 
+    private messageService: MessageService,
+    private settingsService: SettingsService,
+    private _authService: AuthService
+  ) {
+    this.user = this._authService.userData;
+  }
   ngOnInit() {
     this.loadRequests();
   }
@@ -86,6 +104,22 @@ export class RecievedRequestsComponent implements OnInit {
       const statusMatch = this.selectedStatus === 'all' || request.Status.toString() === this.selectedStatus.toString();
       return statusMatch;
     });
+    
+    this.totalRecords = this.filteredRequests.length;
+    this.currentPage = 0; // Reset to first page when filtering
+    this.updatePaginatedRequests();
+  }
+
+  updatePaginatedRequests() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedRequests = this.filteredRequests.slice(startIndex, endIndex);
+  }
+
+  onPageChange(event: any) {
+    this.currentPage = event.page;
+    this.pageSize = event.rows;
+    this.updatePaginatedRequests();
   }
 
   getStatusColor(status: AccounterRequestStatus): string {
@@ -153,30 +187,59 @@ export class RecievedRequestsComponent implements OnInit {
     //   detail: `${request.TargetFullName} isteği reddedildi.`
     // });
   }
+  cancelRequest(request: AccounterRequestDto) {
+    // TODO: Backend'e reject request API call'u yapılacak
+    request.Status = AccounterRequestStatus.Canceled;
+    this.settingsService.changeStatus(request).subscribe({
+      next: (response) => {
+        if (response.IsSuccess) {
+          this.loadRequests();
+          this.filterRequests();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'İptal Edildi',
+            // detail: `${request.TargetFullName} isteği iptal edildi.`
+          });
+        }
+      }
+    });
+    // this.filterRequests();
+    // this.messageService.add({
+    //   severity: 'error',
+    //   summary: 'Reddedildi',
+    //   detail: `${request.TargetFullName} isteği reddedildi.`
+    // });
+  }
 
   onStatusChange() {
     this.filterRequests();
   }
 
-  constructor(
-    private confirmationService: ConfirmationService, 
-    private messageService: MessageService,
-    private settingsService: SettingsService
-  ) {}
+  getLabel(){
+    if(this.user.IsAccounter){  
+      return 'Gelen İstekler';
+    }else if(this.user.IsUser){
+      return 'Gönderilen İstekler';
+    }else{
+      return 'İstekler';
+    }
+  }
+
+ 
 
   get draftCount(): number {
-    return this.filteredRequests.filter(r => r.Status === AccounterRequestStatus.Draft).length;
+    return this.requests.filter(r => r.Status === AccounterRequestStatus.Draft).length;
   }
 
   get approvedCount(): number {
-    return this.filteredRequests.filter(r => r.Status === AccounterRequestStatus.Approved).length;
+    return this.requests.filter(r => r.Status === AccounterRequestStatus.Approved).length;
   }
 
   get rejectedCount(): number {
-    return this.filteredRequests.filter(r => r.Status === AccounterRequestStatus.Rejected).length;
+    return this.requests.filter(r => r.Status === AccounterRequestStatus.Rejected).length;
   }
 
   get canceledCount(): number {
-    return this.filteredRequests.filter(r => r.Status === AccounterRequestStatus.Canceled).length;
+    return this.requests.filter(r => r.Status === AccounterRequestStatus.Canceled).length;
   }
 }

@@ -14,7 +14,7 @@ import { Controllers } from 'src/app/core/enums/actions-enum/controllers.enum';
                 action: CustomerActions.List
             }
          },
-        { path: 'details/:id/:guidid', loadChildren: () => import('./customer-detail/customer-detail.module').then(m => m.CustomerDetailModule), resolve: {customerDetailResolver}, canActivate: [AuthGuard], data:{
+        { path: 'details/:id/:guidid', loadChildren: () => import('./customer-detail/customer-detail.module').then(m => m.CustomerDetailModule), canActivate: [AuthGuard], data:{
             controllerName: Controllers.Customer,
             action: CustomerActions.View
         } },

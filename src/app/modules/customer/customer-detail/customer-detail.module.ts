@@ -19,6 +19,8 @@ import { CustomerDetailRoutingModule } from "./customer-detail-routing.module";
 import { InputNumberModule } from "primeng/inputnumber";
 import { InputMaskModule } from "primeng/inputmask";
 import { DirectivesModule } from 'src/app/shared/directives/directives.module';
+import { MessageService } from "primeng/api";
+import { ToastModule } from "primeng/toast";
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import { DirectivesModule } from 'src/app/shared/directives/directives.module';
         ReactiveFormsModule,
         InputNumberModule,
         InputMaskModule,
-        DirectivesModule
-    ]
+        DirectivesModule,
+        ToastModule,
+    ],
+    providers: [MessageService]
 })
 export class CustomerDetailModule { }
