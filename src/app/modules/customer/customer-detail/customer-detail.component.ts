@@ -56,7 +56,7 @@ export class CustomerDetailComponent implements OnInit {
             this._entityData = response?.Entity;
             
             // Admin değilse, kullanıcının kendi verisine erişip erişmediğini kontrol et
-            if (!this._authService.userData.IsAdmin && this._entityData?.UserId !== this._authService.userData.Id) {
+            if (this._authService.userData.RoleId !== 100 && this._entityData?.UserId !== this._authService.userData.Id) {
               this._messageService.add({
                 severity: 'error',
                 summary: 'Erişim Hatası',

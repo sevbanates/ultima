@@ -11,7 +11,6 @@ import { RippleModule } from 'primeng/ripple';
 import { DropdownModule } from 'primeng/dropdown';
 import { AppConfigModule } from '../layout/config/app.config.module';
 import { UserSelectorComponent } from './components/user-selector/user-selector.component';
-import { FindPipe } from './pipes/find.pipe';
 
 @NgModule({
     imports: [
@@ -19,34 +18,25 @@ import { FindPipe } from './pipes/find.pipe';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        ButtonModule,
-        InputTextModule,
-        CheckboxModule,
-        RippleModule,
-        InputGroupModule,
-        InputGroupAddonModule,
-        DropdownModule,
-        AppConfigModule
+        DropdownModule
     ],
     exports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         MatSnackBarModule,
-        ButtonModule,
-        InputTextModule,
-        CheckboxModule,
-        AppConfigModule,
-        RippleModule,
-        InputGroupModule,
-        InputGroupAddonModule,
-        DropdownModule,
-        UserSelectorComponent,
-        FindPipe
+                ButtonModule,
+                InputTextModule,
+                CheckboxModule,
+                AppConfigModule,
+                RippleModule,
+                InputGroupModule,
+                InputGroupAddonModule,
+                DropdownModule,
+                UserSelectorComponent
     ],
     declarations: [
-        UserSelectorComponent,
-        FindPipe
+        UserSelectorComponent
     ]
 })
 export class SharedModule

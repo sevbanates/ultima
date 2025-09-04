@@ -33,8 +33,8 @@ export class SettingsListComponent {
     this.settingsCategories = this.user.IsAccounter ? [ 
       {
         id: 'incoming-requests',
-        title: 'Gelen İstekler',
-        description: 'Gelen istekleri yönetin ve yanıtlayın',
+        title: this.getRequestTitle(),
+        description: this.getRequestDescription(),
         icon: 'pi pi-inbox',
         color: 'primary',
         badge: '3',
@@ -74,8 +74,8 @@ export class SettingsListComponent {
     ] : [
       {
         id: 'incoming-requests',
-        title: 'Gelen İstekler',
-        description: 'Gelen istekleri yönetin ve yanıtlayın',
+        title: this.getRequestTitle(),
+        description: this.getRequestDescription(),
         icon: 'pi pi-inbox',
         color: 'primary',
         badge: '3',
@@ -129,6 +129,24 @@ export class SettingsListComponent {
     ]
   }
  
+  getRequestTitle() : string{
+    if(this.user.IsAccounter){
+      return 'Gelen İstekler';
+    }
+    else if(this.user.IsAdmin){
+      return 'İstekler';
+    }
+    return 'Gönderilen İstekler';
+  }
+  getRequestDescription() : string{
+    if(this.user.IsAccounter){
+      return 'Gelen istekleri yönetin ve yanıtlayın';
+    }
+    else if(this.user.IsAdmin){
+      return 'İstekleri yönetin';
+    }
+    return 'Gönderilen istekleri yönetin';
+  }
   navigateToSettings(category: any) {
     this.router.navigate([category.route]);
   }

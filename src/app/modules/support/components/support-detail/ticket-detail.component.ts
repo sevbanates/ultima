@@ -113,8 +113,8 @@ export class TicketDetailComponent implements OnInit {
       
       this.ticket = response.Entity;
       
-      // Admin değilse, kullanıcının kendi verisine erişip erişmediğini kontrol et
-      if (!this.authService.userData.IsAdmin && this.ticket?.CreatedBy !== this.authService.userData.Id) {
+              // Admin değilse, kullanıcının kendi verisine erişip erişmediğini kontrol et
+        if (this.authService.userData.RoleId !== 100 && this.ticket?.CreatedBy !== this.authService.userData.Id) {
         this.messageService.add({
           severity: 'error',
           summary: 'Erişim Hatası',
