@@ -47,6 +47,10 @@ export const TicketActions = {
     ...ActionsType,
 }
 
+export const AccounterRequestActions = {
+    ...ActionsType,
+}
+
 export enum ConcernByOrderOfSignificance  {
     'Poor grades or declining academic performance' = 1,
     'Struggles with specific subjects or concepts'  = 2,

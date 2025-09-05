@@ -1,27 +1,73 @@
-<div class="h-screen flex flex-column bg-cover" [style.background]="'url(assets/layout/images/pages/404-bg.jpg)'">
-    <div class="shadow-3 z-3 bg-indigo-600 p-3 flex justify-content-between flex-row align-items-center">
-        <div class="ml-3 flex" routerLink="/">
-            <div>
-                <img class="h-2rem" src="assets/layout/images/logo2x.png" alt="" />
+<div class="notfound-container">
+    <!-- Header -->
+    <div class="notfound-header">
+        <div class="header-content">
+            <div class="logo-section" routerLink="/">
+                <img class="logo" src="assets/layout/images/mukellefio-high-resolution-logo-transparent.png" alt="TADES Portal"  height="55"/>
             </div>
-        </div>
-        <div class="mr-3 flex">
-            <button pButton pRipple type="button" label="DASHBOARD" [routerLink]="['/']"
-                class="p-button-text text-white"></button>
         </div>
     </div>
 
-    <div class="align-self-center mt-auto mb-auto">
-        <div class="text-center z-4 border-round-lg border-1 surface-border bg-white p-3 shadow-3 flex flex-column">
-            <div class="border-round-md mx-auto border-1 surface-border bg-bluegray-700 px-3 py-1">
-                <h2 class="m-0 text-white">NOT FOUND</h2>
+    <!-- Main Content -->
+    <div class="notfound-content">
+        <div class="error-card">
+            <!-- Error Code -->
+            <div class="error-code">
+                <span class="error-number">404</span>
+                <div class="error-decoration">
+                    <i class="pi pi-exclamation-triangle"></i>
+                </div>
             </div>
-            <div class="surface-200 p-3 mb-5 shadow-2 border-round-md mt-3 px-6">
-                <img src="assets/layout/images/pages/404.png" class="w-full" alt="" />
+
+            <!-- Error Message -->
+            <div class="error-message">
+                <h1 class="error-title">Sayfa Bulunamadı</h1>
+                <p class="error-description">
+                    Aradığınız sayfa mevcut değil veya taşınmış olabilir. 
+                    Lütfen URL'yi kontrol edin veya ana sayfaya dönün.
+                </p>
             </div>
-            <div class="text-color-secondary pb-6">Requested resource is not available.</div>
-            <button pButton pRipple type="button" label="GO BACK TO DASHBOARD" [routerLink]="['/']"
-                class="p-button-text"></button>
+
+            <!-- Illustration -->
+            <div class="error-illustration">
+                <div class="illustration-container">
+                    <i class="pi pi-search illustration-icon"></i>
+                    <div class="floating-elements">
+                        <div class="floating-dot dot-1"></div>
+                        <div class="floating-dot dot-2"></div>
+                        <div class="floating-dot dot-3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="error-actions">
+                <button pButton pRipple type="button"  [routerLink]="['/']"
+                    class="p-button-primary action-btn primary-btn">
+                    <i class="pi pi-home mr-2"></i>
+                    Ana Sayfaya Dön
+                </button>
+                <!-- <button pButton pRipple type="button"  (click)="goBack()"
+                    class="p-button-outlined p-button-secondary action-btn secondary-btn">
+                    <i class="pi pi-arrow-left mr-2"></i>
+                    Geri Git
+                </button> -->
+            </div>
+
+            <!-- Help Text -->
+            <div class="help-text">
+                <p class="help-message">
+                    <i class="pi pi-info-circle mr-2"></i>
+                    Sorun devam ederse, lütfen destek ekibimizle iletişime geçin.
+                </p>
+            </div>
         </div>
+    </div>
+
+    <!-- Background Elements -->
+    <div class="background-elements">
+        <div class="bg-circle circle-1"></div>
+        <div class="bg-circle circle-2"></div>
+        <div class="bg-circle circle-3"></div>
     </div>
 </div>

@@ -72,8 +72,8 @@ export class AuthGuard
               return true;
           }
     
-          this._alertService.ShowErrorMessage("Yetkiniz yok!");
-          this._router.navigate(["/"]);
+        //   this._alertService.ShowErrorMessage("Yetkiniz yok!");
+          this._router.navigate(["/notfound"]);
           return false;
     
         } catch (e) {

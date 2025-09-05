@@ -38,7 +38,7 @@ export class SettingsListComponent {
         icon: 'pi pi-inbox',
         color: 'primary',
         badge: '3',
-        route: '/settings/recieved-requests',
+        route: '/settings/requests',
         // features: [
         //   'Yeni istek bildirimleri',
         //   'İstek durumu takibi',
@@ -79,7 +79,7 @@ export class SettingsListComponent {
         icon: 'pi pi-inbox',
         color: 'primary',
         badge: '3',
-        route: '/settings/recieved-requests',
+        route: '/settings/requests',
         // features: [
         //   'Yeni istek bildirimleri',
         //   'İstek durumu takibi',

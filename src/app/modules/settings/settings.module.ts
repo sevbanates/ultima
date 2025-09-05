@@ -4,6 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { SettingsListComponent } from './components/settings-list/settings-list.component';
 import { RecievedRequestsComponent } from './components/recieved-requests/recieved-requests.component';
 import { CreateRequestComponent } from './components/create-request/create-request.component';
+import { Controllers } from 'src/app/core/enums/actions-enum/controllers.enum';
+import { AccounterRequestActions } from 'src/app/core/enums/actions-enum/actions.enum';
+import { AuthGuard } from 'src/app/core/auth/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -11,12 +14,18 @@ const routes: Routes = [
     component: SettingsListComponent
   },
   {
-    path: 'recieved-requests',
-    component: RecievedRequestsComponent
+    path: 'requests',
+    component: RecievedRequestsComponent,
+
   },
   {
     path: 'accounter/create-requests',
-    component: CreateRequestComponent
+    component: CreateRequestComponent,
+    canActivate: [AuthGuard],
+    data: {
+      controllerName: Controllers.AccounterRequest,
+      action: AccounterRequestActions.List
+    }
   }
 ];
 

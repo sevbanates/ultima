@@ -8,4 +8,6 @@ export enum Controllers {
     Inquiry = "Inquiry",
     Message = "Message",
     Ticket = "Ticket",
+    Settings = "Settings",
+    AccounterRequest = "AccounterRequest",
 }
