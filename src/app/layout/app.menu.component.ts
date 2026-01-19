@@ -703,6 +703,25 @@ export class AppMenuComponent implements OnInit {
                             icon: 'pi pi-users',
                             routerLink: ['/customers']
                         },
+                      
+                        // {
+                        //     label: 'Analytics Dashboard',
+                        //     icon: 'pi pi-fw pi-chart-pie',
+                        //     routerLink: ['/dashboard-analytics']
+                        // },
+                        // {
+                        //     label: 'SaaS Dashboard',
+                        //     icon: 'pi pi-fw pi-bolt',
+                        //     routerLink: ['/dashboard-saas']
+                        // },
+                    ]
+                },
+                      {
+                    
+                    label: 'Ayarlar',
+                    icon: 'pi pi-home',
+                    items: [
+                 
                         {
                             label: 'Teknik Destek',
                             icon: 'pi pi-wrench',
@@ -725,7 +744,7 @@ export class AppMenuComponent implements OnInit {
                         //     routerLink: ['/dashboard-saas']
                         // },
                     ]
-                },
+                }
                 //  {
                     
                 //     label: 'Ayarlar',

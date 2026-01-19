@@ -7,7 +7,6 @@ import { ControllerActionModel, ControllerModel } from '../models/controller.mod
 import { ControllerDialogData } from '../services/controller-dialog.service';
 import { ControllerService } from '../services/controller.service';
 import { Subject, takeUntil } from 'rxjs';
-import { dA } from '@fullcalendar/core/internal-common';
 import { AlertService } from 'src/app/shared/services/alert.service';
 
 @Component({

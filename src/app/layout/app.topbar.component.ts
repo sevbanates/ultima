@@ -125,40 +125,7 @@ export class AppTopbarComponent {
     }
 
     // Notification modelini burada tanımla
-    notifications: { id: number; title: string; message: string; avatarUrl?: string; time: string; user: string; }[] = [
-        {
-            id: 1,
-            title: 'Yeni Mesaj',
-            message: 'How to write content about your photographs?',
-            avatarUrl: 'assets/demo/images/avatar/avatar-1.png',
-            time: '42 mins ago',
-            user: 'Jerome Bell'
-        },
-        {
-            id: 2,
-            title: 'Blog',
-            message: 'Start a blog to reach your creative peak.',
-            avatarUrl: 'assets/demo/images/avatar/avatar-2.png',
-            time: '48 mins ago',
-            user: 'Cameron Williamson'
-        },
-        {
-            id: 3,
-            title: 'Pazarlama',
-            message: 'Caring is the new marketing',
-            avatarUrl: 'assets/demo/images/avatar/avatar-3.png',
-            time: '1 day ago',
-            user: 'Anna Miles'
-        },
-        {
-            id: 4,
-            title: 'Seyahat',
-            message: 'Starting your traveling blog with Vasco.',
-            avatarUrl: 'assets/demo/images/avatar/avatar-4.png',
-            time: '4 day ago',
-            user: 'Arlene Mccoy'
-        }
-    ];
+    notifications: { id: number; title: string; message: string; avatarUrl?: string; time: string; user: string; }[] = [];
     notificationCount = this.notifications.length;
 
     get mobileTopbarActive(): boolean {

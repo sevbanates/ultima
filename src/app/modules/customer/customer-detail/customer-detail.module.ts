@@ -14,7 +14,6 @@ import { FileUploadModule } from "primeng/fileupload";
 import { InputGroupModule } from "primeng/inputgroup";
 import { InputGroupAddonModule } from "primeng/inputgroupaddon";
 import { InputTextareaModule } from "primeng/inputtextarea";
-import { ProfileCreateRoutingModule } from "src/app/demo/components/profile/create/profilecreate-routing.module";
 import { CustomerDetailRoutingModule } from "./customer-detail-routing.module";
 import { InputNumberModule } from "primeng/inputnumber";
 import { InputMaskModule } from "primeng/inputmask";
@@ -34,7 +33,6 @@ import { ToastModule } from "primeng/toast";
         TableModule,
         ProgressBarModule,
         FormsModule,
-        ProfileCreateRoutingModule,
         DropdownModule,
         FileUploadModule,
         InputTextareaModule,

@@ -9,8 +9,6 @@ import { InputGroupModule } from "primeng/inputgroup";
 import { InputGroupAddonModule } from "primeng/inputgroupaddon";
 import { InputTextModule } from "primeng/inputtext";
 import { RippleModule } from "primeng/ripple";
-import { Login2RoutingModule } from "src/app/demo/components/auth/login2/login2-routing.module";
-import { Login2Component } from "src/app/demo/components/auth/login2/login2.component";
 import { AppConfigModule } from "src/app/layout/config/app.config.module";
 import { SignInRoutingModule } from "./sign-in-router.module";
 

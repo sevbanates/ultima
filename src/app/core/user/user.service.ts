@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable, of, ReplaySubject } from 'rxjs';
 import { LocalStorageType } from '../enums/local-storage-type.enum';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
-import { User } from 'src/app/demo/api/user';
+import { User } from '../models/user.model';
 
 @Injectable({
     providedIn: 'root'
