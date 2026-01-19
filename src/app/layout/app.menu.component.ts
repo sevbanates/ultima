@@ -54,7 +54,7 @@ export class AppMenuComponent implements OnInit {
                                 {
                                     label: 'Taslak',
                                     icon: 'pi pi-bookmark',
-                                    routerLink: ['/apps/blog/list']
+                                    routerLink: ['/invoice/list']
                                 },
                                 {
                                     label: 'Tamamlanmış',

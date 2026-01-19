@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FormDataService } from '../../services/form-data.service';
 import { InvoiceTypes, Scenarios } from '../../models/invoice.types';
@@ -8,8 +8,8 @@ import { InvoiceTypes, Scenarios } from '../../models/invoice.types';
   templateUrl: './invoice-information.component.html',
   styleUrl: './invoice-information.component.scss'
 })
-export class InvoiceInformationComponent {
- form!: FormGroup;
+export class InvoiceInformationComponent implements OnInit {
+  form!: FormGroup;
 
   warehouses = [{ label: 'Merkez Depo', value: 'merkez' }];
   currencies = [{ label: 'TRY - Türk Lirası', value: 'TRY' }];
@@ -33,7 +33,7 @@ export class InvoiceInformationComponent {
       note: ['']
     });
 
-   const savedData = this.formData.getStepData('invoiceInfo');
+    const savedData = this.formData.getStepData('invoiceInfo');
     if (savedData) {
       this.form.patchValue(savedData);
     }
@@ -41,5 +41,9 @@ export class InvoiceInformationComponent {
     this.form.valueChanges.subscribe(val => {
       this.formData.setStepData('invoiceInfo', val);
     });
+  }
+
+  getForm(): FormGroup {
+    return this.form;
   }
 }

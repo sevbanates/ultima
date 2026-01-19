@@ -1,62 +1,163 @@
-<!-- <p-card class="shadow-3 surface-100 border-round-xl p-4"> -->
-  <ng-template pTemplate="header">
-
-  </ng-template>
-    <div class="flex align-items-center gap-2">
-      <i class="pi pi-credit-card text-xl "></i>
-      <span class="text-xl font-semibold">Fatura Bilgileri</span>
+<div class="invoice-info-container">
+  <!-- Header -->
+  <div class="invoice-info-header">
+    <div class="header-content">
+      <div class="header-icon">
+        <i class="pi pi-credit-card animated-icon"></i>
+      </div>
+      <div class="header-text">
+        <h3 class="header-title">Fatura Bilgileri</h3>
+        <p class="header-subtitle">Fatura detay bilgilerini ve ayarlarını giriniz</p>
+      </div>
     </div>
-
-<div>
-    <form [formGroup]="form" class="grid formgrid p-fluid gap-4">
-
-  <!-- Satır 1 -->
-  <div class="col-12 md:col-4">
-    <label for="invoiceDate" class="block font-medium mb-2">Fatura Tarihi</label>
-    <p-calendar id="invoiceDate" formControlName="invoiceDate" [showTime]="true" hourFormat="24" dateFormat="dd/mm/yy" class="w-full" />
   </div>
 
-  <!-- <div class="col-12 md:col-4">
-    <label for="warehouse" class="block font-medium mb-2">Depo</label>
-    <p-dropdown id="warehouse" formControlName="warehouse" [options]="warehouses" placeholder="Depo Seçin" class="w-full" />
-  </div> -->
+  <!-- Form Card -->
+  <div class="form-card">
+    <form [formGroup]="form" class="invoice-info-form">
+      
+      <!-- Main Form Fields -->
+      <div class="form-section">
+        <div class="form-grid">
+          <!-- Fatura Tarihi -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="invoiceDate" class="field-label required">
+                <i class="label-icon pi pi-calendar"></i>
+                Fatura Tarihi
+              </label>
+            </div>
+            <p-calendar 
+              id="invoiceDate" 
+              formControlName="invoiceDate" 
+              [showTime]="true" 
+              hourFormat="24" 
+              dateFormat="dd/mm/yy" 
+              placeholder="Fatura tarihini seçiniz"
+              class="modern-calendar"
+              appendTo="body"
+            />
+          </div>
 
-  <div class="col-12 md:col-4">
-    <label for="currency" class="block font-medium mb-2">Para Birimi</label>
-    <p-dropdown id="currency" formControlName="currency" [options]="currencies" placeholder="Para Birimi Seçin" class="w-full" />
+          <!-- Para Birimi -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="currency" class="field-label required">
+                <i class="label-icon pi pi-dollar"></i>
+                Para Birimi
+              </label>
+            </div>
+            <p-dropdown 
+              id="currency" 
+              formControlName="currency" 
+              [options]="currencies" 
+              placeholder="Para birimi seçiniz"
+              class="modern-dropdown"
+              appendTo="body"
+            />
+          </div>
+
+          <!-- Fatura Tipi -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="invoiceType" class="field-label required">
+                <i class="label-icon pi pi-file"></i>
+                Fatura Tipi
+              </label>
+            </div>
+            <p-dropdown 
+              id="invoiceType" 
+              formControlName="invoiceType" 
+              [options]="invoiceTypes" 
+              placeholder="Fatura tipi seçiniz"
+              class="modern-dropdown"
+              appendTo="body"
+            />
+          </div>
+
+          <!-- Fatura Senaryosu -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="scenario" class="field-label required">
+                <i class="label-icon pi pi-cog"></i>
+                Fatura Senaryosu
+              </label>
+            </div>
+            <p-dropdown 
+              id="scenario" 
+              formControlName="scenario" 
+              [options]="scnenarioTypes" 
+              placeholder="Senaryo seçiniz"
+              class="modern-dropdown"
+              appendTo="body"
+            />
+          </div>
+
+          <!-- E-Arşiv Gönderim Tipi -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="archiveType" class="field-label">
+                <i class="label-icon pi pi-send"></i>
+                E-Arşiv Gönderim Tipi
+              </label>
+            </div>
+            <p-dropdown 
+              id="archiveType" 
+              formControlName="archiveType" 
+              [options]="archiveTypes" 
+              placeholder="Gönderim tipi seçiniz"
+              class="modern-dropdown"
+              appendTo="body"
+            />
+          </div>
+
+          <!-- Seri -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="serial" class="field-label required">
+                <i class="label-icon pi pi-tag"></i>
+                Seri
+              </label>
+            </div>
+            <p-dropdown 
+              id="serial" 
+              formControlName="serial" 
+              [options]="serials" 
+              placeholder="Seri seçiniz"
+              class="modern-dropdown"
+              appendTo="body"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="pi pi-comment"></i>
+          </div>
+          <div class="section-title">Notlar</div>
+          <span class="section-subtitle">Fatura ile ilgili ek notlarınızı giriniz</span>
+        </div>
+        <div class="form-group">
+          <div class="input-wrapper">
+            <label for="note" class="field-label">
+              <i class="label-icon pi pi-comment"></i>
+              Fatura Notu
+            </label>
+          </div>
+          <textarea 
+            id="note" 
+            pInputTextarea 
+            formControlName="note" 
+            rows="4" 
+            placeholder="Fatura ile ilgili notlarınızı buraya yazabilirsiniz..."
+            class="modern-textarea"
+          ></textarea>
+        </div>
+      </div>
+
+    </form>
   </div>
-
-  <!-- Satır 2 -->
-  <div class="col-12 md:col-4">
-    <label for="invoiceType" class="block font-medium mb-2">Fatura Tipi</label>
-    <p-dropdown id="invoiceType" formControlName="invoiceType" [options]="invoiceTypes" placeholder="Fatura Tipi Seçin" class="w-full" />
-  </div>
-
-  <div class="col-12 md:col-4">
-    <label for="scenario" class="block font-medium mb-2">Fatura Senaryosu</label>
-    <p-dropdown id="scenario" formControlName="scenario" [options]="scnenarioTypes" placeholder="Senaryo Seçin" class="w-full" />
-  </div>
-
-  <div class="col-12 md:col-4">
-    <label for="archiveType" class="block font-medium mb-2">E-Arşiv Gönderim Tipi</label>
-    <p-dropdown id="archiveType" formControlName="archiveType" [options]="archiveTypes" placeholder="Gönderim Tipi Seçin" class="w-full" />
-  </div>
-
-  <!-- Satır 3 -->
-  <div class="col-12 md:col-4">
-    <label for="serial" class="block font-medium mb-2">Seri</label>
-    <p-dropdown id="serial" formControlName="serial" [options]="serials" placeholder="Seri Seçin" class="w-full" />
-  </div>
-
-  <!-- Not alanı -->
-  <div class="col-12">
-    <label for="note" class="block font-medium mb-2">Fatura Notu</label>
-    <textarea id="note" pInputTextarea formControlName="note" rows="3" class="w-full border-round"></textarea>
-  </div>
-</form>
-    </div>
-
-
-
-
-<!-- </p-card> -->
+</div>

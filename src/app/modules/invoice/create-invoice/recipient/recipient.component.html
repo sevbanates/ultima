@@ -37,6 +37,8 @@
             [options]="customers"
             optionLabel="FullName"
             placeholder="Cari seçin..."
+            [(ngModel)]="selectedCustomer"
+            [ngModelOptions]="{standalone: true}"
             (onChange)="onCustomerSelect($event.value)"
             [showClear]="true"
             [filter]="true"

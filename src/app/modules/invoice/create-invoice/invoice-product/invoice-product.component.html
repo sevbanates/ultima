@@ -1,125 +1,327 @@
-<div class="flex align-items-center gap-2">
-  <i class="pi pi-id-card text-2xl"></i>
-  <span class="text-xl font-semibold">Fatura Detayları</span>
+<div class="invoice-product-container">
+  <!-- Header -->
+  <div class="invoice-product-header">
+    <div class="header-content">
+      <div class="header-icon">
+        <i class="pi pi-shopping-cart animated-icon"></i>
+      </div>
+      <div class="header-text">
+        <h3 class="header-title">Fatura Detayları</h3>
+        <p class="header-subtitle">Ürün ve hizmet bilgilerini ekleyiniz</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Card -->
+  <div class="form-card">
+    <form [formGroup]="productForm" class="invoice-product-form">
+      
+      <!-- Product Information Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="pi pi-box"></i>
+          </div>
+          <div class="section-title">Ürün Bilgileri</div>
+          <span class="section-subtitle">Mal veya hizmet detaylarını giriniz</span>
+        </div>
+        <div class="form-grid">
+          <!-- Ürün Adı -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="productName" class="field-label required">
+                <i class="label-icon pi pi-tag"></i>
+                Mal veya Hizmet Adı
+              </label>
+            </div>
+            <input 
+              id="productName" 
+              type="text" 
+              pInputText 
+              formControlName="productName" 
+              placeholder="Ürün veya hizmet adını giriniz"
+              class="modern-input"
+            />
+            <div *ngIf="productForm.get('productName')?.invalid && productForm.get('productName')?.touched" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              Ürün adı zorunludur
+            </div>
+          </div>
+
+          <!-- Miktar -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="quantity" class="field-label required">
+                <i class="label-icon pi pi-hashtag"></i>
+                Miktar
+              </label>
+            </div>
+            <input 
+              id="quantity" 
+              type="number" 
+              pInputText 
+              formControlName="quantity" 
+              placeholder="Miktar giriniz"
+              class="modern-input"
+            />
+            <div *ngIf="productForm.get('quantity')?.invalid && productForm.get('quantity')?.touched" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              Miktar zorunludur
+            </div>
+          </div>
+
+          <!-- Birim -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="unit" class="field-label required">
+                <i class="label-icon pi pi-cog"></i>
+                Birim
+              </label>
+            </div>
+            <p-dropdown 
+              inputId="unit" 
+              formControlName="unit" 
+              [options]="units" 
+              optionLabel="label" 
+              placeholder="Birim seçiniz"
+              class="modern-dropdown"
+              appendTo="body"
+            />
+          </div>
+
+          <!-- KDV Oranı -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="vatRate" class="field-label required">
+                <i class="label-icon pi pi-percentage"></i>
+                KDV Oranı (%)
+              </label>
+            </div>
+            <p-dropdown 
+              inputId="vatRate" 
+              formControlName="vatRate" 
+              [options]="vatRates" 
+              optionLabel="label" 
+              placeholder="KDV oranı seçiniz"
+              class="modern-dropdown"
+              appendTo="body"
+            />
+          </div>
+
+          <!-- Birim Fiyat -->
+          <div class="form-group">
+            <div class="input-wrapper">
+              <label for="unitPrice" class="field-label required">
+                <i class="label-icon pi pi-dollar"></i>
+                Birim Fiyat
+              </label>
+            </div>
+            <input 
+              id="unitPrice" 
+              type="text" 
+              pInputText 
+              [value]="formatNumber(productForm.get('unitPrice')?.value)" 
+              (input)="onUnitPriceInput($event)" 
+              (keypress)="onKeyPress($event)" 
+              placeholder="Birim fiyat giriniz"
+              class="modern-input"
+            />
+            <div *ngIf="productForm.get('unitPrice')?.invalid && productForm.get('unitPrice')?.touched" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              Birim fiyat zorunludur
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button 
+            pButton 
+            type="button" 
+            [label]="isEditMode ? 'Güncelle' : 'Ekle'" 
+            [icon]="isEditMode ? 'pi pi-check' : 'pi pi-plus'" 
+            (click)="addProduct()" 
+            class="modern-button primary"
+            [title]="isEditMode ? 'Güncelle' : 'Ekle'"
+            [attr.aria-label]="isEditMode ? 'Güncelle' : 'Ekle'"
+          ></button>
+          <button 
+            *ngIf="isEditMode" 
+            pButton 
+            type="button" 
+            label="İptal" 
+            icon="pi pi-times" 
+            (click)="resetForm()" 
+            class="modern-button danger"
+            title="İptal" 
+            [@fadeInOut]
+          ></button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
-<form [formGroup]="productForm" class="grid p-fluid p-3 border-round ">
-
-  <!-- Ürün Adı -->
-  <div class="col-12 md:col-4">
-    <label for="productName" class="block mb-2">Mal veya Hizmet Adı</label>
-    <input id="productName" type="text" pInputText formControlName="productName" class="w-full" />
-  </div>
-
-  <!-- Kod -->
-  <!-- <div class="col-12 md:col-4">
-    <label for="productCode" class="block mb-2">Kod</label>
-    <input id="productCode" type="text" pInputText formControlName="productCode" class="w-full" />
-  </div> -->
-
-  <!-- Miktar -->
-  <div class="col-12 md:col-4">
-    <label for="quantity" class="block mb-2">Miktar</label>
-    <input id="quantity" type="number" pInputText formControlName="quantity" class="w-full" />
-  </div>
-
-  <!-- Birim -->
-  <div class="col-12 md:col-4">
-    <label for="unit" class="block mb-2">Birim</label>
-    <p-dropdown inputId="unit" formControlName="unit" [options]="units" optionLabel="label" placeholder="Birim Seçin" class="w-full" />
-  </div>
-
-  <!-- KDV Oranı -->
-  <div class="col-12 md:col-4">
-    <label for="vatRate" class="block mb-2">KDV Oranı (%)</label>
-    <p-dropdown inputId="vatRate" formControlName="vatRate" [options]="vatRates" optionLabel="label" placeholder="KDV Seçin" class="w-full" />
-  </div>
-
-  <!-- Birim Fiyat -->
-  <div class="col-12 md:col-4">
-    <label for="unitPrice" class="block mb-2">Birim Fiyat</label>
-    <input id="unitPrice" type="text" pInputText [value]="formatNumber(productForm.get('unitPrice')?.value)" (input)="onUnitPriceInput($event)" (keypress)="onKeyPress($event)" class="w-full" />
-  </div>
-
-  <!-- Ekle Butonu -->
-  <div class="col-12 text-right">
-    <button pButton type="button" [label]="isEditMode ? 'Güncelle' : 'Ekle'" [icon]="isEditMode ? 'pi pi-check' : 'pi pi-plus'" (click)="addProduct()" class="p-button-success p-button-sm p-button-rounded mr-4" [title]="isEditMode ? 'Güncelle' : 'Ekle'"></button>
-    <button *ngIf="isEditMode" pButton type="button" label="İptal" icon="pi pi-times" (click)="resetForm()" class="p-button-danger p-button-sm p-button-rounded" title="İptal" [@fadeInOut]></button>
-  </div>
-
-</form>
 
 <!-- Fiyat Hesaplama Alanı -->
-<div class="grid p-fluid p-3 border-round bg-gray-50 mb-3">
-  <div class="col-12 md:col-4">
-    <div class="p-3 border-round bg-white">
-      <h5 class="text-primary mb-2">Mal Hizmet Tutarı</h5>
-      <div class="text-2xl font-bold text-green-600">{{ getTotalAmount() | number:'1.0-0':'tr' }} ₺</div>
+<div class="summary-container">
+  <div class="summary-header">
+    <div class="summary-icon">
+      <i class="pi pi-calculator"></i>
     </div>
+    <div class="summary-title">Fiyat Özeti</div>
   </div>
-  <div class="col-12 md:col-4">
-    <div class="p-3 border-round bg-white">
-      <h5 class="text-primary mb-2">Hesaplanan KDV</h5>
-      <div class="text-2xl font-bold text-orange-600">{{ getTotalVAT() | number:'1.0-0':'tr' }} ₺</div>
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="summary-card-icon green">
+        <i class="pi pi-money-bill"></i>
+      </div>
+      <div class="summary-card-content">
+        <h5 class="summary-card-title">Mal Hizmet Tutarı</h5>
+        <div class="summary-card-amount green">{{ getTotalAmount() | number:'1.0-0':'tr' }} ₺</div>
+      </div>
     </div>
-  </div>
-  <div class="col-12 md:col-4">
-    <div class="p-3 border-round bg-white">
-      <h5 class="text-primary mb-2">Vergiler Dahil Toplam Tutar</h5>
-      <div class="text-2xl font-bold text-blue-600">{{ getTotalWithVAT() | number:'1.0-0':'tr' }} ₺</div>
+    <div class="summary-card">
+      <div class="summary-card-icon orange">
+        <i class="pi pi-percentage"></i>
+      </div>
+      <div class="summary-card-content">
+        <h5 class="summary-card-title">Hesaplanan KDV</h5>
+        <div class="summary-card-amount orange">{{ getTotalVAT() | number:'1.0-0':'tr' }} ₺</div>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-card-icon blue">
+        <i class="pi pi-calculator"></i>
+      </div>
+      <div class="summary-card-content">
+        <h5 class="summary-card-title">Vergiler Dahil Toplam</h5>
+        <div class="summary-card-amount blue">{{ getTotalWithVAT() | number:'1.0-0':'tr' }} ₺</div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- Ürün Listesi Tablosu -->
-<p-table [value]="productList" responsiveLayout="scroll" class="p-datatable-sm">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Ad</th>
-      <!-- <th>Kod</th> -->
-     
-      <th>Birim</th>
-      <th>KDV</th>
-      <th>Miktar</th>
-      <th>Birim Fiyat</th>
-      <th>KDV Tutarı</th>
-      <th>Toplam Tutar</th>
-      <th>İşlem</th>
-    </tr>
-  </ng-template>
-
-  <ng-template pTemplate="body" let-product let-i="rowIndex">
-    <tr [class.p-highlight]="isEditMode && editingIndex === i">
-      <td>{{ product.productName }}</td>
-      <!-- <td>{{ product.productCode }}</td> -->
-     
-      <td>{{ getUnitLabel(product.unit) }}</td>
-      <td>{{ getVatRateLabel(product.vatRate) }}</td>
-      <td>{{ product.quantity }}</td>
-      <td>{{ product.unitPrice | number:'1.0-0':'tr' }}</td>
-      <td>{{ getProductVATAmount(product) | number:'1.0-0':'tr' }}</td>
-      <td>{{ getProductTotalAmount(product) | number:'1.0-0':'tr' }}</td>
-      <td class="text-right">
-        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" (click)="editProduct(i)" title="Düzenle" type="button"></button>
-        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" (click)="deleteProduct(i)" title="Sil" type="button"></button>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
-
-
-  <p-dialog [(visible)]="deleteProductDialog" header="Silme İşlemi" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span >Silmek istediğinize emin misiniz? <b></b></span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Vazgeç" (click)="deleteProductDialog = false" title="Hayır" type="button"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Evet" (click)="confirmDelete()" title="Evet" type="button"></button>
-            </ng-template>
-        </p-dialog>
-
-
-
-         <div class="col-12 text-right">
-    <button pButton type="button" label="Tamamla" icon="pi pi-check" (click)="completeTask()" class="cyan-500 p-button-sm p-button-rounded" title="Tamamla"></button>
+<div class="table-container">
+  <div class="table-header">
+    <div class="table-icon">
+      <i class="pi pi-list"></i>
+    </div>
+    <div class="table-title">Ürün Listesi</div>
+    <div class="table-subtitle">{{ productList.length }} ürün eklendi</div>
   </div>
+  
+  <div class="table-wrapper">
+    <p-table [value]="productList" responsiveLayout="scroll" class="modern-table">
+      <ng-template pTemplate="header">
+        <tr>
+          <th><i class="pi pi-tag"></i> Ürün Adı</th>
+          <th><i class="pi pi-cog"></i> Birim</th>
+          <th><i class="pi pi-percentage"></i> KDV</th>
+          <th><i class="pi pi-hashtag"></i> Miktar</th>
+          <th><i class="pi pi-dollar"></i> Birim Fiyat</th>
+          <th><i class="pi pi-calculator"></i> KDV Tutarı</th>
+          <th><i class="pi pi-money-bill"></i> Toplam</th>
+          <th><i class="pi pi-cog"></i> İşlemler</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-product let-i="rowIndex">
+        <tr [class.p-highlight]="isEditMode && editingIndex === i" class="table-row">
+          <td class="product-name">{{ product.productName }}</td>
+          <td>{{ getUnitLabel(product.unit) }}</td>
+          <td>{{ getVatRateLabel(product.vatRate) }}</td>
+          <td>{{ product.quantity }}</td>
+          <td class="amount">{{ product.unitPrice | number:'1.0-0':'tr' }} ₺</td>
+          <td class="amount">{{ getProductVATAmount(product) | number:'1.0-0':'tr' }} ₺</td>
+          <td class="amount total">{{ getProductTotalAmount(product) | number:'1.0-0':'tr' }} ₺</td>
+          <td class="actions">
+            <button 
+              pButton 
+              icon="pi pi-pencil" 
+              class="action-button edit" 
+              (click)="editProduct(i)" 
+              title="Düzenle" 
+              type="button"
+            ></button>
+            <button 
+              pButton 
+              icon="pi pi-trash" 
+              class="action-button delete" 
+              (click)="deleteProduct(i)" 
+              title="Sil" 
+              type="button"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+      
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8" class="empty-message">
+            <div class="empty-content">
+              <i class="pi pi-inbox empty-icon"></i>
+              <p>Henüz ürün eklenmemiş</p>
+              <small>Yukarıdaki formu kullanarak ürün ekleyebilirsiniz</small>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+
+<!-- Complete Button -->
+<div class="complete-container">
+  <button 
+    pButton 
+    type="button" 
+    label="Tamamla" 
+    icon="pi pi-check" 
+    (click)="completeTask()" 
+    class="complete-button"
+    title="Tamamla"
+  ></button>
+</div>
+
+<!-- Delete Confirmation Dialog -->
+<p-dialog 
+  [(visible)]="deleteProductDialog" 
+  header="Silme İşlemi" 
+  [modal]="true" 
+  [style]="{width:'450px'}"
+  class="modern-dialog"
+>
+  <div class="dialog-content">
+    <div class="dialog-icon">
+      <i class="pi pi-exclamation-triangle"></i>
+    </div>
+    <div class="dialog-message">
+      <p>Bu ürünü silmek istediğinize emin misiniz?</p>
+      <small>Bu işlem geri alınamaz.</small>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button 
+      pButton 
+      pRipple 
+      icon="pi pi-times" 
+      class="dialog-button cancel" 
+      label="Vazgeç" 
+      (click)="deleteProductDialog = false" 
+      title="Hayır" 
+      type="button"
+    ></button>
+    <button 
+      pButton 
+      pRipple 
+      icon="pi pi-check" 
+      class="dialog-button confirm" 
+      label="Evet" 
+      (click)="confirmDelete()" 
+      title="Evet" 
+      type="button"
+    ></button>
+  </ng-template>
+</p-dialog>
